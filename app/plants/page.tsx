@@ -1,13 +1,11 @@
-import { cookies } from 'next/headers'
 import { getPlants } from '@/lib/db/plants'
 import { BottomTabBar } from '@/components/BottomTabBar'
 import { PlantCard } from '@/components/PlantCard'
-import { MOCK_USER_ID } from '@/lib/auth'
+import { getAuthenticatedUser } from '@/lib/auth'
 
 export default async function PlantsPage() {
-  const cookieStore = await cookies()
-  const userId = cookieStore.get('userId')?.value ?? MOCK_USER_ID
-  const plants = await getPlants(userId)
+  const user = await getAuthenticatedUser()
+  const plants = await getPlants(user?.id ?? '')
   const today = new Date()
 
   return (

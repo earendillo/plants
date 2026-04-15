@@ -1,10 +1,9 @@
-import { cookies } from 'next/headers'
 import { getPlants } from '@/lib/db/plants'
 import { isDueForWatering, isDueForFeeding, daysUntilDue } from '@/lib/utils'
 import { BottomTabBar } from '@/components/BottomTabBar'
 import { DueCard } from '@/components/DueCard'
 import { Plant } from '@/types'
-import { MOCK_USER_ID } from '@/lib/auth'
+import { getAuthenticatedUser } from '@/lib/auth'
 
 type DueItem = {
   plant: Plant
@@ -13,9 +12,8 @@ type DueItem = {
 }
 
 export default async function TodayPage() {
-  const cookieStore = await cookies()
-  const userId = cookieStore.get('userId')?.value ?? MOCK_USER_ID
-  const plants = await getPlants(userId)
+  const user = await getAuthenticatedUser()
+  const plants = await getPlants(user?.id ?? '')
   const today = new Date()
 
   const dueItems: DueItem[] = []

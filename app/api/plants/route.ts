@@ -1,8 +1,7 @@
-import { NextRequest } from 'next/server'
-import { cookies } from 'next/headers'
+import { NextRequest, NextResponse } from 'next/server'
 import { z } from 'zod'
 import { getPlants, createPlant } from '@/lib/db/plants'
-import { MOCK_USER_ID } from '@/lib/auth'
+import { getAuthenticatedUser } from '@/lib/auth'
 
 const createSchema = z.object({
   name: z.string().min(1).max(100),
@@ -14,20 +13,20 @@ const createSchema = z.object({
 })
 
 export async function GET() {
-  const cookieStore = await cookies()
-  const userId = cookieStore.get('userId')?.value ?? MOCK_USER_ID
-  const plants = await getPlants(userId)
-  return Response.json(plants)
+  const user = await getAuthenticatedUser()
+  if (!user) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
+  const plants = await getPlants(user.id)
+  return NextResponse.json(plants)
 }
 
 export async function POST(request: NextRequest) {
-  const cookieStore = await cookies()
-  const userId = cookieStore.get('userId')?.value ?? MOCK_USER_ID
+  const user = await getAuthenticatedUser()
+  if (!user) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
   const body: unknown = await request.json()
   const result = createSchema.safeParse(body)
   if (!result.success) {
-    return Response.json({ error: result.error.flatten() }, { status: 400 })
+    return NextResponse.json({ error: result.error.flatten() }, { status: 400 })
   }
-  const plant = await createPlant({ ...result.data, userId })
-  return Response.json(plant, { status: 201 })
+  const plant = await createPlant({ ...result.data, userId: user.id })
+  return NextResponse.json(plant, { status: 201 })
 }

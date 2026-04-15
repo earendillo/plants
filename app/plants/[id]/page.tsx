@@ -1,7 +1,6 @@
 import { notFound } from 'next/navigation'
-import { cookies } from 'next/headers'
 import { getPlant } from '@/lib/db/plants'
-import { MOCK_USER_ID } from '@/lib/auth'
+import { getAuthenticatedUser } from '@/lib/auth'
 import { BottomTabBar } from '@/components/BottomTabBar'
 import { PlantForm } from '@/components/PlantForm'
 
@@ -11,9 +10,8 @@ export default async function EditPlantPage({
   params: Promise<{ id: string }>
 }) {
   const { id } = await params
-  const cookieStore = await cookies()
-  const userId = cookieStore.get('userId')?.value ?? MOCK_USER_ID
-  const plant = await getPlant(id, userId)
+  const user = await getAuthenticatedUser()
+  const plant = await getPlant(id, user?.id ?? '')
 
   if (!plant) notFound()
 

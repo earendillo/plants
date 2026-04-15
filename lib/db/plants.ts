@@ -1,88 +1,106 @@
 import { Plant } from '@/types'
+import { createClient } from '@/lib/supabase/server'
 
-// In-memory store — intentionally resets on cold start for MVP
-// TODO: Replace with Supabase client when ready
-const store: Plant[] = [
-  {
-    id: 'seed-1',
-    userId: 'user_1',
-    name: 'Monstera',
-    emoji: '🌿',
-    wateringIntervalDays: 7,
-    feedingIntervalDays: 30,
-    lastWateredAt: '2026-04-04', // 10 days ago → 3d overdue (interval 7d)
-    lastFedAt: '2026-03-01', // 44 days ago → 14d overdue (interval 30d)
-    createdAt: '2026-01-01',
-  },
-  {
-    id: 'seed-2',
-    userId: 'user_1',
-    name: 'Orchid',
-    emoji: '🌸',
-    wateringIntervalDays: 5,
-    feedingIntervalDays: 14,
-    lastWateredAt: '2026-04-05', // 9 days ago → 4d overdue (interval 5d)
-    lastFedAt: '2026-04-07', // 7 days ago → 7d remaining (interval 14d)
-    createdAt: '2026-01-15',
-  },
-  {
-    id: 'seed-3',
-    userId: 'user_1',
-    name: 'Pothos',
-    emoji: '🪴',
-    wateringIntervalDays: 3,
-    feedingIntervalDays: 14,
-    lastWateredAt: '2026-04-12', // 3 days ago → due today (interval 3d)
-    lastFedAt: '2026-04-01', // 14 days ago → due today (interval 14d)
-    createdAt: '2026-02-01',
-  },
-  {
-    id: 'seed-4',
-    userId: 'user_1',
-    name: 'Cactus',
-    emoji: '🌵',
-    wateringIntervalDays: 14,
-    feedingIntervalDays: 60,
-    lastWateredAt: '2026-04-09', // 5 days ago → 9d remaining (interval 14d)
-    lastFedAt: '2026-03-01', // 44 days ago → 16d remaining (interval 60d)
-    createdAt: '2026-02-15',
-  },
-]
-
-export async function getPlants(userId: string): Promise<Plant[]> {
-  return store.filter((p) => p.userId === userId)
+type DbPlant = {
+  id: string
+  user_id: string
+  name: string
+  emoji: string
+  watering_interval_days: number
+  feeding_interval_days: number
+  last_watered_at: string | null
+  last_fed_at: string | null
+  created_at: string
 }
 
-export async function getPlant(
-  id: string,
-  userId: string
-): Promise<Plant | null> {
-  return store.find((p) => p.id === id && p.userId === userId) ?? null
+function toPlant(row: DbPlant): Plant {
+  return {
+    id: row.id,
+    userId: row.user_id,
+    name: row.name,
+    emoji: row.emoji,
+    wateringIntervalDays: row.watering_interval_days,
+    feedingIntervalDays: row.feeding_interval_days,
+    lastWateredAt: row.last_watered_at,
+    lastFedAt: row.last_fed_at,
+    createdAt: row.created_at,
+  }
+}
+
+function toDbUpdate(data: Partial<Plant>): Record<string, unknown> {
+  const update: Record<string, unknown> = {}
+  if (data.name !== undefined) update.name = data.name
+  if (data.emoji !== undefined) update.emoji = data.emoji
+  if (data.wateringIntervalDays !== undefined) update.watering_interval_days = data.wateringIntervalDays
+  if (data.feedingIntervalDays !== undefined) update.feeding_interval_days = data.feedingIntervalDays
+  if (data.lastWateredAt !== undefined) update.last_watered_at = data.lastWateredAt
+  if (data.lastFedAt !== undefined) update.last_fed_at = data.lastFedAt
+  return update
+}
+
+// userId param kept for interface compatibility — RLS enforces the filter via JWT
+export async function getPlants(_userId: string): Promise<Plant[]> {
+  const supabase = await createClient()
+  const { data, error } = await supabase
+    .from('plants')
+    .select('*')
+    .order('created_at', { ascending: true })
+  if (error) throw new Error(error.message)
+  return (data as DbPlant[]).map(toPlant)
+}
+
+export async function getPlant(id: string, _userId: string): Promise<Plant | null> {
+  const supabase = await createClient()
+  const { data, error } = await supabase
+    .from('plants')
+    .select('*')
+    .eq('id', id)
+    .single()
+  if (error) {
+    if (error.code === 'PGRST116') return null // no rows returned
+    throw new Error(error.message)
+  }
+  return toPlant(data as DbPlant)
 }
 
 export async function createPlant(
   data: Omit<Plant, 'id' | 'createdAt'>
 ): Promise<Plant> {
-  const plant: Plant = {
-    ...data,
-    id: crypto.randomUUID(),
-    createdAt: new Date().toISOString(),
-  }
-  store.push(plant)
-  return plant
+  const supabase = await createClient()
+  const { data: row, error } = await supabase
+    .from('plants')
+    .insert({
+      user_id: data.userId,
+      name: data.name,
+      emoji: data.emoji,
+      watering_interval_days: data.wateringIntervalDays,
+      feeding_interval_days: data.feedingIntervalDays,
+      last_watered_at: data.lastWateredAt,
+      last_fed_at: data.lastFedAt,
+    })
+    .select()
+    .single()
+  if (error) throw new Error(error.message)
+  return toPlant(row as DbPlant)
 }
 
 export async function updatePlant(
   id: string,
   data: Partial<Plant>
 ): Promise<Plant> {
-  const idx = store.findIndex((p) => p.id === id)
-  if (idx === -1) throw new Error(`Plant ${id} not found`)
-  store[idx] = { ...store[idx], ...data }
-  return store[idx]
+  const supabase = await createClient()
+  const { data: row, error } = await supabase
+    .from('plants')
+    .update(toDbUpdate(data))
+    .eq('id', id)
+    .select()
+    .single()
+  if (error) throw new Error(error.message)
+  return toPlant(row as DbPlant)
 }
 
 export async function deletePlant(id: string): Promise<void> {
-  const idx = store.findIndex((p) => p.id === id)
-  if (idx !== -1) store.splice(idx, 1)
+  const supabase = await createClient()
+  const { error } = await supabase.from('plants').delete().eq('id', id)
+  if (error) throw new Error(error.message)
 }
