@@ -1,0 +1,29 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(bash:*)",
+      "Bash(git init:*)",
+      "Bash(git add:*)",
+      "Bash(git commit:*)",
+      "Bash(npm install:*)",
+      "Bash(pnpm --version)",
+      "Bash(npm --version)",
+      "Bash(npx shadcn@latest init --defaults)",
+      "Bash(npx shadcn@latest:*)",
+      "Bash(timeout 15 npm run dev)",
+      "Bash(npm run:*)",
+      "Bash(kill %1)",
+      "Bash(wait)",
+      "Bash(npx tsc:*)",
+      "Bash(mkdir -p \"C:/Users/Mateusz/Projects/plantsapp/app/api/plants/[id]/water\")",
+      "Bash(mkdir -p \"C:/Users/Mateusz/Projects/plantsapp/app/api/plants/[id]/feed\")",
+      "Bash(export PATH=\"$PATH:/c/Program Files/nodejs\")",
+      "Read(//c/Users/Mateusz/AppData/Local/pnpm//**)",
+      "Read(//c/Users/Mateusz/AppData/Roaming/fnm//**)",
+      "Read(//c/Users/Mateusz/AppData/Local/Microsoft/WinGet/Packages/Schniz.fnm_Microsoft.Winget.Source_8wekyb3d8bbwe//**)",
+      "Bash(export PATH=\"$PATH:/c/Users/Mateusz/AppData/Roaming/fnm/node-versions/v24.11.0/installation\")",
+      "Bash(npx eslint:*)",
+      "Bash(node_modules/.bin/next lint:*)"
+    ]
+  }
+}

@@ -1,0 +1,246 @@
+<h2>Full app layout — all 5 screens</h2>
+<p class="subtitle">iPhone 16 Pro proportions (475 × 1000px). Scroll horizontally to see all screens.</p>
+
+<div style="display:flex;gap:24px;overflow-x:auto;padding-bottom:16px;align-items:flex-start;">
+
+  <!-- LOGIN -->
+  <div style="flex-shrink:0;width:475px;">
+    <div style="font-size:11px;font-weight:600;color:#64748b;text-transform:uppercase;letter-spacing:.06em;margin-bottom:8px;">Login</div>
+    <div style="width:475px;min-height:1000px;background:#f8fafc;border:1px solid #e2e8f0;border-radius:20px;overflow:hidden;display:flex;flex-direction:column;font-family:system-ui,sans-serif;">
+      <div style="flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:40px 32px;gap:16px;">
+        <div style="font-size:72px;line-height:1;margin-bottom:8px;">🌿</div>
+        <div style="font-size:28px;font-weight:800;color:#0f172a;letter-spacing:-.02em;">PlantCare</div>
+        <div style="font-size:15px;color:#64748b;margin-bottom:16px;">Sign in to manage your plants</div>
+        <div style="width:100%;display:flex;flex-direction:column;gap:12px;">
+          <input class="mock-input" placeholder="Email address" style="width:100%;padding:14px 16px;font-size:15px;border-radius:10px;box-sizing:border-box;">
+          <input class="mock-input" placeholder="Password" type="password" style="width:100%;padding:14px 16px;font-size:15px;border-radius:10px;box-sizing:border-box;">
+        </div>
+        <button class="mock-button" style="width:100%;background:#16a34a;color:#fff;border:none;padding:15px;border-radius:10px;font-size:16px;font-weight:700;margin-top:8px;">Sign in</button>
+        <div style="font-size:12px;color:#94a3b8;margin-top:4px;">Any email + password works</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- TODAY -->
+  <div style="flex-shrink:0;width:475px;">
+    <div style="font-size:11px;font-weight:600;color:#64748b;text-transform:uppercase;letter-spacing:.06em;margin-bottom:8px;">Today</div>
+    <div style="width:475px;min-height:1000px;background:#f8fafc;border:1px solid #e2e8f0;border-radius:20px;overflow:hidden;display:flex;flex-direction:column;font-family:system-ui,sans-serif;">
+      <!-- Header -->
+      <div style="background:#0f172a;padding:20px 24px 16px;color:#f8fafc;">
+        <div style="font-size:13px;color:#94a3b8;margin-bottom:2px;">Monday, 14 Apr</div>
+        <div style="font-size:22px;font-weight:700;">Today's care</div>
+      </div>
+      <!-- Content -->
+      <div style="flex:1;padding:20px 16px;display:flex;flex-direction:column;gap:20px;overflow-y:auto;">
+        <!-- Overdue section -->
+        <div>
+          <div style="font-size:11px;font-weight:700;color:#ef4444;text-transform:uppercase;letter-spacing:.06em;margin-bottom:10px;">Overdue</div>
+          <div style="background:#fff;border:1px solid #fecaca;border-radius:12px;padding:16px;display:flex;align-items:center;gap:14px;">
+            <div style="font-size:36px;line-height:1;">🌿</div>
+            <div style="flex:1;">
+              <div style="font-size:16px;font-weight:700;color:#0f172a;">Monstera</div>
+              <div style="font-size:13px;color:#ef4444;margin-top:2px;">💧 Water — 3 days overdue</div>
+            </div>
+            <button style="background:#16a34a;color:#fff;border:none;padding:10px 16px;border-radius:8px;font-size:14px;font-weight:600;cursor:pointer;">Water</button>
+          </div>
+        </div>
+        <!-- Due today section -->
+        <div>
+          <div style="font-size:11px;font-weight:700;color:#ca8a04;text-transform:uppercase;letter-spacing:.06em;margin-bottom:10px;">Due Today</div>
+          <div style="background:#fff;border:1px solid #e2e8f0;border-radius:12px;padding:16px;display:flex;align-items:center;gap:14px;margin-bottom:10px;">
+            <div style="font-size:36px;line-height:1;">🌸</div>
+            <div style="flex:1;">
+              <div style="font-size:16px;font-weight:700;color:#0f172a;">Orchid</div>
+              <div style="font-size:13px;color:#16a34a;margin-top:2px;">💧 Water due today</div>
+            </div>
+            <button style="background:#16a34a;color:#fff;border:none;padding:10px 16px;border-radius:8px;font-size:14px;font-weight:600;cursor:pointer;">Water</button>
+          </div>
+          <div style="background:#fff;border:1px solid #e2e8f0;border-radius:12px;padding:16px;display:flex;align-items:center;gap:14px;">
+            <div style="font-size:36px;line-height:1;">🪴</div>
+            <div style="flex:1;">
+              <div style="font-size:16px;font-weight:700;color:#0f172a;">Pothos</div>
+              <div style="font-size:13px;color:#a16207;margin-top:2px;">🌿 Feed due today</div>
+            </div>
+            <button style="background:#a16207;color:#fff;border:none;padding:10px 16px;border-radius:8px;font-size:14px;font-weight:600;cursor:pointer;">Feed</button>
+          </div>
+        </div>
+      </div>
+      <!-- Bottom tab bar -->
+      <div style="display:flex;border-top:1px solid #e2e8f0;background:#fff;">
+        <div style="flex:1;padding:12px 0 10px;text-align:center;border-top:2px solid #16a34a;">
+          <div style="font-size:20px;">💧</div>
+          <div style="font-size:11px;font-weight:700;color:#16a34a;margin-top:2px;">Today</div>
+        </div>
+        <div style="flex:1;padding:12px 0 10px;text-align:center;border-top:2px solid transparent;">
+          <div style="font-size:20px;">🌱</div>
+          <div style="font-size:11px;color:#94a3b8;margin-top:2px;">Plants</div>
+        </div>
+        <div style="flex:1;padding:12px 0 10px;text-align:center;border-top:2px solid transparent;">
+          <div style="font-size:20px;">➕</div>
+          <div style="font-size:11px;color:#94a3b8;margin-top:2px;">Add</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ALL PLANTS -->
+  <div style="flex-shrink:0;width:475px;">
+    <div style="font-size:11px;font-weight:600;color:#64748b;text-transform:uppercase;letter-spacing:.06em;margin-bottom:8px;">All Plants</div>
+    <div style="width:475px;min-height:1000px;background:#f8fafc;border:1px solid #e2e8f0;border-radius:20px;overflow:hidden;display:flex;flex-direction:column;font-family:system-ui,sans-serif;">
+      <!-- Header -->
+      <div style="background:#0f172a;padding:20px 24px 16px;color:#f8fafc;">
+        <div style="font-size:22px;font-weight:700;">My Plants</div>
+        <div style="font-size:13px;color:#94a3b8;margin-top:2px;">4 plants</div>
+      </div>
+      <!-- Content -->
+      <div style="flex:1;padding:16px;display:flex;flex-direction:column;gap:10px;">
+        <div style="background:#fff;border:1px solid #e2e8f0;border-radius:12px;padding:16px;display:flex;align-items:center;gap:14px;">
+          <div style="font-size:32px;">🌿</div>
+          <div style="flex:1;">
+            <div style="font-size:15px;font-weight:700;color:#0f172a;">Monstera</div>
+            <div style="font-size:12px;color:#64748b;margin-top:2px;">Water every 7d · Feed every 30d</div>
+          </div>
+          <span style="background:#fef2f2;color:#ef4444;font-size:12px;padding:4px 10px;border-radius:99px;font-weight:600;white-space:nowrap;">Overdue</span>
+        </div>
+        <div style="background:#fff;border:1px solid #e2e8f0;border-radius:12px;padding:16px;display:flex;align-items:center;gap:14px;">
+          <div style="font-size:32px;">🌸</div>
+          <div style="flex:1;">
+            <div style="font-size:15px;font-weight:700;color:#0f172a;">Orchid</div>
+            <div style="font-size:12px;color:#64748b;margin-top:2px;">Water every 5d · Feed every 14d</div>
+          </div>
+          <span style="background:#fefce8;color:#ca8a04;font-size:12px;padding:4px 10px;border-radius:99px;font-weight:600;white-space:nowrap;">Due today</span>
+        </div>
+        <div style="background:#fff;border:1px solid #e2e8f0;border-radius:12px;padding:16px;display:flex;align-items:center;gap:14px;">
+          <div style="font-size:32px;">🪴</div>
+          <div style="flex:1;">
+            <div style="font-size:15px;font-weight:700;color:#0f172a;">Pothos</div>
+            <div style="font-size:12px;color:#64748b;margin-top:2px;">Water every 3d · Feed every 14d</div>
+          </div>
+          <span style="background:#fefce8;color:#ca8a04;font-size:12px;padding:4px 10px;border-radius:99px;font-weight:600;white-space:nowrap;">Due today</span>
+        </div>
+        <div style="background:#fff;border:1px solid #e2e8f0;border-radius:12px;padding:16px;display:flex;align-items:center;gap:14px;">
+          <div style="font-size:32px;">🌵</div>
+          <div style="flex:1;">
+            <div style="font-size:15px;font-weight:700;color:#0f172a;">Cactus</div>
+            <div style="font-size:12px;color:#64748b;margin-top:2px;">Water every 14d · Feed every 60d</div>
+          </div>
+          <span style="background:#f0fdf4;color:#16a34a;font-size:12px;padding:4px 10px;border-radius:99px;font-weight:600;white-space:nowrap;">OK — 5d</span>
+        </div>
+      </div>
+      <!-- Bottom tab bar -->
+      <div style="display:flex;border-top:1px solid #e2e8f0;background:#fff;">
+        <div style="flex:1;padding:12px 0 10px;text-align:center;border-top:2px solid transparent;">
+          <div style="font-size:20px;">💧</div>
+          <div style="font-size:11px;color:#94a3b8;margin-top:2px;">Today</div>
+        </div>
+        <div style="flex:1;padding:12px 0 10px;text-align:center;border-top:2px solid #16a34a;">
+          <div style="font-size:20px;">🌱</div>
+          <div style="font-size:11px;font-weight:700;color:#16a34a;margin-top:2px;">Plants</div>
+        </div>
+        <div style="flex:1;padding:12px 0 10px;text-align:center;border-top:2px solid transparent;">
+          <div style="font-size:20px;">➕</div>
+          <div style="font-size:11px;color:#94a3b8;margin-top:2px;">Add</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ADD PLANT -->
+  <div style="flex-shrink:0;width:475px;">
+    <div style="font-size:11px;font-weight:600;color:#64748b;text-transform:uppercase;letter-spacing:.06em;margin-bottom:8px;">Add Plant</div>
+    <div style="width:475px;min-height:1000px;background:#f8fafc;border:1px solid #e2e8f0;border-radius:20px;overflow:hidden;display:flex;flex-direction:column;font-family:system-ui,sans-serif;">
+      <div style="background:#0f172a;padding:20px 24px 16px;color:#f8fafc;">
+        <div style="font-size:22px;font-weight:700;">Add Plant</div>
+      </div>
+      <div style="flex:1;padding:24px 16px;display:flex;flex-direction:column;gap:18px;">
+        <div>
+          <div style="font-size:13px;font-weight:600;color:#374151;margin-bottom:6px;">Emoji</div>
+          <input class="mock-input" value="🌿" style="font-size:24px;padding:10px 14px;width:64px;text-align:center;border-radius:10px;">
+        </div>
+        <div>
+          <div style="font-size:13px;font-weight:600;color:#374151;margin-bottom:6px;">Plant name</div>
+          <input class="mock-input" placeholder="e.g. Monstera" style="width:100%;padding:12px 14px;font-size:15px;border-radius:10px;box-sizing:border-box;">
+        </div>
+        <div>
+          <div style="font-size:13px;font-weight:600;color:#374151;margin-bottom:6px;">Water every (days)</div>
+          <input class="mock-input" value="7" style="width:100%;padding:12px 14px;font-size:15px;border-radius:10px;box-sizing:border-box;">
+        </div>
+        <div>
+          <div style="font-size:13px;font-weight:600;color:#374151;margin-bottom:6px;">Feed every (days)</div>
+          <input class="mock-input" value="30" style="width:100%;padding:12px 14px;font-size:15px;border-radius:10px;box-sizing:border-box;">
+        </div>
+        <button class="mock-button" style="width:100%;background:#16a34a;color:#fff;border:none;padding:15px;border-radius:10px;font-size:16px;font-weight:700;margin-top:8px;">Save Plant</button>
+      </div>
+      <!-- Bottom tab bar -->
+      <div style="display:flex;border-top:1px solid #e2e8f0;background:#fff;">
+        <div style="flex:1;padding:12px 0 10px;text-align:center;border-top:2px solid transparent;">
+          <div style="font-size:20px;">💧</div>
+          <div style="font-size:11px;color:#94a3b8;margin-top:2px;">Today</div>
+        </div>
+        <div style="flex:1;padding:12px 0 10px;text-align:center;border-top:2px solid transparent;">
+          <div style="font-size:20px;">🌱</div>
+          <div style="font-size:11px;color:#94a3b8;margin-top:2px;">Plants</div>
+        </div>
+        <div style="flex:1;padding:12px 0 10px;text-align:center;border-top:2px solid #16a34a;">
+          <div style="font-size:20px;">➕</div>
+          <div style="font-size:11px;font-weight:700;color:#16a34a;margin-top:2px;">Add</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- EDIT PLANT -->
+  <div style="flex-shrink:0;width:475px;">
+    <div style="font-size:11px;font-weight:600;color:#64748b;text-transform:uppercase;letter-spacing:.06em;margin-bottom:8px;">Edit Plant</div>
+    <div style="width:475px;min-height:1000px;background:#f8fafc;border:1px solid #e2e8f0;border-radius:20px;overflow:hidden;display:flex;flex-direction:column;font-family:system-ui,sans-serif;">
+      <div style="background:#0f172a;padding:20px 24px 16px;color:#f8fafc;display:flex;align-items:center;justify-content:space-between;">
+        <div style="font-size:22px;font-weight:700;">Edit Plant</div>
+        <button style="background:transparent;border:1px solid #ef4444;color:#ef4444;padding:6px 14px;border-radius:8px;font-size:13px;font-weight:600;">Delete</button>
+      </div>
+      <div style="flex:1;padding:24px 16px;display:flex;flex-direction:column;gap:18px;">
+        <div>
+          <div style="font-size:13px;font-weight:600;color:#374151;margin-bottom:6px;">Emoji</div>
+          <input class="mock-input" value="🌿" style="font-size:24px;padding:10px 14px;width:64px;text-align:center;border-radius:10px;">
+        </div>
+        <div>
+          <div style="font-size:13px;font-weight:600;color:#374151;margin-bottom:6px;">Plant name</div>
+          <input class="mock-input" value="Monstera" style="width:100%;padding:12px 14px;font-size:15px;border-radius:10px;box-sizing:border-box;">
+        </div>
+        <div>
+          <div style="font-size:13px;font-weight:600;color:#374151;margin-bottom:6px;">Water every (days)</div>
+          <input class="mock-input" value="7" style="width:100%;padding:12px 14px;font-size:15px;border-radius:10px;box-sizing:border-box;">
+        </div>
+        <div>
+          <div style="font-size:13px;font-weight:600;color:#374151;margin-bottom:6px;">Feed every (days)</div>
+          <input class="mock-input" value="30" style="width:100%;padding:12px 14px;font-size:15px;border-radius:10px;box-sizing:border-box;">
+        </div>
+        <button class="mock-button" style="width:100%;background:#16a34a;color:#fff;border:none;padding:15px;border-radius:10px;font-size:16px;font-weight:700;margin-top:8px;">Save Changes</button>
+      </div>
+      <!-- Bottom tab bar -->
+      <div style="display:flex;border-top:1px solid #e2e8f0;background:#fff;">
+        <div style="flex:1;padding:12px 0 10px;text-align:center;border-top:2px solid transparent;">
+          <div style="font-size:20px;">💧</div>
+          <div style="font-size:11px;color:#94a3b8;margin-top:2px;">Today</div>
+        </div>
+        <div style="flex:1;padding:12px 0 10px;text-align:center;border-top:2px solid transparent;">
+          <div style="font-size:20px;">🌱</div>
+          <div style="font-size:11px;color:#94a3b8;margin-top:2px;">Plants</div>
+        </div>
+        <div style="flex:1;padding:12px 0 10px;text-align:center;border-top:2px solid transparent;">
+          <div style="font-size:20px;">➕</div>
+          <div style="font-size:11px;color:#94a3b8;margin-top:2px;">Add</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<div style="margin-top:20px;padding:16px;background:#f8fafc;border:1px solid #e2e8f0;border-radius:10px;font-family:system-ui,sans-serif;">
+  <div style="font-size:13px;font-weight:700;color:#0f172a;margin-bottom:8px;">Status badge legend</div>
+  <div style="display:flex;gap:10px;flex-wrap:wrap;">
+    <span style="background:#fef2f2;color:#ef4444;font-size:13px;padding:4px 12px;border-radius:99px;font-weight:600;">Overdue</span>
+    <span style="background:#fefce8;color:#ca8a04;font-size:13px;padding:4px 12px;border-radius:99px;font-weight:600;">Due today</span>
+    <span style="background:#f0fdf4;color:#16a34a;font-size:13px;padding:4px 12px;border-radius:99px;font-weight:600;">OK — 5 days</span>
+  </div>
+</div>

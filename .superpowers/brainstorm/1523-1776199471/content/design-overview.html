@@ -1,0 +1,154 @@
+<h2>Full app layout — all 5 screens</h2>
+<p class="subtitle">Slate + green palette, bottom tab bar, Server Components with client islands. Scroll to see all screens.</p>
+
+<div class="split" style="flex-wrap:wrap;gap:16px;justify-content:center;">
+
+  <!-- LOGIN -->
+  <div class="mockup" style="width:180px;flex-shrink:0;">
+    <div class="mockup-header" style="background:#0f172a;color:#f8fafc;text-align:center;">Login</div>
+    <div class="mockup-body" style="background:#f8fafc;padding:16px;display:flex;flex-direction:column;gap:10px;min-height:200px;justify-content:center;">
+      <div style="text-align:center;font-size:28px;margin-bottom:4px;">🌿</div>
+      <div style="text-align:center;font-size:12px;font-weight:700;color:#0f172a;">PlantCare</div>
+      <input class="mock-input" placeholder="Email" style="font-size:11px;padding:6px 8px;">
+      <input class="mock-input" placeholder="Password" style="font-size:11px;padding:6px 8px;">
+      <button class="mock-button" style="background:#16a34a;color:#fff;border:none;padding:7px;border-radius:6px;font-size:11px;font-weight:600;">Sign in</button>
+    </div>
+  </div>
+
+  <!-- TODAY -->
+  <div class="mockup" style="width:180px;flex-shrink:0;">
+    <div class="mockup-header" style="background:#0f172a;color:#f8fafc;">Today</div>
+    <div class="mockup-body" style="background:#f8fafc;padding:8px;min-height:200px;">
+      <div style="font-size:9px;font-weight:700;color:#64748b;text-transform:uppercase;letter-spacing:.05em;margin-bottom:6px;">Overdue</div>
+      <div style="background:#fff;border:1px solid #fecaca;border-radius:8px;padding:8px;margin-bottom:6px;">
+        <div style="display:flex;justify-content:space-between;align-items:center;">
+          <div><div style="font-size:11px;font-weight:700;">🌿 Monstera</div><div style="font-size:9px;color:#ef4444;">Water 3d overdue</div></div>
+          <button style="background:#16a34a;color:#fff;border:none;padding:3px 7px;border-radius:4px;font-size:9px;">💧</button>
+        </div>
+      </div>
+      <div style="font-size:9px;font-weight:700;color:#64748b;text-transform:uppercase;letter-spacing:.05em;margin-bottom:6px;">Due Today</div>
+      <div style="background:#fff;border:1px solid #e2e8f0;border-radius:8px;padding:8px;">
+        <div style="display:flex;justify-content:space-between;align-items:center;">
+          <div><div style="font-size:11px;font-weight:700;">🌸 Orchid</div><div style="font-size:9px;color:#16a34a;">Water due today</div></div>
+          <button style="background:#16a34a;color:#fff;border:none;padding:3px 7px;border-radius:4px;font-size:9px;">💧</button>
+        </div>
+      </div>
+    </div>
+    <div style="display:flex;border-top:1px solid #e2e8f0;background:#fff;text-align:center;">
+      <div style="flex:1;padding:5px 0;font-size:9px;border-bottom:2px solid #16a34a;color:#16a34a;"><strong>Today</strong></div>
+      <div style="flex:1;padding:5px 0;font-size:9px;color:#94a3b8;">Plants</div>
+      <div style="flex:1;padding:5px 0;font-size:9px;color:#94a3b8;">Add</div>
+    </div>
+  </div>
+
+  <!-- ALL PLANTS -->
+  <div class="mockup" style="width:180px;flex-shrink:0;">
+    <div class="mockup-header" style="background:#0f172a;color:#f8fafc;">All Plants</div>
+    <div class="mockup-body" style="background:#f8fafc;padding:8px;min-height:200px;">
+      <div style="background:#fff;border:1px solid #e2e8f0;border-radius:8px;padding:8px;margin-bottom:6px;">
+        <div style="display:flex;justify-content:space-between;align-items:center;">
+          <div style="font-size:11px;font-weight:700;">🌿 Monstera</div>
+          <span style="background:#fef2f2;color:#ef4444;font-size:9px;padding:2px 5px;border-radius:99px;font-weight:600;">Overdue</span>
+        </div>
+        <div style="font-size:9px;color:#64748b;margin-top:3px;">Water every 7d · Feed every 30d</div>
+      </div>
+      <div style="background:#fff;border:1px solid #e2e8f0;border-radius:8px;padding:8px;margin-bottom:6px;">
+        <div style="display:flex;justify-content:space-between;align-items:center;">
+          <div style="font-size:11px;font-weight:700;">🌸 Orchid</div>
+          <span style="background:#fefce8;color:#ca8a04;font-size:9px;padding:2px 5px;border-radius:99px;font-weight:600;">Due today</span>
+        </div>
+        <div style="font-size:9px;color:#64748b;margin-top:3px;">Water every 5d · Feed every 14d</div>
+      </div>
+      <div style="background:#fff;border:1px solid #e2e8f0;border-radius:8px;padding:8px;">
+        <div style="display:flex;justify-content:space-between;align-items:center;">
+          <div style="font-size:11px;font-weight:700;">🌵 Cactus</div>
+          <span style="background:#f0fdf4;color:#16a34a;font-size:9px;padding:2px 5px;border-radius:99px;font-weight:600;">OK</span>
+        </div>
+        <div style="font-size:9px;color:#64748b;margin-top:3px;">Water every 14d · Feed every 60d</div>
+      </div>
+    </div>
+    <div style="display:flex;border-top:1px solid #e2e8f0;background:#fff;text-align:center;">
+      <div style="flex:1;padding:5px 0;font-size:9px;color:#94a3b8;">Today</div>
+      <div style="flex:1;padding:5px 0;font-size:9px;border-bottom:2px solid #16a34a;color:#16a34a;"><strong>Plants</strong></div>
+      <div style="flex:1;padding:5px 0;font-size:9px;color:#94a3b8;">Add</div>
+    </div>
+  </div>
+
+  <!-- ADD PLANT -->
+  <div class="mockup" style="width:180px;flex-shrink:0;">
+    <div class="mockup-header" style="background:#0f172a;color:#f8fafc;">Add Plant</div>
+    <div class="mockup-body" style="background:#f8fafc;padding:10px;min-height:200px;display:flex;flex-direction:column;gap:8px;">
+      <div>
+        <div style="font-size:9px;color:#64748b;margin-bottom:3px;">Emoji</div>
+        <input class="mock-input" value="🌿" style="font-size:14px;padding:4px 8px;width:40px;text-align:center;">
+      </div>
+      <div>
+        <div style="font-size:9px;color:#64748b;margin-bottom:3px;">Name</div>
+        <input class="mock-input" placeholder="Plant name" style="font-size:11px;padding:5px 8px;">
+      </div>
+      <div style="display:flex;gap:6px;">
+        <div style="flex:1;">
+          <div style="font-size:9px;color:#64748b;margin-bottom:3px;">Water every</div>
+          <input class="mock-input" value="7" style="font-size:11px;padding:5px 8px;">
+          <div style="font-size:8px;color:#94a3b8;">days</div>
+        </div>
+        <div style="flex:1;">
+          <div style="font-size:9px;color:#64748b;margin-bottom:3px;">Feed every</div>
+          <input class="mock-input" value="30" style="font-size:11px;padding:5px 8px;">
+          <div style="font-size:8px;color:#94a3b8;">days</div>
+        </div>
+      </div>
+      <button class="mock-button" style="background:#16a34a;color:#fff;border:none;padding:7px;border-radius:6px;font-size:11px;font-weight:600;margin-top:auto;">Save Plant</button>
+    </div>
+    <div style="display:flex;border-top:1px solid #e2e8f0;background:#fff;text-align:center;">
+      <div style="flex:1;padding:5px 0;font-size:9px;color:#94a3b8;">Today</div>
+      <div style="flex:1;padding:5px 0;font-size:9px;color:#94a3b8;">Plants</div>
+      <div style="flex:1;padding:5px 0;font-size:9px;border-bottom:2px solid #16a34a;color:#16a34a;"><strong>Add</strong></div>
+    </div>
+  </div>
+
+  <!-- EDIT PLANT -->
+  <div class="mockup" style="width:180px;flex-shrink:0;">
+    <div class="mockup-header" style="background:#0f172a;color:#f8fafc;display:flex;justify-content:space-between;">
+      <span>Edit Plant</span><span style="color:#ef4444;font-size:10px;cursor:pointer;">Delete</span>
+    </div>
+    <div class="mockup-body" style="background:#f8fafc;padding:10px;min-height:200px;display:flex;flex-direction:column;gap:8px;">
+      <div>
+        <div style="font-size:9px;color:#64748b;margin-bottom:3px;">Emoji</div>
+        <input class="mock-input" value="🌿" style="font-size:14px;padding:4px 8px;width:40px;text-align:center;">
+      </div>
+      <div>
+        <div style="font-size:9px;color:#64748b;margin-bottom:3px;">Name</div>
+        <input class="mock-input" value="Monstera" style="font-size:11px;padding:5px 8px;">
+      </div>
+      <div style="display:flex;gap:6px;">
+        <div style="flex:1;">
+          <div style="font-size:9px;color:#64748b;margin-bottom:3px;">Water every</div>
+          <input class="mock-input" value="7" style="font-size:11px;padding:5px 8px;">
+          <div style="font-size:8px;color:#94a3b8;">days</div>
+        </div>
+        <div style="flex:1;">
+          <div style="font-size:9px;color:#64748b;margin-bottom:3px;">Feed every</div>
+          <input class="mock-input" value="30" style="font-size:11px;padding:5px 8px;">
+          <div style="font-size:8px;color:#94a3b8;">days</div>
+        </div>
+      </div>
+      <button class="mock-button" style="background:#16a34a;color:#fff;border:none;padding:7px;border-radius:6px;font-size:11px;font-weight:600;margin-top:auto;">Save Changes</button>
+    </div>
+    <div style="display:flex;border-top:1px solid #e2e8f0;background:#fff;text-align:center;">
+      <div style="flex:1;padding:5px 0;font-size:9px;color:#94a3b8;">Today</div>
+      <div style="flex:1;padding:5px 0;font-size:9px;color:#94a3b8;">Plants</div>
+      <div style="flex:1;padding:5px 0;font-size:9px;color:#94a3b8;">Add</div>
+    </div>
+  </div>
+
+</div>
+
+<div style="margin-top:20px;padding:16px;background:#f8fafc;border:1px solid #e2e8f0;border-radius:8px;">
+  <div style="font-size:12px;font-weight:700;color:#0f172a;margin-bottom:8px;">Status badge legend</div>
+  <div style="display:flex;gap:10px;flex-wrap:wrap;">
+    <span style="background:#fef2f2;color:#ef4444;font-size:11px;padding:3px 8px;border-radius:99px;font-weight:600;">Overdue</span>
+    <span style="background:#fefce8;color:#ca8a04;font-size:11px;padding:3px 8px;border-radius:99px;font-weight:600;">Due today</span>
+    <span style="background:#f0fdf4;color:#16a34a;font-size:11px;padding:3px 8px;border-radius:99px;font-weight:600;">OK — N days</span>
+  </div>
+</div>

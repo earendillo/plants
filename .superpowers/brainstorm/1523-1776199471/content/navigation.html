@@ -1,0 +1,74 @@
+<h2>Navigation pattern</h2>
+<p class="subtitle">The app has 3 main screens: Today, All Plants, and Add Plant. Pick a navigation style for mobile.</p>
+
+<div class="cards">
+
+  <div class="card" data-choice="bottom-tabs" onclick="toggleSelect(this)">
+    <div class="card-image">
+      <div class="mockup" style="max-width:200px;margin:0 auto;">
+        <div class="mockup-header">Today screen</div>
+        <div class="mockup-body" style="padding:0;overflow:hidden;">
+          <div style="padding:12px;min-height:80px;background:#f1f5f9;">
+            <div class="mock-content" style="display:flex;align-items:center;gap:8px;padding:8px;">
+              <span>🌿</span>
+              <span style="font-size:12px;">Monstera — <span style="color:#ef4444;">Overdue</span></span>
+            </div>
+          </div>
+          <div style="display:flex;border-top:2px solid #e2e8f0;background:#fff;text-align:center;">
+            <div style="flex:1;padding:6px 0;border-bottom:2px solid #22c55e;font-size:10px;">💧<br><strong>Today</strong></div>
+            <div style="flex:1;padding:6px 0;font-size:10px;color:#94a3b8;">🌱<br>Plants</div>
+            <div style="flex:1;padding:6px 0;font-size:10px;color:#94a3b8;">➕<br>Add</div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="card-body">
+      <h3>A — Bottom Tab Bar</h3>
+      <p>Thumb-friendly, always visible. Standard mobile pattern. Add Plant is a dedicated tab.</p>
+    </div>
+  </div>
+
+  <div class="card" data-choice="top-header" onclick="toggleSelect(this)">
+    <div class="card-image">
+      <div class="mockup" style="max-width:200px;margin:0 auto;">
+        <div class="mockup-header" style="background:#0f172a;color:#fff;display:flex;justify-content:space-between;align-items:center;">
+          <span style="display:flex;gap:12px;"><strong style="border-bottom:2px solid #22c55e;">Today</strong> <span style="opacity:.5;">Plants</span></span>
+          <span>➕</span>
+        </div>
+        <div class="mockup-body" style="background:#f1f5f9;min-height:80px;padding:10px;">
+          <div class="mock-content" style="display:flex;align-items:center;gap:8px;padding:8px;">
+            <span>🌿</span>
+            <span style="font-size:12px;">Monstera — <span style="color:#ef4444;">Overdue</span></span>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="card-body">
+      <h3>B — Dark Top Header</h3>
+      <p>Slate header with tab links and a ➕ icon button. Compact. More web-app feel.</p>
+    </div>
+  </div>
+
+  <div class="card" data-choice="fab" onclick="toggleSelect(this)">
+    <div class="card-image">
+      <div class="mockup" style="max-width:200px;margin:0 auto;">
+        <div class="mockup-header" style="display:flex;gap:16px;">
+          <strong style="border-bottom:2px solid #22c55e;">Today</strong>
+          <span style="opacity:.5;">All Plants</span>
+        </div>
+        <div class="mockup-body" style="background:#f1f5f9;min-height:80px;padding:10px;position:relative;">
+          <div class="mock-content" style="display:flex;align-items:center;gap:8px;padding:8px;">
+            <span>🌿</span>
+            <span style="font-size:12px;">Monstera — <span style="color:#ef4444;">Overdue</span></span>
+          </div>
+          <div style="position:absolute;bottom:10px;right:10px;width:36px;height:36px;background:#22c55e;border-radius:50%;display:flex;align-items:center;justify-content:center;color:#fff;font-size:22px;line-height:1;box-shadow:0 2px 8px rgba(0,0,0,.25);">+</div>
+        </div>
+      </div>
+    </div>
+    <div class="card-body">
+      <h3>C — Tabs + Floating Action Button</h3>
+      <p>Today / All Plants tabs at the top, green FAB for adding. Clean and focused.</p>
+    </div>
+  </div>
+
+</div>
