@@ -30,6 +30,7 @@ export async function middleware(request: NextRequest) {
 
   const isPublicPath =
     pathname.startsWith('/login') ||
+    pathname.startsWith('/forgot-password') ||
     pathname.startsWith('/auth') ||
     pathname.startsWith('/_next') ||
     pathname === '/favicon.ico'

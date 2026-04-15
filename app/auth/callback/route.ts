@@ -9,7 +9,9 @@ export async function GET(request: NextRequest) {
     const supabase = await createClient()
     const { error } = await supabase.auth.exchangeCodeForSession(code)
     if (!error) {
-      return NextResponse.redirect(`${origin}/today`)
+      const next = searchParams.get('next')
+      const redirectTo = next?.startsWith('/') ? next : '/today'
+      return NextResponse.redirect(`${origin}${redirectTo}`)
     }
   }
 

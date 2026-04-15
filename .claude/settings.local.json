@@ -23,7 +23,8 @@
       "Read(//c/Users/Mateusz/AppData/Local/Microsoft/WinGet/Packages/Schniz.fnm_Microsoft.Winget.Source_8wekyb3d8bbwe//**)",
       "Bash(export PATH=\"$PATH:/c/Users/Mateusz/AppData/Roaming/fnm/node-versions/v24.11.0/installation\")",
       "Bash(npx eslint:*)",
-      "Bash(node_modules/.bin/next lint:*)"
+      "Bash(node_modules/.bin/next lint:*)",
+      "Bash(xargs ls:*)"
     ]
   }
 }
