@@ -49,24 +49,29 @@ export default function LoginPage() {
     })
   }
 
+  const inputClass =
+    'mt-1 block w-full rounded-lg border border-white/10 bg-brand-surface px-4 py-3 ' +
+    'text-brand-fg placeholder:text-brand-fg-dim focus:border-brand-cta ' +
+    'focus:outline-none focus:ring-1 focus:ring-brand-cta/20'
+
   return (
-    <main className="flex min-h-screen items-center justify-center bg-slate-50 px-4">
+    <main className="flex min-h-screen items-center justify-center bg-brand-bg px-4">
       <div className="w-full max-w-sm">
         <div className="mb-8 text-center">
           <div className="text-6xl">🌿</div>
-          <h1 className="mt-2 text-2xl font-bold text-slate-900">{t('appName')}</h1>
-          <p className="mt-1 text-sm text-slate-500">{t('subtitle')}</p>
+          <h1 className="mt-2 text-2xl text-brand-fg">{t('appName')}</h1>
+          <p className="mt-1 text-sm text-brand-fg-dim">{t('subtitle')}</p>
         </div>
 
         {signupDone ? (
-          <div className="rounded-lg bg-green-50 border border-green-200 px-4 py-3 text-sm text-green-800 text-center">
+          <div className="rounded-lg border border-brand-cta/30 bg-brand-cta/10 px-4 py-3 text-sm text-brand-cta text-center">
             {t('confirmEmail')}
           </div>
         ) : (
           <>
             <form onSubmit={handleSubmit} className="space-y-4">
               <div>
-                <label htmlFor="email" className="block text-sm font-medium text-slate-700">
+                <label htmlFor="email" className="block text-sm font-semibold text-brand-muted">
                   {t('emailLabel')}
                 </label>
                 <input
@@ -76,12 +81,12 @@ export default function LoginPage() {
                   onChange={e => setEmail(e.target.value)}
                   required
                   placeholder={t('emailPlaceholder')}
-                  className="mt-1 block w-full rounded-lg border border-slate-200 px-4 py-3 text-slate-900 placeholder:text-slate-400 focus:border-green-500 focus:outline-none focus:ring-1 focus:ring-green-500"
+                  className={inputClass}
                 />
               </div>
 
               <div>
-                <label htmlFor="password" className="block text-sm font-medium text-slate-700">
+                <label htmlFor="password" className="block text-sm font-semibold text-brand-muted">
                   {t('passwordLabel')}
                 </label>
                 <input
@@ -91,51 +96,51 @@ export default function LoginPage() {
                   onChange={e => setPassword(e.target.value)}
                   required
                   placeholder={t('passwordPlaceholder')}
-                  className="mt-1 block w-full rounded-lg border border-slate-200 px-4 py-3 text-slate-900 placeholder:text-slate-400 focus:border-green-500 focus:outline-none focus:ring-1 focus:ring-green-500"
+                  className={inputClass}
                 />
               </div>
 
               {mode === 'signin' && (
                 <div className="text-right">
-                  <Link href="/forgot-password" className="text-sm text-green-700 hover:underline">
+                  <Link href="/forgot-password" className="text-sm text-brand-fg-dim hover:text-brand-muted transition-colors">
                     {t('forgotPassword')}
                   </Link>
                 </div>
               )}
 
               {error && (
-                <p className="text-sm text-red-600">{error}</p>
+                <p className="text-sm text-brand-alert">{error}</p>
               )}
 
               <button
                 type="submit"
                 disabled={loading}
-                className="w-full rounded-lg bg-green-600 py-3 text-base font-semibold text-white hover:bg-green-700 active:bg-green-800 disabled:opacity-60"
+                className="w-full rounded-lg bg-brand-cta py-3 text-base font-semibold text-brand-cta-fg transition-[filter] hover:brightness-[0.92] active:brightness-[0.84] disabled:opacity-50"
               >
                 {loading ? '...' : mode === 'signin' ? t('signIn') : t('createAccount')}
               </button>
             </form>
 
             <div className="mt-4 flex items-center gap-3">
-              <div className="h-px flex-1 bg-slate-200" />
-              <span className="text-xs text-slate-400">{t('or')}</span>
-              <div className="h-px flex-1 bg-slate-200" />
+              <div className="h-px flex-1 bg-white/6" />
+              <span className="text-xs text-brand-fg-dim">{t('or')}</span>
+              <div className="h-px flex-1 bg-white/6" />
             </div>
 
             <button
               onClick={handleGoogle}
-              className="mt-4 w-full rounded-lg border border-slate-200 bg-white py-3 text-base font-semibold text-slate-700 hover:bg-slate-50 active:bg-slate-100"
+              className="mt-4 w-full rounded-lg border border-white/15 bg-transparent py-3 text-base font-semibold text-brand-muted hover:bg-white/5 active:bg-white/[0.08] transition-colors"
             >
               {t('continueWithGoogle')}
             </button>
 
-            <p className="mt-6 text-center text-sm text-slate-500">
+            <p className="mt-6 text-center text-sm text-brand-fg-dim">
               {mode === 'signin' ? (
                 <>
                   {t('noAccount')}{' '}
                   <button
                     onClick={() => { setMode('signup'); setError(null) }}
-                    className="font-medium text-green-600 hover:underline"
+                    className="font-semibold text-brand-muted hover:text-brand-fg transition-colors"
                   >
                     {t('signUp')}
                   </button>
@@ -145,7 +150,7 @@ export default function LoginPage() {
                   {t('alreadyHaveAccount')}{' '}
                   <button
                     onClick={() => { setMode('signin'); setError(null) }}
-                    className="font-medium text-green-600 hover:underline"
+                    className="font-semibold text-brand-muted hover:text-brand-fg transition-colors"
                   >
                     {t('signInLink')}
                   </button>

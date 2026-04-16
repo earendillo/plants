@@ -18,9 +18,9 @@ function getWorstStatus(waterDays: number, feedDays: number): Status {
 }
 
 const BADGE_CLASSES: Record<Status, string> = {
-  overdue: 'bg-red-100 text-red-500',
-  'due-today': 'bg-yellow-50 text-yellow-600',
-  ok: 'bg-green-50 text-green-600',
+  overdue: 'bg-brand-alert/15 text-brand-alert',
+  'due-today': 'bg-brand-muted/12 text-brand-muted',
+  ok: 'bg-white/[0.06] text-brand-fg-dim',
 }
 
 export async function PlantCard({ plant, today }: Props) {
@@ -37,25 +37,26 @@ export async function PlantCard({ plant, today }: Props) {
         ? t('statusDueToday')
         : t('statusOk', { days: bestDays })
 
+  const cardBase = 'flex items-center gap-4 rounded-xl border p-4 transition-colors'
+  const cardVariant =
+    status === 'overdue'
+      ? 'border-brand-alert/30 bg-brand-overdue-surface active:bg-brand-alert/[0.12]'
+      : 'border-white/6 bg-brand-surface active:bg-white/[0.04]'
+
   return (
     <Link href={`/plants/${plant.id}`} className="block">
-      <div className="flex items-center gap-4 rounded-xl border border-slate-200 bg-white p-4 active:bg-slate-50">
+      <div className={`${cardBase} ${cardVariant}`}>
         <span className="text-3xl leading-none">{plant.emoji}</span>
         <div className="min-w-0 flex-1">
-          <p className="font-semibold text-slate-900">{plant.name}</p>
-          <p className="mt-0.5 text-sm text-slate-500">
+          <p className="font-semibold text-brand-fg">{plant.name}</p>
+          <p className="mt-0.5 text-sm text-brand-fg-dim">
             {t('schedule', {
               waterDays: plant.wateringIntervalDays,
               feedDays: plant.feedingIntervalDays,
             })}
           </p>
         </div>
-        <span
-          className={[
-            'shrink-0 rounded-full px-3 py-1 text-xs font-semibold',
-            BADGE_CLASSES[status],
-          ].join(' ')}
-        >
+        <span className={`shrink-0 rounded-full px-3 py-1 text-xs font-semibold ${BADGE_CLASSES[status]}`}>
           {badgeLabel}
         </span>
       </div>

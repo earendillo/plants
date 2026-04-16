@@ -11,17 +11,17 @@ export default async function PlantsPage() {
   const t = await getTranslations('plants')
 
   return (
-    <div className="flex min-h-screen flex-col bg-slate-50">
-      <header className="bg-slate-900 px-6 py-5 text-slate-50">
-        <h1 className="text-2xl font-bold">{t('title')}</h1>
-        <p className="mt-0.5 text-sm text-slate-400">
+    <div className="flex min-h-screen flex-col bg-brand-bg">
+      <header className="border-b border-white/6 px-6 py-5">
+        <h1 className="text-2xl text-brand-fg">{t('title')}</h1>
+        <p className="mt-0.5 text-sm text-brand-fg-dim">
           {t('count', { count: plants.length })}
         </p>
       </header>
 
       <main className="flex-1 px-4 py-4 pb-28 space-y-3">
         {plants.length === 0 ? (
-          <p className="py-16 text-center text-slate-400">
+          <p className="py-16 text-center text-brand-fg-dim">
             {t('empty')}
           </p>
         ) : (

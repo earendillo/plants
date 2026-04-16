@@ -48,24 +48,24 @@ export default async function TodayPage() {
   })
 
   return (
-    <div className="flex min-h-screen flex-col bg-slate-50">
-      <header className="bg-slate-900 px-6 py-5 text-slate-50">
-        <p className="text-sm text-slate-400">{dateStr}</p>
-        <h1 className="mt-0.5 text-2xl font-bold">{t('title')}</h1>
+    <div className="flex min-h-screen flex-col bg-brand-bg">
+      <header className="border-b border-white/6 px-6 py-5">
+        <p className="text-sm text-brand-fg-dim">{dateStr}</p>
+        <h1 className="mt-0.5 text-2xl text-brand-fg">{t('title')}</h1>
       </header>
 
       <main className="flex-1 px-4 py-4 pb-28">
         {dueItems.length === 0 ? (
           <div className="flex flex-col items-center justify-center py-24 text-center">
             <p className="text-5xl">🌿</p>
-            <p className="mt-4 text-lg font-semibold text-slate-700">{t('allCaughtUp')}</p>
-            <p className="mt-1 text-sm text-slate-400">{t('allCaughtUpDesc')}</p>
+            <p className="mt-4 text-lg font-semibold text-brand-fg">{t('allCaughtUp')}</p>
+            <p className="mt-1 text-sm text-brand-fg-dim">{t('allCaughtUpDesc')}</p>
           </div>
         ) : (
           <div className="space-y-6">
             {overdue.length > 0 && (
               <section>
-                <h2 className="mb-3 text-xs font-bold uppercase tracking-widest text-red-500">
+                <h2 className="mb-3 text-xs font-bold uppercase tracking-widest text-brand-alert">
                   {t('sectionOverdue')}
                 </h2>
                 <div className="space-y-3">
@@ -82,7 +82,7 @@ export default async function TodayPage() {
             )}
             {dueToday.length > 0 && (
               <section>
-                <h2 className="mb-3 text-xs font-bold uppercase tracking-widest text-yellow-600">
+                <h2 className="mb-3 text-xs font-bold uppercase tracking-widest text-brand-muted">
                   {t('sectionDueToday')}
                 </h2>
                 <div className="space-y-3">

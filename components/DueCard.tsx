@@ -25,19 +25,16 @@ export async function DueCard({ plant, action, daysUntil }: Props) {
   return (
     <div
       className={[
-        'flex items-center gap-4 rounded-xl border bg-white p-4',
-        isOverdue ? 'border-red-200' : 'border-slate-200',
+        'flex items-center gap-4 rounded-xl border p-4',
+        isOverdue
+          ? 'border-brand-alert/30 bg-brand-overdue-surface'
+          : 'border-white/6 bg-brand-surface',
       ].join(' ')}
     >
       <span className="text-3xl leading-none">{plant.emoji}</span>
       <div className="min-w-0 flex-1">
-        <p className="font-semibold text-slate-900">{plant.name}</p>
-        <p
-          className={[
-            'mt-0.5 text-sm',
-            isOverdue ? 'text-red-500' : 'text-green-600',
-          ].join(' ')}
-        >
+        <p className="font-semibold text-brand-fg">{plant.name}</p>
+        <p className={['mt-0.5 text-sm', isOverdue ? 'text-brand-alert' : 'text-brand-muted'].join(' ')}>
           {actionLabel}
         </p>
       </div>

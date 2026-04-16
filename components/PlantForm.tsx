@@ -83,13 +83,14 @@ export function PlantForm({ plant }: Props) {
   }
 
   const inputClass =
-    'mt-1 block w-full rounded-lg border border-slate-200 px-4 py-3 text-slate-900 ' +
-    'placeholder:text-slate-400 focus:border-green-500 focus:outline-none focus:ring-1 focus:ring-green-500'
+    'mt-1 block w-full rounded-lg border border-white/10 bg-brand-surface px-4 py-3 ' +
+    'text-brand-fg placeholder:text-brand-fg-dim focus:border-brand-cta ' +
+    'focus:outline-none focus:ring-1 focus:ring-brand-cta/20'
 
   return (
     <form onSubmit={handleSubmit} className="space-y-5">
       {error && (
-        <p className="rounded-lg bg-red-50 px-4 py-3 text-sm text-red-600">
+        <p className="rounded-lg border border-brand-alert/30 bg-brand-alert/10 px-4 py-3 text-sm text-brand-alert">
           {error}
         </p>
       )}
@@ -109,7 +110,7 @@ export function PlantForm({ plant }: Props) {
       <button
         type="submit"
         disabled={loading}
-        className="w-full rounded-lg bg-green-600 py-4 text-base font-semibold text-white hover:bg-green-700 active:bg-green-800 disabled:opacity-50"
+        className="w-full rounded-lg bg-brand-cta py-4 text-base font-semibold text-brand-cta-fg transition-[filter] hover:brightness-[0.92] active:brightness-[0.84] disabled:opacity-50"
       >
         {loading ? t('saving') : plant ? t('saveChanges') : t('savePlant')}
       </button>
@@ -119,7 +120,7 @@ export function PlantForm({ plant }: Props) {
           type="button"
           onClick={handleDelete}
           disabled={loading}
-          className="w-full rounded-lg border border-red-300 py-3 text-base font-semibold text-red-500 hover:bg-red-50 active:bg-red-100 disabled:opacity-50"
+          className="w-full rounded-lg border border-brand-alert/35 py-3 text-base font-semibold text-brand-alert hover:bg-brand-alert/10 active:bg-brand-alert/15 disabled:opacity-50"
         >
           {t('deletePlant')}
         </button>

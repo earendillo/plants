@@ -1,11 +1,21 @@
 import type { Metadata } from 'next'
-import { Geist } from 'next/font/google'
+import { Fraunces, Plus_Jakarta_Sans } from 'next/font/google'
 import { NextIntlClientProvider } from 'next-intl'
 import { getLocale, getMessages } from 'next-intl/server'
 import { LanguageSelector } from '@/components/LanguageSelector'
 import './globals.css'
 
-const geist = Geist({ subsets: ['latin'] })
+const fraunces = Fraunces({
+  subsets: ['latin'],
+  variable: '--font-fraunces',
+  display: 'swap',
+})
+
+const plusJakartaSans = Plus_Jakarta_Sans({
+  subsets: ['latin'],
+  variable: '--font-jakarta',
+  display: 'swap',
+})
 
 export const metadata: Metadata = {
   title: 'PlantCare',
@@ -21,8 +31,8 @@ export default async function RootLayout({
   const messages = await getMessages()
 
   return (
-    <html lang={locale} className={geist.className}>
-      <body className="min-h-screen bg-slate-50">
+    <html lang={locale} className={`${fraunces.variable} ${plusJakartaSans.variable}`}>
+      <body className="min-h-screen bg-brand-bg">
         <NextIntlClientProvider messages={messages}>
           <div className="fixed top-4 right-4 z-50">
             <LanguageSelector />

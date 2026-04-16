@@ -24,7 +24,7 @@ export function BottomTabBar() {
   }
 
   return (
-    <nav className="fixed bottom-0 left-0 right-0 flex bg-white">
+    <nav className="fixed bottom-0 left-0 right-0 flex bg-brand-bg border-t border-white/6">
       {TABS.map(tab => {
         const isActive =
           tab.href === '/plants'
@@ -36,10 +36,10 @@ export function BottomTabBar() {
             key={tab.href}
             href={tab.href}
             className={[
-              'flex flex-1 flex-col items-center pb-3 pt-2 text-xs font-medium border-t-2',
+              'flex flex-1 flex-col items-center pb-3 pt-2 text-xs font-medium border-t-2 -mt-px',
               isActive
-                ? 'border-green-600 text-green-600'
-                : 'border-slate-200 text-slate-400',
+                ? 'border-brand-cta text-brand-cta'
+                : 'border-transparent text-brand-fg-dim',
             ].join(' ')}
           >
             <span className="text-xl leading-none">{tab.emoji}</span>
@@ -50,7 +50,7 @@ export function BottomTabBar() {
 
       <button
         onClick={handleSignOut}
-        className="flex flex-1 flex-col items-center pb-3 pt-2 text-xs font-medium border-t-2 border-slate-200 text-slate-400 hover:text-slate-600"
+        className="flex flex-1 flex-col items-center pb-3 pt-2 text-xs font-medium border-t-2 border-transparent -mt-px text-brand-fg-dim hover:text-brand-muted transition-colors"
       >
         <span className="text-xl leading-none">🚪</span>
         <span className="mt-1">{t('signOut')}</span>

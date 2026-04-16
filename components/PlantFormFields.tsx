@@ -30,7 +30,7 @@ export function PlantFormFields({
   return (
     <>
       <div>
-        <label htmlFor="emoji" className="block text-sm font-medium text-slate-700">
+        <label htmlFor="emoji" className="block text-sm font-semibold text-brand-muted">
           {t('emojiLabel')}
         </label>
         <input
@@ -39,12 +39,12 @@ export function PlantFormFields({
           onChange={e => onEmojiChange(e.target.value)}
           required
           maxLength={4}
-          className="mt-1 w-16 rounded-lg border border-slate-200 px-3 py-3 text-center text-2xl focus:border-green-500 focus:outline-none focus:ring-1 focus:ring-green-500"
+          className="mt-1 w-16 rounded-lg border border-white/10 bg-brand-surface px-3 py-3 text-center text-2xl text-brand-fg focus:border-brand-cta focus:outline-none focus:ring-1 focus:ring-brand-cta/20"
         />
       </div>
 
       <div>
-        <label htmlFor="name" className="block text-sm font-medium text-slate-700">
+        <label htmlFor="name" className="block text-sm font-semibold text-brand-muted">
           {t('nameLabel')}
         </label>
         <input
@@ -59,7 +59,7 @@ export function PlantFormFields({
       </div>
 
       <div>
-        <label htmlFor="waterDays" className="block text-sm font-medium text-slate-700">
+        <label htmlFor="waterDays" className="block text-sm font-semibold text-brand-muted">
           {t('waterDaysLabel')}
         </label>
         <input
@@ -75,7 +75,7 @@ export function PlantFormFields({
       </div>
 
       <div>
-        <label htmlFor="feedDays" className="block text-sm font-medium text-slate-700">
+        <label htmlFor="feedDays" className="block text-sm font-semibold text-brand-muted">
           {t('feedDaysLabel')}
         </label>
         <input

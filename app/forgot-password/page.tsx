@@ -31,24 +31,24 @@ export default function ForgotPasswordPage() {
   }
 
   return (
-    <main className="flex min-h-screen items-center justify-center bg-slate-50 px-4">
+    <main className="flex min-h-screen items-center justify-center bg-brand-bg px-4">
       <div className="w-full max-w-sm">
         <div className="mb-8 text-center">
           <div className="text-6xl">🌿</div>
-          <h1 className="mt-2 text-2xl font-bold text-slate-900">{t('title')}</h1>
-          <p className="mt-1 text-sm text-slate-500">
+          <h1 className="mt-2 text-2xl text-brand-fg">{t('title')}</h1>
+          <p className="mt-1 text-sm text-brand-fg-dim">
             {sent ? t('emailSent') : t('subtitle')}
           </p>
         </div>
 
         {sent ? (
-          <div className="rounded-lg bg-green-50 border border-green-200 px-4 py-3 text-sm text-green-800 text-center">
+          <div className="rounded-lg border border-brand-cta/30 bg-brand-cta/10 px-4 py-3 text-sm text-brand-cta text-center">
             {t('successMessage')}
           </div>
         ) : (
           <form onSubmit={handleSubmit} className="space-y-4">
             <div>
-              <label htmlFor="email" className="block text-sm font-medium text-slate-700">
+              <label htmlFor="email" className="block text-sm font-semibold text-brand-muted">
                 {t('emailLabel')}
               </label>
               <input
@@ -58,26 +58,26 @@ export default function ForgotPasswordPage() {
                 onChange={e => setEmail(e.target.value)}
                 required
                 placeholder={t('emailPlaceholder')}
-                className="mt-1 block w-full rounded-lg border border-slate-200 px-4 py-3 text-slate-900 placeholder:text-slate-400 focus:border-green-500 focus:outline-none focus:ring-1 focus:ring-green-500"
+                className="mt-1 block w-full rounded-lg border border-white/10 bg-brand-surface px-4 py-3 text-brand-fg placeholder:text-brand-fg-dim focus:border-brand-cta focus:outline-none focus:ring-1 focus:ring-brand-cta/20"
               />
             </div>
 
             {error && (
-              <p className="text-sm text-red-600">{error}</p>
+              <p className="text-sm text-brand-alert">{error}</p>
             )}
 
             <button
               type="submit"
               disabled={loading}
-              className="w-full rounded-lg bg-green-600 py-3 text-base font-semibold text-white hover:bg-green-700 active:bg-green-800 disabled:opacity-60"
+              className="w-full rounded-lg bg-brand-cta py-3 text-base font-semibold text-brand-cta-fg transition-[filter] hover:brightness-[0.92] active:brightness-[0.84] disabled:opacity-50"
             >
               {loading ? '...' : t('sendButton')}
             </button>
           </form>
         )}
 
-        <p className="mt-6 text-center text-sm text-slate-500">
-          <Link href="/login" className="font-medium text-green-600 hover:underline">
+        <p className="mt-6 text-center text-sm text-brand-fg-dim">
+          <Link href="/login" className="font-semibold text-brand-muted hover:text-brand-fg transition-colors">
             {t('backToLogin')}
           </Link>
         </p>

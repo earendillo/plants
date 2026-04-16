@@ -27,21 +27,13 @@ export function ActionButton({ plantId, action }: Props) {
     }
   }
 
-  const isWater = action === 'water'
-
   return (
     <button
       onClick={handleClick}
       disabled={loading}
-      className={[
-        'rounded-lg px-4 py-2 text-sm font-semibold text-white',
-        'disabled:opacity-50 transition-opacity',
-        isWater
-          ? 'bg-green-600 hover:bg-green-700 active:bg-green-800'
-          : 'bg-yellow-700 hover:bg-yellow-800 active:bg-yellow-900',
-      ].join(' ')}
+      className="rounded-lg bg-brand-cta px-4 py-2 text-sm font-semibold text-brand-cta-fg transition-[filter] hover:brightness-[0.92] active:brightness-[0.84] disabled:opacity-50"
     >
-      {loading ? '…' : isWater ? t('water') : t('feed')}
+      {loading ? '…' : action === 'water' ? t('water') : t('feed')}
     </button>
   )
 }
