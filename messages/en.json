@@ -1,0 +1,96 @@
+{
+  "nav": {
+    "today": "Today",
+    "plants": "Plants",
+    "add": "Add",
+    "signOut": "Sign out"
+  },
+  "today": {
+    "title": "Today's care",
+    "allCaughtUp": "All caught up!",
+    "allCaughtUpDesc": "Your plants are all taken care of.",
+    "sectionOverdue": "Overdue",
+    "sectionDueToday": "Due Today"
+  },
+  "plants": {
+    "title": "My Plants",
+    "count": "{count, plural, one {# plant} other {# plants}}",
+    "empty": "No plants yet — add your first one!"
+  },
+  "plantNew": {
+    "title": "Add Plant"
+  },
+  "plantEdit": {
+    "title": "Edit Plant"
+  },
+  "plantCard": {
+    "statusOverdue": "Overdue",
+    "statusDueToday": "Due today",
+    "statusOk": "OK — {days}d",
+    "schedule": "Water every {waterDays}d · Feed every {feedDays}d"
+  },
+  "dueCard": {
+    "waterOverdue": "💧 Water — {days}d overdue",
+    "waterDueToday": "💧 Water due today",
+    "feedOverdue": "🌿 Feed — {days}d overdue",
+    "feedDueToday": "🌿 Feed due today"
+  },
+  "actionButton": {
+    "water": "Water",
+    "feed": "Feed"
+  },
+  "plantForm": {
+    "saving": "Saving…",
+    "saveChanges": "Save Changes",
+    "savePlant": "Save Plant",
+    "deletePlant": "Delete Plant",
+    "errorInvalidNumbers": "Please enter valid numbers for watering and feeding intervals.",
+    "errorSaveFailed": "Failed to save. Please try again.",
+    "errorDeleteFailed": "Failed to delete. Please try again."
+  },
+  "plantFormFields": {
+    "emojiLabel": "Emoji",
+    "nameLabel": "Plant name",
+    "namePlaceholder": "e.g. Monstera",
+    "waterDaysLabel": "Water every (days)",
+    "feedDaysLabel": "Feed every (days)"
+  },
+  "login": {
+    "appName": "PlantCare",
+    "subtitle": "Sign in to manage your plants",
+    "emailLabel": "Email",
+    "emailPlaceholder": "you@example.com",
+    "passwordLabel": "Password",
+    "passwordPlaceholder": "••••••••",
+    "forgotPassword": "Forgot password?",
+    "signIn": "Sign in",
+    "createAccount": "Create account",
+    "or": "or",
+    "continueWithGoogle": "Continue with Google",
+    "noAccount": "No account?",
+    "signUp": "Sign up",
+    "alreadyHaveAccount": "Already have an account?",
+    "signInLink": "Sign in",
+    "confirmEmail": "Check your email to confirm your account, then sign in."
+  },
+  "forgotPassword": {
+    "title": "Reset password",
+    "subtitle": "Enter your email and we'll send you a reset link",
+    "emailSent": "Email sent",
+    "emailLabel": "Email",
+    "emailPlaceholder": "you@example.com",
+    "sendButton": "Send reset link",
+    "successMessage": "Check your inbox — we've sent a password reset link.",
+    "backToLogin": "Back to login"
+  },
+  "setPassword": {
+    "title": "Set new password",
+    "subtitle": "Choose a strong password for your account",
+    "newPasswordLabel": "New password",
+    "confirmPasswordLabel": "Confirm password",
+    "passwordPlaceholder": "••••••••",
+    "updateButton": "Update password",
+    "errorMinLength": "Password must be at least 6 characters.",
+    "errorMismatch": "Passwords do not match."
+  }
+}
