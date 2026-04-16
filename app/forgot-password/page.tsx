@@ -2,9 +2,11 @@
 
 import { useState } from 'react'
 import Link from 'next/link'
+import { useTranslations } from 'next-intl'
 import { supabase } from '@/lib/supabase/client'
 
 export default function ForgotPasswordPage() {
+  const t = useTranslations('forgotPassword')
   const [email, setEmail] = useState('')
   const [error, setError] = useState<string | null>(null)
   const [loading, setLoading] = useState(false)
@@ -33,21 +35,21 @@ export default function ForgotPasswordPage() {
       <div className="w-full max-w-sm">
         <div className="mb-8 text-center">
           <div className="text-6xl">🌿</div>
-          <h1 className="mt-2 text-2xl font-bold text-slate-900">Reset password</h1>
+          <h1 className="mt-2 text-2xl font-bold text-slate-900">{t('title')}</h1>
           <p className="mt-1 text-sm text-slate-500">
-            {sent ? 'Email sent' : "Enter your email and we'll send you a reset link"}
+            {sent ? t('emailSent') : t('subtitle')}
           </p>
         </div>
 
         {sent ? (
           <div className="rounded-lg bg-green-50 border border-green-200 px-4 py-3 text-sm text-green-800 text-center">
-            Check your inbox — we&apos;ve sent a password reset link.
+            {t('successMessage')}
           </div>
         ) : (
           <form onSubmit={handleSubmit} className="space-y-4">
             <div>
               <label htmlFor="email" className="block text-sm font-medium text-slate-700">
-                Email
+                {t('emailLabel')}
               </label>
               <input
                 id="email"
@@ -55,7 +57,7 @@ export default function ForgotPasswordPage() {
                 value={email}
                 onChange={e => setEmail(e.target.value)}
                 required
-                placeholder="you@example.com"
+                placeholder={t('emailPlaceholder')}
                 className="mt-1 block w-full rounded-lg border border-slate-200 px-4 py-3 text-slate-900 placeholder:text-slate-400 focus:border-green-500 focus:outline-none focus:ring-1 focus:ring-green-500"
               />
             </div>
@@ -69,14 +71,14 @@ export default function ForgotPasswordPage() {
               disabled={loading}
               className="w-full rounded-lg bg-green-600 py-3 text-base font-semibold text-white hover:bg-green-700 active:bg-green-800 disabled:opacity-60"
             >
-              {loading ? '...' : 'Send reset link'}
+              {loading ? '...' : t('sendButton')}
             </button>
           </form>
         )}
 
         <p className="mt-6 text-center text-sm text-slate-500">
           <Link href="/login" className="font-medium text-green-600 hover:underline">
-            Back to login
+            {t('backToLogin')}
           </Link>
         </p>
       </div>

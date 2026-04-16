@@ -2,10 +2,12 @@
 
 import { useState } from 'react'
 import { useRouter } from 'next/navigation'
+import { useTranslations } from 'next-intl'
 import { supabase } from '@/lib/supabase/client'
 
 export default function SetPasswordPage() {
   const router = useRouter()
+  const t = useTranslations('setPassword')
   const [password, setPassword] = useState('')
   const [confirm, setConfirm] = useState('')
   const [error, setError] = useState<string | null>(null)
@@ -16,12 +18,12 @@ export default function SetPasswordPage() {
     setError(null)
 
     if (password.length < 6) {
-      setError('Password must be at least 6 characters.')
+      setError(t('errorMinLength'))
       return
     }
 
     if (password !== confirm) {
-      setError('Passwords do not match.')
+      setError(t('errorMismatch'))
       return
     }
 
@@ -41,14 +43,14 @@ export default function SetPasswordPage() {
       <div className="w-full max-w-sm">
         <div className="mb-8 text-center">
           <div className="text-6xl">🌿</div>
-          <h1 className="mt-2 text-2xl font-bold text-slate-900">Set new password</h1>
-          <p className="mt-1 text-sm text-slate-500">Choose a strong password for your account</p>
+          <h1 className="mt-2 text-2xl font-bold text-slate-900">{t('title')}</h1>
+          <p className="mt-1 text-sm text-slate-500">{t('subtitle')}</p>
         </div>
 
         <form onSubmit={handleSubmit} className="space-y-4">
           <div>
             <label htmlFor="password" className="block text-sm font-medium text-slate-700">
-              New password
+              {t('newPasswordLabel')}
             </label>
             <input
               id="password"
@@ -56,14 +58,14 @@ export default function SetPasswordPage() {
               value={password}
               onChange={e => setPassword(e.target.value)}
               required
-              placeholder="••••••••"
+              placeholder={t('passwordPlaceholder')}
               className="mt-1 block w-full rounded-lg border border-slate-200 px-4 py-3 text-slate-900 placeholder:text-slate-400 focus:border-green-500 focus:outline-none focus:ring-1 focus:ring-green-500"
             />
           </div>
 
           <div>
             <label htmlFor="confirm" className="block text-sm font-medium text-slate-700">
-              Confirm password
+              {t('confirmPasswordLabel')}
             </label>
             <input
               id="confirm"
@@ -71,7 +73,7 @@ export default function SetPasswordPage() {
               value={confirm}
               onChange={e => setConfirm(e.target.value)}
               required
-              placeholder="••••••••"
+              placeholder={t('passwordPlaceholder')}
               className="mt-1 block w-full rounded-lg border border-slate-200 px-4 py-3 text-slate-900 placeholder:text-slate-400 focus:border-green-500 focus:outline-none focus:ring-1 focus:ring-green-500"
             />
           </div>
@@ -85,7 +87,7 @@ export default function SetPasswordPage() {
             disabled={loading}
             className="w-full rounded-lg bg-green-600 py-3 text-base font-semibold text-white hover:bg-green-700 active:bg-green-800 disabled:opacity-60"
           >
-            {loading ? '...' : 'Update password'}
+            {loading ? '...' : t('updateButton')}
           </button>
         </form>
       </div>
