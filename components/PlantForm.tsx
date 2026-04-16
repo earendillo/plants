@@ -2,6 +2,7 @@
 
 import { useState } from 'react'
 import { useRouter } from 'next/navigation'
+import { useTranslations } from 'next-intl'
 import { Plant } from '@/types'
 import { PlantFormFields } from '@/components/PlantFormFields'
 
@@ -11,6 +12,7 @@ type Props = {
 
 export function PlantForm({ plant }: Props) {
   const router = useRouter()
+  const t = useTranslations('plantForm')
   const [emoji, setEmoji] = useState(plant?.emoji ?? '🌿')
   const [name, setName] = useState(plant?.name ?? '')
   const [waterDays, setWaterDays] = useState(
@@ -30,7 +32,7 @@ export function PlantForm({ plant }: Props) {
     const waterInt = parseInt(waterDays, 10)
     const feedInt = parseInt(feedDays, 10)
     if (isNaN(waterInt) || isNaN(feedInt)) {
-      setError('Please enter valid numbers for watering and feeding intervals.')
+      setError(t('errorInvalidNumbers'))
       setLoading(false)
       return
     }
@@ -60,7 +62,7 @@ export function PlantForm({ plant }: Props) {
       router.refresh()
     } catch (err) {
       console.error('Save failed', err)
-      setError('Failed to save. Please try again.')
+      setError(t('errorSaveFailed'))
       setLoading(false)
     }
   }
@@ -75,7 +77,7 @@ export function PlantForm({ plant }: Props) {
       router.refresh()
     } catch (err) {
       console.error('Delete failed', err)
-      setError('Failed to delete. Please try again.')
+      setError(t('errorDeleteFailed'))
       setLoading(false)
     }
   }
@@ -109,7 +111,7 @@ export function PlantForm({ plant }: Props) {
         disabled={loading}
         className="w-full rounded-lg bg-green-600 py-4 text-base font-semibold text-white hover:bg-green-700 active:bg-green-800 disabled:opacity-50"
       >
-        {loading ? 'Saving…' : plant ? 'Save Changes' : 'Save Plant'}
+        {loading ? t('saving') : plant ? t('saveChanges') : t('savePlant')}
       </button>
 
       {plant && (
@@ -119,7 +121,7 @@ export function PlantForm({ plant }: Props) {
           disabled={loading}
           className="w-full rounded-lg border border-red-300 py-3 text-base font-semibold text-red-500 hover:bg-red-50 active:bg-red-100 disabled:opacity-50"
         >
-          Delete Plant
+          {t('deletePlant')}
         </button>
       )}
     </form>
