@@ -129,7 +129,7 @@ export default function LoginPage() {
 
             <button
               onClick={handleGoogle}
-              className="mt-4 w-full rounded-lg border border-white/15 bg-transparent py-3 text-base font-semibold text-brand-muted hover:bg-white/5 active:bg-white/[0.08] transition-colors"
+              className="mt-4 w-full rounded-lg border border-brand-cta/40 bg-transparent py-3 text-base font-semibold text-brand-cta hover:bg-brand-cta/5 active:bg-brand-cta/10 transition-colors"
             >
               {t('continueWithGoogle')}
             </button>
@@ -140,7 +140,7 @@ export default function LoginPage() {
                   {t('noAccount')}{' '}
                   <button
                     onClick={() => { setMode('signup'); setError(null) }}
-                    className="font-semibold text-brand-muted hover:text-brand-fg transition-colors"
+                    className="font-semibold text-brand-cta hover:text-brand-cta/80 transition-colors"
                   >
                     {t('signUp')}
                   </button>
@@ -150,7 +150,7 @@ export default function LoginPage() {
                   {t('alreadyHaveAccount')}{' '}
                   <button
                     onClick={() => { setMode('signin'); setError(null) }}
-                    className="font-semibold text-brand-muted hover:text-brand-fg transition-colors"
+                    className="font-semibold text-brand-cta hover:text-brand-cta/80 transition-colors"
                   >
                     {t('signInLink')}
                   </button>
