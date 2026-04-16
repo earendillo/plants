@@ -1,8 +1,12 @@
-export default function Loading() {
+import { getTranslations } from 'next-intl/server'
+
+export default async function Loading() {
+  const t = await getTranslations('plantEdit')
+
   return (
     <>
       <header className="border-b border-white/6 px-6 py-5">
-        <div className="h-6 w-32 animate-pulse rounded-full bg-white/10" />
+        <h1 className="text-2xl text-brand-fg">{t('title')}</h1>
       </header>
       <main className="flex-1 px-4 py-6 pb-28 space-y-5">
         {[0, 1, 2, 3].map(i => (
