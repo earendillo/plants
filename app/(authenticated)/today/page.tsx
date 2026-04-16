@@ -1,6 +1,5 @@
 import { getPlants } from '@/lib/db/plants'
 import { isDueForWatering, isDueForFeeding, daysUntilDue } from '@/lib/utils'
-import { BottomTabBar } from '@/components/BottomTabBar'
 import { DueCard } from '@/components/DueCard'
 import { Plant } from '@/types'
 import { getAuthenticatedUser } from '@/lib/auth'
@@ -48,7 +47,7 @@ export default async function TodayPage() {
   })
 
   return (
-    <div className="flex min-h-screen flex-col bg-brand-bg">
+    <>
       <header className="border-b border-white/6 px-6 py-5">
         <p className="text-sm text-brand-fg-dim">{dateStr}</p>
         <h1 className="mt-0.5 text-2xl text-brand-fg">{t('title')}</h1>
@@ -100,8 +99,6 @@ export default async function TodayPage() {
           </div>
         )}
       </main>
-
-      <BottomTabBar />
-    </div>
+    </>
   )
 }
