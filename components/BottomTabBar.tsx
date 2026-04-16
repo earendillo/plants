@@ -3,14 +3,15 @@
 import Link from 'next/link'
 import { usePathname, useRouter } from 'next/navigation'
 import { useTranslations } from 'next-intl'
+import { CalendarDaysIcon, RectangleStackIcon, PlusIcon, ArrowRightOnRectangleIcon } from '@heroicons/react/24/outline'
 import { supabase } from '@/lib/supabase/client'
 
 type TabKey = 'today' | 'plants' | 'add'
 
-const TABS: Array<{ href: string; emoji: string; key: TabKey }> = [
-  { href: '/today', key: 'today', emoji: '💧' },
-  { href: '/plants', key: 'plants', emoji: '🌱' },
-  { href: '/plants/new', key: 'add', emoji: '➕' },
+const TABS: Array<{ href: string; Icon: React.ComponentType<React.SVGProps<SVGSVGElement>>; key: TabKey }> = [
+  { href: '/today', key: 'today', Icon: CalendarDaysIcon },
+  { href: '/plants', key: 'plants', Icon: RectangleStackIcon },
+  { href: '/plants/new', key: 'add', Icon: PlusIcon },
 ]
 
 export function BottomTabBar() {
@@ -42,7 +43,7 @@ export function BottomTabBar() {
                 : 'border-transparent text-brand-fg-dim',
             ].join(' ')}
           >
-            <span className="text-xl leading-none">{tab.emoji}</span>
+            <tab.Icon className="size-6" />
             <span className="mt-1">{t(tab.key)}</span>
           </Link>
         )
@@ -52,7 +53,7 @@ export function BottomTabBar() {
         onClick={handleSignOut}
         className="flex flex-1 flex-col items-center pb-3 pt-2 text-xs font-medium border-t-2 border-transparent -mt-px text-brand-fg-dim hover:text-brand-muted transition-colors"
       >
-        <span className="text-xl leading-none">🚪</span>
+        <ArrowRightOnRectangleIcon className="size-6" />
         <span className="mt-1">{t('signOut')}</span>
       </button>
     </nav>
