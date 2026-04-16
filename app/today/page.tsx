@@ -4,6 +4,7 @@ import { BottomTabBar } from '@/components/BottomTabBar'
 import { DueCard } from '@/components/DueCard'
 import { Plant } from '@/types'
 import { getAuthenticatedUser } from '@/lib/auth'
+import { getTranslations, getLocale } from 'next-intl/server'
 
 type DueItem = {
   plant: Plant
@@ -15,6 +16,8 @@ export default async function TodayPage() {
   const user = await getAuthenticatedUser()
   const plants = await getPlants(user?.id ?? '')
   const today = new Date()
+  const t = await getTranslations('today')
+  const locale = await getLocale()
 
   const dueItems: DueItem[] = []
   for (const plant of plants) {
@@ -37,7 +40,7 @@ export default async function TodayPage() {
   const overdue = dueItems.filter(item => item.daysUntil < 0)
   const dueToday = dueItems.filter(item => item.daysUntil === 0)
 
-  const dateStr = today.toLocaleDateString('en-US', {
+  const dateStr = today.toLocaleDateString(locale, {
     weekday: 'long',
     day: 'numeric',
     month: 'short',
@@ -48,24 +51,22 @@ export default async function TodayPage() {
     <div className="flex min-h-screen flex-col bg-slate-50">
       <header className="bg-slate-900 px-6 py-5 text-slate-50">
         <p className="text-sm text-slate-400">{dateStr}</p>
-        <h1 className="mt-0.5 text-2xl font-bold">Today&apos;s care</h1>
+        <h1 className="mt-0.5 text-2xl font-bold">{t('title')}</h1>
       </header>
 
       <main className="flex-1 px-4 py-4 pb-28">
         {dueItems.length === 0 ? (
           <div className="flex flex-col items-center justify-center py-24 text-center">
             <p className="text-5xl">🌿</p>
-            <p className="mt-4 text-lg font-semibold text-slate-700">All caught up!</p>
-            <p className="mt-1 text-sm text-slate-400">
-              Your plants are all taken care of.
-            </p>
+            <p className="mt-4 text-lg font-semibold text-slate-700">{t('allCaughtUp')}</p>
+            <p className="mt-1 text-sm text-slate-400">{t('allCaughtUpDesc')}</p>
           </div>
         ) : (
           <div className="space-y-6">
             {overdue.length > 0 && (
               <section>
                 <h2 className="mb-3 text-xs font-bold uppercase tracking-widest text-red-500">
-                  Overdue
+                  {t('sectionOverdue')}
                 </h2>
                 <div className="space-y-3">
                   {overdue.map(item => (
@@ -82,7 +83,7 @@ export default async function TodayPage() {
             {dueToday.length > 0 && (
               <section>
                 <h2 className="mb-3 text-xs font-bold uppercase tracking-widest text-yellow-600">
-                  Due Today
+                  {t('sectionDueToday')}
                 </h2>
                 <div className="space-y-3">
                   {dueToday.map(item => (
