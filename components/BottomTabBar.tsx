@@ -2,17 +2,21 @@
 
 import Link from 'next/link'
 import { usePathname, useRouter } from 'next/navigation'
+import { useTranslations } from 'next-intl'
 import { supabase } from '@/lib/supabase/client'
 
-const TABS = [
-  { href: '/today', label: 'Today', emoji: '💧' },
-  { href: '/plants', label: 'Plants', emoji: '🌱' },
-  { href: '/plants/new', label: 'Add', emoji: '➕' },
-] as const
+type TabKey = 'today' | 'plants' | 'add'
+
+const TABS: Array<{ href: string; emoji: string; key: TabKey }> = [
+  { href: '/today', key: 'today', emoji: '💧' },
+  { href: '/plants', key: 'plants', emoji: '🌱' },
+  { href: '/plants/new', key: 'add', emoji: '➕' },
+]
 
 export function BottomTabBar() {
   const pathname = usePathname()
   const router = useRouter()
+  const t = useTranslations('nav')
 
   async function handleSignOut() {
     await supabase.auth.signOut()
@@ -39,7 +43,7 @@ export function BottomTabBar() {
             ].join(' ')}
           >
             <span className="text-xl leading-none">{tab.emoji}</span>
-            <span className="mt-1">{tab.label}</span>
+            <span className="mt-1">{t(tab.key)}</span>
           </Link>
         )
       })}
@@ -49,7 +53,7 @@ export function BottomTabBar() {
         className="flex flex-1 flex-col items-center pb-3 pt-2 text-xs font-medium border-t-2 border-slate-200 text-slate-400 hover:text-slate-600"
       >
         <span className="text-xl leading-none">🚪</span>
-        <span className="mt-1">Sign out</span>
+        <span className="mt-1">{t('signOut')}</span>
       </button>
     </nav>
   )
