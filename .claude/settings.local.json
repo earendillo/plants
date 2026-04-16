@@ -24,7 +24,9 @@
       "Bash(export PATH=\"$PATH:/c/Users/Mateusz/AppData/Roaming/fnm/node-versions/v24.11.0/installation\")",
       "Bash(npx eslint:*)",
       "Bash(node_modules/.bin/next lint:*)",
-      "Bash(xargs ls:*)"
+      "Bash(xargs ls:*)",
+      "Bash(grep -v \"^--$\\\\|className\\\\|htmlFor\\\\|<label\")",
+      "Bash(grep -v \"className\\\\|type=\\\\|onClick\\\\|import\\\\|useState\\\\|useRef\\\\|const\\\\|async\\\\|//\")"
     ]
   }
 }
