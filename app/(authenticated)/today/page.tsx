@@ -47,58 +47,52 @@ export default async function TodayPage() {
   })
 
   return (
-    <>
-      <header className="border-b border-white/6 px-6 py-5">
-        <p className="text-sm text-brand-fg-dim">{dateStr}</p>
-        <h1 className="mt-0.5 text-2xl text-brand-fg">{t('title')}</h1>
-      </header>
-
-      <main className="flex-1 px-4 py-4 pb-28">
-        {dueItems.length === 0 ? (
-          <div className="flex flex-col items-center justify-center py-24 text-center">
-            <p className="text-5xl">🌿</p>
-            <p className="mt-4 text-lg font-semibold text-brand-fg">{t('allCaughtUp')}</p>
-            <p className="mt-1 text-sm text-brand-fg-dim">{t('allCaughtUpDesc')}</p>
-          </div>
-        ) : (
-          <div className="space-y-6">
-            {overdue.length > 0 && (
-              <section>
-                <h2 className="mb-3 text-xs font-bold uppercase tracking-widest text-brand-alert">
-                  {t('sectionOverdue')}
-                </h2>
-                <div className="space-y-3">
-                  {overdue.map(item => (
-                    <DueCard
-                      key={`${item.plant.id}-${item.action}`}
-                      plant={item.plant}
-                      action={item.action}
-                      daysUntil={item.daysUntil}
-                    />
-                  ))}
-                </div>
-              </section>
-            )}
-            {dueToday.length > 0 && (
-              <section>
-                <h2 className="mb-3 text-xs font-bold uppercase tracking-widest text-brand-muted">
-                  {t('sectionDueToday')}
-                </h2>
-                <div className="space-y-3">
-                  {dueToday.map(item => (
-                    <DueCard
-                      key={`${item.plant.id}-${item.action}`}
-                      plant={item.plant}
-                      action={item.action}
-                      daysUntil={item.daysUntil}
-                    />
-                  ))}
-                </div>
-              </section>
-            )}
-          </div>
-        )}
-      </main>
-    </>
+    <main className="flex-1 px-4 py-4 pb-28">
+      <p className="mb-4 text-sm text-brand-fg-dim">{dateStr}</p>
+      {dueItems.length === 0 ? (
+        <div className="flex flex-col items-center justify-center py-20 text-center">
+          <p className="text-5xl">🌿</p>
+          <p className="mt-4 text-lg font-semibold text-brand-fg">{t('allCaughtUp')}</p>
+          <p className="mt-1 text-sm text-brand-fg-dim">{t('allCaughtUpDesc')}</p>
+        </div>
+      ) : (
+        <div className="space-y-6">
+          {overdue.length > 0 && (
+            <section>
+              <h2 className="mb-3 text-xs font-bold uppercase tracking-widest text-brand-alert">
+                {t('sectionOverdue')}
+              </h2>
+              <div className="space-y-3">
+                {overdue.map(item => (
+                  <DueCard
+                    key={`${item.plant.id}-${item.action}`}
+                    plant={item.plant}
+                    action={item.action}
+                    daysUntil={item.daysUntil}
+                  />
+                ))}
+              </div>
+            </section>
+          )}
+          {dueToday.length > 0 && (
+            <section>
+              <h2 className="mb-3 text-xs font-bold uppercase tracking-widest text-brand-muted">
+                {t('sectionDueToday')}
+              </h2>
+              <div className="space-y-3">
+                {dueToday.map(item => (
+                  <DueCard
+                    key={`${item.plant.id}-${item.action}`}
+                    plant={item.plant}
+                    action={item.action}
+                    daysUntil={item.daysUntil}
+                  />
+                ))}
+              </div>
+            </section>
+          )}
+        </div>
+      )}
+    </main>
   )
 }
