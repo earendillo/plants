@@ -2,6 +2,7 @@
 
 import { useState } from 'react'
 import { useRouter } from 'next/navigation'
+import { useTranslations } from 'next-intl'
 
 type Props = {
   plantId: string
@@ -11,6 +12,7 @@ type Props = {
 export function ActionButton({ plantId, action }: Props) {
   const router = useRouter()
   const [loading, setLoading] = useState(false)
+  const t = useTranslations('actionButton')
 
   async function handleClick() {
     setLoading(true)
@@ -39,7 +41,7 @@ export function ActionButton({ plantId, action }: Props) {
           : 'bg-yellow-700 hover:bg-yellow-800 active:bg-yellow-900',
       ].join(' ')}
     >
-      {loading ? '…' : isWater ? 'Water' : 'Feed'}
+      {loading ? '…' : isWater ? t('water') : t('feed')}
     </button>
   )
 }

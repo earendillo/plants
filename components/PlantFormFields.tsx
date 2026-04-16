@@ -1,5 +1,7 @@
 'use client'
 
+import { useTranslations } from 'next-intl'
+
 type Props = {
   emoji: string
   name: string
@@ -23,11 +25,13 @@ export function PlantFormFields({
   onFeedDaysChange,
   inputClass,
 }: Props) {
+  const t = useTranslations('plantFormFields')
+
   return (
     <>
       <div>
         <label htmlFor="emoji" className="block text-sm font-medium text-slate-700">
-          Emoji
+          {t('emojiLabel')}
         </label>
         <input
           id="emoji"
@@ -41,7 +45,7 @@ export function PlantFormFields({
 
       <div>
         <label htmlFor="name" className="block text-sm font-medium text-slate-700">
-          Plant name
+          {t('nameLabel')}
         </label>
         <input
           id="name"
@@ -49,14 +53,14 @@ export function PlantFormFields({
           onChange={e => onNameChange(e.target.value)}
           required
           maxLength={100}
-          placeholder="e.g. Monstera"
+          placeholder={t('namePlaceholder')}
           className={inputClass}
         />
       </div>
 
       <div>
         <label htmlFor="waterDays" className="block text-sm font-medium text-slate-700">
-          Water every (days)
+          {t('waterDaysLabel')}
         </label>
         <input
           id="waterDays"
@@ -72,7 +76,7 @@ export function PlantFormFields({
 
       <div>
         <label htmlFor="feedDays" className="block text-sm font-medium text-slate-700">
-          Feed every (days)
+          {t('feedDaysLabel')}
         </label>
         <input
           id="feedDays"
