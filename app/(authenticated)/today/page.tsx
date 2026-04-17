@@ -1,6 +1,11 @@
+// app/(authenticated)/today/page.tsx
+import { redirect } from 'next/navigation'
 import { getPlants } from '@/lib/db/plants'
+import { getGardens } from '@/lib/db/gardens'
+import { resolveActiveGarden } from '@/lib/gardens'
 import { isDueForWatering, isDueForFeeding, daysUntilDue } from '@/lib/utils'
 import { DueCard } from '@/components/DueCard'
+import { GardenTabs } from '@/components/GardenTabs'
 import { Plant } from '@/types'
 import { getAuthenticatedUser } from '@/lib/auth'
 import { getTranslations, getLocale } from 'next-intl/server'
@@ -11,12 +16,26 @@ type DueItem = {
   daysUntil: number
 }
 
-export default async function TodayPage() {
+export default async function TodayPage({
+  searchParams,
+}: {
+  searchParams: Promise<{ garden?: string }>
+}) {
+  const { garden: gardenParam } = await searchParams
   const user = await getAuthenticatedUser()
-  const plants = await getPlants(user?.id ?? '')
+  const [gardens, t, locale] = await Promise.all([
+    getGardens(user?.id ?? ''),
+    getTranslations('today'),
+    getLocale(),
+  ])
+
+  const resolvedId = resolveActiveGarden(gardens, gardenParam)
+  if (gardenParam !== resolvedId) {
+    redirect(`/today?garden=${resolvedId}`)
+  }
+
+  const plants = await getPlants(user?.id ?? '', resolvedId)
   const today = new Date()
-  const t = await getTranslations('today')
-  const locale = await getLocale()
 
   const dueItems: DueItem[] = []
   for (const plant of plants) {
@@ -48,6 +67,11 @@ export default async function TodayPage() {
 
   return (
     <main className="flex-1 px-4 py-4 pb-28">
+      {gardens.length > 1 && (
+        <div className="mb-4">
+          <GardenTabs gardens={gardens} activeGardenId={resolvedId} basePath="/today" />
+        </div>
+      )}
       <p className="mb-4 text-sm text-brand-fg-dim">{dateStr}</p>
       {dueItems.length === 0 ? (
         <div className="flex flex-col items-center justify-center py-20 text-center">
