@@ -49,10 +49,8 @@ export function CreateGardenButton() {
 
   return (
     <Dialog open={open} onOpenChange={setOpen}>
-      <DialogTrigger asChild>
-        <button className="flex-shrink-0 rounded-full border border-white/10 px-3 py-1 text-sm text-brand-fg-dim hover:border-brand-cta/50 hover:text-brand-fg transition-colors">
-          + Garden
-        </button>
+      <DialogTrigger className="flex-shrink-0 rounded-full border border-white/10 px-3 py-1 text-sm text-brand-fg-dim hover:border-brand-cta/50 hover:text-brand-fg transition-colors">
+        + Garden
       </DialogTrigger>
       <DialogContent className="bg-brand-surface border-white/10 text-brand-fg">
         <DialogHeader>
