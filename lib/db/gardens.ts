@@ -43,6 +43,19 @@ export async function createGarden(data: {
   return toGarden(row as DbGarden)
 }
 
+export async function updateGarden(id: string, name: string, userId: string): Promise<Garden> {
+  const supabase = await createClient()
+  const { data: row, error } = await supabase
+    .from('gardens')
+    .update({ name })
+    .eq('id', id)
+    .eq('owner_id', userId)
+    .select()
+    .single()
+  if (error) throw error
+  return toGarden(row as DbGarden)
+}
+
 /**
  * Idempotent. Creates "My Garden" only if the user has none.
  * Must only be called from the auth callback — never from page render paths.

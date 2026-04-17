@@ -5,6 +5,7 @@ import { getGardens } from '@/lib/db/gardens'
 import { resolveActiveGarden } from '@/lib/gardens'
 import { PlantCard } from '@/components/PlantCard'
 import { GardenTabs } from '@/components/GardenTabs'
+import { GardenHeader } from '@/components/GardenHeader'
 import { getAuthenticatedUser } from '@/lib/auth'
 import { getTranslations } from 'next-intl/server'
 
@@ -27,9 +28,11 @@ export default async function PlantsPage({
 
   const plants = await getPlants(user?.id ?? '', resolvedId)
   const today = new Date()
+  const activeGarden = gardens.find(g => g.id === resolvedId)!
 
   return (
     <main className="flex-1 px-4 py-4 pb-28 space-y-3">
+      <GardenHeader garden={activeGarden} />
       <GardenTabs gardens={gardens} activeGardenId={resolvedId} basePath="/plants" />
       <p className="text-sm text-brand-fg-dim">
         {t('count', { count: plants.length })}

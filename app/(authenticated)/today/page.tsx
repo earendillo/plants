@@ -6,6 +6,7 @@ import { resolveActiveGarden } from '@/lib/gardens'
 import { isDueForWatering, isDueForFeeding, daysUntilDue } from '@/lib/utils'
 import { DueCard } from '@/components/DueCard'
 import { GardenTabs } from '@/components/GardenTabs'
+import { GardenHeader } from '@/components/GardenHeader'
 import { Plant } from '@/types'
 import { getAuthenticatedUser } from '@/lib/auth'
 import { getTranslations, getLocale } from 'next-intl/server'
@@ -36,6 +37,7 @@ export default async function TodayPage({
 
   const plants = await getPlants(user?.id ?? '', resolvedId)
   const today = new Date()
+  const activeGarden = gardens.find(g => g.id === resolvedId)!
 
   const dueItems: DueItem[] = []
   for (const plant of plants) {
@@ -68,6 +70,7 @@ export default async function TodayPage({
   return (
     <main className="flex-1 px-4 py-4 pb-28">
       <div className="mb-4">
+        <GardenHeader garden={activeGarden} />
         <GardenTabs gardens={gardens} activeGardenId={resolvedId} basePath="/today" />
       </div>
       <p className="mb-4 text-sm text-brand-fg-dim">{dateStr}</p>
