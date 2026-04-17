@@ -1,9 +1,11 @@
+// lib/db/plants.ts
 import { Plant } from '@/types'
 import { createClient } from '@/lib/supabase/server'
 
 type DbPlant = {
   id: string
   user_id: string
+  garden_id: string
   name: string
   emoji: string
   watering_interval_days: number
@@ -17,6 +19,7 @@ function toPlant(row: DbPlant): Plant {
   return {
     id: row.id,
     userId: row.user_id,
+    gardenId: row.garden_id,
     name: row.name,
     emoji: row.emoji,
     wateringIntervalDays: row.watering_interval_days,
@@ -39,11 +42,12 @@ function toDbUpdate(data: Partial<Plant>): Record<string, unknown> {
 }
 
 // userId param kept for interface compatibility — RLS enforces the filter via JWT
-export async function getPlants(_userId: string): Promise<Plant[]> {
+export async function getPlants(_userId: string, gardenId: string): Promise<Plant[]> {
   const supabase = await createClient()
   const { data, error } = await supabase
     .from('plants')
     .select('*')
+    .eq('garden_id', gardenId)
     .order('created_at', { ascending: true })
   if (error) throw new Error(error.message)
   return (data as DbPlant[]).map(toPlant)
@@ -57,7 +61,7 @@ export async function getPlant(id: string, _userId: string): Promise<Plant | nul
     .eq('id', id)
     .single()
   if (error) {
-    if (error.code === 'PGRST116') return null // no rows returned
+    if (error.code === 'PGRST116') return null
     throw new Error(error.message)
   }
   return toPlant(data as DbPlant)
@@ -71,6 +75,7 @@ export async function createPlant(
     .from('plants')
     .insert({
       user_id: data.userId,
+      garden_id: data.gardenId,
       name: data.name,
       emoji: data.emoji,
       watering_interval_days: data.wateringIntervalDays,
