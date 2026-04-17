@@ -67,11 +67,9 @@ export default async function TodayPage({
 
   return (
     <main className="flex-1 px-4 py-4 pb-28">
-      {gardens.length > 1 && (
-        <div className="mb-4">
-          <GardenTabs gardens={gardens} activeGardenId={resolvedId} basePath="/today" />
-        </div>
-      )}
+      <div className="mb-4">
+        <GardenTabs gardens={gardens} activeGardenId={resolvedId} basePath="/today" />
+      </div>
       <p className="mb-4 text-sm text-brand-fg-dim">{dateStr}</p>
       {dueItems.length === 0 ? (
         <div className="flex flex-col items-center justify-center py-20 text-center">

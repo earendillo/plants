@@ -12,7 +12,7 @@ type Props = {
 export function GardenTabs({ gardens, activeGardenId, basePath }: Props) {
   return (
     <div className="flex items-center gap-2 overflow-x-auto pb-1 scrollbar-none">
-      {gardens.map(garden => (
+      {gardens.length > 1 && gardens.map(garden => (
         <Link
           key={garden.id}
           href={`${basePath}?garden=${garden.id}`}
