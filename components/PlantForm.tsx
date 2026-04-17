@@ -69,7 +69,8 @@ export function PlantForm({ plant, gardenId }: Props) {
 
       if (!res.ok) throw new Error(`Server error: ${res.status}`)
 
-      router.push('/plants')
+      const targetGardenId = gardenId ?? plant?.gardenId
+      router.push(targetGardenId ? `/plants?garden=${targetGardenId}` : '/plants')
       router.refresh()
     } catch (err) {
       console.error('Save failed', err)
@@ -84,7 +85,8 @@ export function PlantForm({ plant, gardenId }: Props) {
     try {
       const res = await fetch(`/api/plants/${plant.id}`, { method: 'DELETE' })
       if (!res.ok) throw new Error(`Server error: ${res.status}`)
-      router.push('/plants')
+      const targetGardenId = gardenId ?? plant?.gardenId
+      router.push(targetGardenId ? `/plants?garden=${targetGardenId}` : '/plants')
       router.refresh()
     } catch (err) {
       console.error('Delete failed', err)

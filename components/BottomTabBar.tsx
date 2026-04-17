@@ -1,7 +1,7 @@
 'use client'
 
 import Link from 'next/link'
-import { usePathname, useRouter } from 'next/navigation'
+import { usePathname, useRouter, useSearchParams } from 'next/navigation'
 import { useTranslations } from 'next-intl'
 import { CalendarDaysIcon, RectangleStackIcon, PlusIcon, ArrowRightOnRectangleIcon } from '@heroicons/react/24/outline'
 import { supabase } from '@/lib/supabase/client'
@@ -17,7 +17,10 @@ const TABS: Array<{ href: string; Icon: React.ComponentType<React.SVGProps<SVGSV
 export function BottomTabBar() {
   const pathname = usePathname()
   const router = useRouter()
+  const searchParams = useSearchParams()
   const t = useTranslations('nav')
+  const gardenParam = searchParams.get('garden')
+  const addHref = gardenParam ? `/plants/new?garden=${gardenParam}` : '/plants/new'
 
   async function handleSignOut() {
     await supabase.auth.signOut()
@@ -35,7 +38,7 @@ export function BottomTabBar() {
         return (
           <Link
             key={tab.href}
-            href={tab.href}
+            href={tab.key === 'add' ? addHref : tab.href}
             className={[
               'flex flex-1 flex-col items-center pb-3 pt-2 text-xs font-medium border-t-2 -mt-px',
               isActive
