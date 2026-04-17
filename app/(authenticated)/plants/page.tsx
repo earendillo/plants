@@ -1,16 +1,38 @@
+// app/(authenticated)/plants/page.tsx
+import { redirect } from 'next/navigation'
 import { getPlants } from '@/lib/db/plants'
+import { getGardens } from '@/lib/db/gardens'
+import { resolveActiveGarden } from '@/lib/gardens'
 import { PlantCard } from '@/components/PlantCard'
+import { GardenTabs } from '@/components/GardenTabs'
 import { getAuthenticatedUser } from '@/lib/auth'
 import { getTranslations } from 'next-intl/server'
 
-export default async function PlantsPage() {
+export default async function PlantsPage({
+  searchParams,
+}: {
+  searchParams: Promise<{ garden?: string }>
+}) {
+  const { garden: gardenParam } = await searchParams
   const user = await getAuthenticatedUser()
-  const plants = await getPlants(user?.id ?? '')
+  const [gardens, t] = await Promise.all([
+    getGardens(user?.id ?? ''),
+    getTranslations('plants'),
+  ])
+
+  const resolvedId = resolveActiveGarden(gardens, gardenParam)
+  if (gardenParam !== resolvedId) {
+    redirect(`/plants?garden=${resolvedId}`)
+  }
+
+  const plants = await getPlants(user?.id ?? '', resolvedId)
   const today = new Date()
-  const t = await getTranslations('plants')
 
   return (
     <main className="flex-1 px-4 py-4 pb-28 space-y-3">
+      {gardens.length > 1 && (
+        <GardenTabs gardens={gardens} activeGardenId={resolvedId} basePath="/plants" />
+      )}
       <p className="text-sm text-brand-fg-dim">
         {t('count', { count: plants.length })}
       </p>
