@@ -20,7 +20,7 @@ export function BottomTabBar() {
   const searchParams = useSearchParams()
   const t = useTranslations('nav')
   const gardenParam = searchParams.get('garden')
-  const addHref = gardenParam ? `/plants/new?garden=${gardenParam}` : '/plants/new'
+  const tabHref = (base: string) => gardenParam ? `${base}?garden=${gardenParam}` : base
 
   async function handleSignOut() {
     await supabase.auth.signOut()
@@ -38,7 +38,7 @@ export function BottomTabBar() {
         return (
           <Link
             key={tab.href}
-            href={tab.key === 'add' ? addHref : tab.href}
+            href={tabHref(tab.href)}
             className={[
               'flex flex-1 flex-col items-center pb-3 pt-2 text-xs font-medium border-t-2 -mt-px',
               isActive
