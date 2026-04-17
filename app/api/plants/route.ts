@@ -1,9 +1,11 @@
+// app/api/plants/route.ts
 import { NextRequest, NextResponse } from 'next/server'
 import { z } from 'zod'
 import { getPlants, createPlant } from '@/lib/db/plants'
 import { getAuthenticatedUser } from '@/lib/auth'
 
 const createSchema = z.object({
+  gardenId: z.string().uuid(),
   name: z.string().min(1).max(100),
   emoji: z.string().min(1).max(4),
   wateringIntervalDays: z.number().int().min(1).max(365),
@@ -12,10 +14,14 @@ const createSchema = z.object({
   lastFedAt: z.string().nullable(),
 })
 
-export async function GET() {
+export async function GET(request: NextRequest) {
   const user = await getAuthenticatedUser()
   if (!user) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
-  const plants = await getPlants(user.id)
+  const gardenId = new URL(request.url).searchParams.get('gardenId')
+  if (!gardenId) {
+    return NextResponse.json({ error: 'gardenId query param required' }, { status: 400 })
+  }
+  const plants = await getPlants(user.id, gardenId)
   return NextResponse.json(plants)
 }
 
