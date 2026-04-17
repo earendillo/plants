@@ -26,7 +26,8 @@
       "Bash(node_modules/.bin/next lint:*)",
       "Bash(xargs ls:*)",
       "Bash(grep -v \"^--$\\\\|className\\\\|htmlFor\\\\|<label\")",
-      "Bash(grep -v \"className\\\\|type=\\\\|onClick\\\\|import\\\\|useState\\\\|useRef\\\\|const\\\\|async\\\\|//\")"
+      "Bash(grep -v \"className\\\\|type=\\\\|onClick\\\\|import\\\\|useState\\\\|useRef\\\\|const\\\\|async\\\\|//\")",
+      "Bash(xargs grep:*)"
     ]
   }
 }
