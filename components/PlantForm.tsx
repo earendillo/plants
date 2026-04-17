@@ -8,9 +8,10 @@ import { PlantFormFields } from '@/components/PlantFormFields'
 
 type Props = {
   plant?: Plant
+  gardenId?: string  // required when plant is undefined (create mode)
 }
 
-export function PlantForm({ plant }: Props) {
+export function PlantForm({ plant, gardenId }: Props) {
   const router = useRouter()
   const t = useTranslations('plantForm')
   const [emoji, setEmoji] = useState(plant?.emoji ?? '🌿')
@@ -37,14 +38,24 @@ export function PlantForm({ plant }: Props) {
       return
     }
 
-    const body = {
-      emoji,
-      name,
-      wateringIntervalDays: waterInt,
-      feedingIntervalDays: feedInt,
-      lastWateredAt: plant?.lastWateredAt ?? null,
-      lastFedAt: plant?.lastFedAt ?? null,
-    }
+    const body = plant
+      ? {
+          emoji,
+          name,
+          wateringIntervalDays: waterInt,
+          feedingIntervalDays: feedInt,
+          lastWateredAt: plant.lastWateredAt,
+          lastFedAt: plant.lastFedAt,
+        }
+      : {
+          gardenId: gardenId!,
+          emoji,
+          name,
+          wateringIntervalDays: waterInt,
+          feedingIntervalDays: feedInt,
+          lastWateredAt: null,
+          lastFedAt: null,
+        }
 
     try {
       const res = await fetch(
