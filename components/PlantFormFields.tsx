@@ -1,6 +1,7 @@
 'use client'
 
 import { useTranslations } from 'next-intl'
+import { Garden } from '@/types'
 
 type Props = {
   emoji: string
@@ -12,6 +13,9 @@ type Props = {
   onWaterDaysChange: (v: string) => void
   onFeedDaysChange: (v: string) => void
   inputClass: string
+  gardens?: Garden[]
+  selectedGardenId?: string
+  onGardenChange?: (id: string) => void
 }
 
 export function PlantFormFields({
@@ -24,6 +28,9 @@ export function PlantFormFields({
   onWaterDaysChange,
   onFeedDaysChange,
   inputClass,
+  gardens,
+  selectedGardenId,
+  onGardenChange,
 }: Props) {
   const t = useTranslations('plantFormFields')
 
@@ -89,6 +96,26 @@ export function PlantFormFields({
           className={inputClass}
         />
       </div>
+
+      {gardens && gardens.length > 1 && onGardenChange && (
+        <div>
+          <label htmlFor="garden" className="block text-sm font-semibold text-brand-muted">
+            {t('gardenLabel')}
+          </label>
+          <select
+            id="garden"
+            value={selectedGardenId}
+            onChange={e => onGardenChange(e.target.value)}
+            className={inputClass}
+          >
+            {gardens.map(g => (
+              <option key={g.id} value={g.id}>
+                {g.name}
+              </option>
+            ))}
+          </select>
+        </div>
+      )}
     </>
   )
 }

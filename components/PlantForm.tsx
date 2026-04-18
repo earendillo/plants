@@ -3,15 +3,16 @@
 import { useState } from 'react'
 import { useRouter } from 'next/navigation'
 import { useTranslations } from 'next-intl'
-import { Plant } from '@/types'
+import { Garden, Plant } from '@/types'
 import { PlantFormFields } from '@/components/PlantFormFields'
 
 type Props = {
   plant?: Plant
   gardenId?: string  // required when plant is undefined (create mode)
+  gardens?: Garden[] // available in edit mode for garden reassignment
 }
 
-export function PlantForm({ plant, gardenId }: Props) {
+export function PlantForm({ plant, gardenId, gardens }: Props) {
   const router = useRouter()
   const t = useTranslations('plantForm')
   const [emoji, setEmoji] = useState(plant?.emoji ?? '🌿')
@@ -22,6 +23,7 @@ export function PlantForm({ plant, gardenId }: Props) {
   const [feedDays, setFeedDays] = useState(
     String(plant?.feedingIntervalDays ?? 30)
   )
+  const [selectedGardenId, setSelectedGardenId] = useState(plant?.gardenId ?? gardenId ?? '')
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState<string | null>(null)
 
@@ -46,9 +48,10 @@ export function PlantForm({ plant, gardenId }: Props) {
           feedingIntervalDays: feedInt,
           lastWateredAt: plant.lastWateredAt,
           lastFedAt: plant.lastFedAt,
+          gardenId: selectedGardenId,
         }
       : {
-          gardenId: gardenId!,
+          gardenId: selectedGardenId || gardenId!,
           emoji,
           name,
           wateringIntervalDays: waterInt,
@@ -69,7 +72,7 @@ export function PlantForm({ plant, gardenId }: Props) {
 
       if (!res.ok) throw new Error(`Server error: ${res.status}`)
 
-      const targetGardenId = gardenId ?? plant?.gardenId
+      const targetGardenId = selectedGardenId || gardenId || plant?.gardenId
       router.push(targetGardenId ? `/plants?garden=${targetGardenId}` : '/plants')
       router.refresh()
     } catch (err) {
@@ -118,6 +121,9 @@ export function PlantForm({ plant, gardenId }: Props) {
         onWaterDaysChange={setWaterDays}
         onFeedDaysChange={setFeedDays}
         inputClass={inputClass}
+        gardens={gardens}
+        selectedGardenId={selectedGardenId}
+        onGardenChange={setSelectedGardenId}
       />
 
       <button

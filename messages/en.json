@@ -53,7 +53,8 @@
     "nameLabel": "Plant name",
     "namePlaceholder": "e.g. Monstera",
     "waterDaysLabel": "Water every (days)",
-    "feedDaysLabel": "Feed every (days)"
+    "feedDaysLabel": "Feed every (days)",
+    "gardenLabel": "Garden"
   },
   "login": {
     "appName": "PlantCare",

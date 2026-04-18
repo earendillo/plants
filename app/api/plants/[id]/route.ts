@@ -10,6 +10,7 @@ const updateSchema = z.object({
   feedingIntervalDays: z.number().int().min(1).max(365).optional(),
   lastWateredAt: z.string().nullable().optional(),
   lastFedAt: z.string().nullable().optional(),
+  gardenId: z.string().min(1).optional(),
 })
 
 export async function GET(

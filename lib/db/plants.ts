@@ -38,6 +38,7 @@ function toDbUpdate(data: Partial<Plant>): Record<string, unknown> {
   if (data.feedingIntervalDays !== undefined) update.feeding_interval_days = data.feedingIntervalDays
   if (data.lastWateredAt !== undefined) update.last_watered_at = data.lastWateredAt
   if (data.lastFedAt !== undefined) update.last_fed_at = data.lastFedAt
+  if (data.gardenId !== undefined) update.garden_id = data.gardenId
   return update
 }
 
