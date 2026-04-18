@@ -50,6 +50,14 @@ export function GardenHeader({
     }
   }
 
+  function handleDeleteOpenChange(next: boolean) {
+    setDeleteOpen(next)
+    if (next) {
+      setDeleteError(null)
+      setDeleteLoading(false)
+    }
+  }
+
   async function handleRenameSubmit(e: React.FormEvent) {
     e.preventDefault()
     setRenameLoading(true)
@@ -157,7 +165,7 @@ export function GardenHeader({
       </button>
 
       {/* Delete confirmation dialog */}
-      <Dialog open={deleteOpen} onOpenChange={setDeleteOpen}>
+      <Dialog open={deleteOpen} onOpenChange={handleDeleteOpenChange}>
         <DialogContent className="bg-brand-surface border-white/10 text-brand-fg">
           <DialogHeader>
             <DialogTitle>Delete garden</DialogTitle>
