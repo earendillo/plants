@@ -51,6 +51,11 @@ export async function DELETE(
     getGardens(user.id),
   ])
 
+  const targetGarden = gardens.find(g => g.id === id)
+  if (!targetGarden) {
+    return NextResponse.json({ error: 'Not found' }, { status: 404 })
+  }
+
   if (plants.length > 0) {
     return NextResponse.json({ error: 'Garden is not empty' }, { status: 409 })
   }
@@ -58,6 +63,10 @@ export async function DELETE(
     return NextResponse.json({ error: 'Cannot delete last garden' }, { status: 409 })
   }
 
-  await deleteGarden(id, user.id)
+  try {
+    await deleteGarden(id, user.id)
+  } catch {
+    return NextResponse.json({ error: 'Failed to delete garden' }, { status: 500 })
+  }
   return new NextResponse(null, { status: 204 })
 }
