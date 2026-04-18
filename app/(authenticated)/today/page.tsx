@@ -70,7 +70,12 @@ export default async function TodayPage({
   return (
     <main className="flex-1 px-4 py-4 pb-28">
       <div className="mb-4">
-        <GardenHeader garden={activeGarden} />
+        <GardenHeader
+          garden={activeGarden}
+          plantCount={plants.length}
+          isLastGarden={gardens.length === 1}
+          firstRemainingGardenId={gardens.find(g => g.id !== resolvedId)?.id ?? ''}
+        />
         <GardenTabs gardens={gardens} activeGardenId={resolvedId} basePath="/today" />
       </div>
       <p className="mb-4 text-sm text-brand-fg-dim">{dateStr}</p>

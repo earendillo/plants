@@ -32,7 +32,12 @@ export default async function PlantsPage({
 
   return (
     <main className="flex-1 px-4 py-4 pb-28 space-y-3">
-      <GardenHeader garden={activeGarden} />
+      <GardenHeader
+        garden={activeGarden}
+        plantCount={plants.length}
+        isLastGarden={gardens.length === 1}
+        firstRemainingGardenId={gardens.find(g => g.id !== resolvedId)?.id ?? ''}
+      />
       <GardenTabs gardens={gardens} activeGardenId={resolvedId} basePath="/plants" />
       <p className="text-sm text-brand-fg-dim">
         {t('count', { count: plants.length })}
