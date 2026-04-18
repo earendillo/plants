@@ -19,7 +19,7 @@ type Props = {
   garden: Garden
   plantCount: number
   isLastGarden: boolean
-  firstRemainingGardenId: string
+  firstRemainingGardenId: string | null
 }
 
 export function GardenHeader({
@@ -95,7 +95,9 @@ export function GardenHeader({
         return
       }
       setDeleteOpen(false)
-      router.push(`/plants?garden=${firstRemainingGardenId}`)
+      if (firstRemainingGardenId) {
+        router.push(`/plants?garden=${firstRemainingGardenId}`)
+      }
       router.refresh()
     } catch {
       setDeleteError('Failed to delete garden')

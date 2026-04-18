@@ -74,7 +74,7 @@ export default async function TodayPage({
           garden={activeGarden}
           plantCount={plants.length}
           isLastGarden={gardens.length === 1}
-          firstRemainingGardenId={gardens.find(g => g.id !== resolvedId)?.id ?? ''}
+          firstRemainingGardenId={gardens.find(g => g.id !== resolvedId)?.id ?? null}
         />
         <GardenTabs gardens={gardens} activeGardenId={resolvedId} basePath="/today" />
       </div>
