@@ -84,5 +84,5 @@ export async function deleteGarden(id: string, userId: string): Promise<void> {
     .delete()
     .eq('id', id)
     .eq('owner_id', userId)
-  if (error) throw new Error(error.message)
+  if (error) throw error
 }
