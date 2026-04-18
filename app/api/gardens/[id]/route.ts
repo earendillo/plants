@@ -1,7 +1,8 @@
 // app/api/gardens/[id]/route.ts
 import { NextRequest, NextResponse } from 'next/server'
 import { z } from 'zod'
-import { updateGarden } from '@/lib/db/gardens'
+import { updateGarden, deleteGarden, getGardens } from '@/lib/db/gardens'
+import { getPlants } from '@/lib/db/plants'
 import { getAuthenticatedUser } from '@/lib/auth'
 
 const patchSchema = z.object({
@@ -34,4 +35,29 @@ export async function PATCH(
     }
     throw err
   }
+}
+
+export async function DELETE(
+  _request: NextRequest,
+  { params }: { params: Promise<{ id: string }> }
+) {
+  const user = await getAuthenticatedUser()
+  if (!user) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
+
+  const { id } = await params
+
+  const [plants, gardens] = await Promise.all([
+    getPlants(user.id, id),
+    getGardens(user.id),
+  ])
+
+  if (plants.length > 0) {
+    return NextResponse.json({ error: 'Garden is not empty' }, { status: 409 })
+  }
+  if (gardens.length <= 1) {
+    return NextResponse.json({ error: 'Cannot delete last garden' }, { status: 409 })
+  }
+
+  await deleteGarden(id, user.id)
+  return new NextResponse(null, { status: 204 })
 }
