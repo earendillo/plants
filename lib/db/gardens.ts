@@ -76,3 +76,13 @@ export async function ensureDefaultGarden(userId: string): Promise<Garden> {
   if (error) throw new Error(error.message)
   return toGarden(row as DbGarden)
 }
+
+export async function deleteGarden(id: string, userId: string): Promise<void> {
+  const supabase = await createClient()
+  const { error } = await supabase
+    .from('gardens')
+    .delete()
+    .eq('id', id)
+    .eq('owner_id', userId)
+  if (error) throw new Error(error.message)
+}
