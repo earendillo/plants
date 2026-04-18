@@ -94,6 +94,7 @@ export function GardenHeader({
         setDeleteLoading(false)
         return
       }
+      setDeleteLoading(false)
       setDeleteOpen(false)
       if (firstRemainingGardenId) {
         router.push(`/plants?garden=${firstRemainingGardenId}`)
