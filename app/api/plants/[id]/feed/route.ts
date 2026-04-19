@@ -14,7 +14,11 @@ export async function POST(
 
   const { error } = await supabase.rpc('feed_plant', { p_plant_id: id })
   if (error) {
-    return NextResponse.json({ error: 'Not found' }, { status: 404 })
+    const isExpected = error.message.includes('Not allowed') || error.message.includes('not found')
+    return NextResponse.json(
+      { error: isExpected ? 'Not found' : 'Internal server error' },
+      { status: isExpected ? 404 : 500 }
+    )
   }
 
   const plant = await getPlant(id, user.id)

@@ -12,6 +12,7 @@ export async function POST(
   const { id } = await params
   const supabase = await createClient()
 
+  const { error } = await supabase.rpc('water_plant', { p_plant_id: id })
   if (error) {
     const isExpected = error.message.includes('Not allowed') || error.message.includes('not found')
     return NextResponse.json(
