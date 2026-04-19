@@ -27,6 +27,10 @@ create table if not exists garden_share_links (
 
 alter table garden_share_links enable row level security;
 
+-- Performance indexes (some are already covered by PK/unique constraints)
+create index if not exists idx_plants_garden_id on plants(garden_id);
+create index if not exists idx_gardens_owner_id on gardens(owner_id);
+
 -- 2) Gardens RLS
 alter table gardens enable row level security;
 
@@ -193,21 +197,29 @@ create or replace function water_plant(p_plant_id uuid)
 returns void
 language plpgsql
 security definer
+set search_path = public
 as $$
 begin
+  if auth.uid() is null then
+    raise exception 'Unauthorized';
+  end if;
+
   update plants p
   set last_watered_at = now()::text
   where p.id = p_plant_id
     and exists (
       select 1
       from gardens g
-      left join garden_members gm
-        on gm.garden_id = g.id
-       and gm.user_id = auth.uid()
       where g.id = p.garden_id
         and (
           g.owner_id = auth.uid()
-          or gm.role = 'limited_editor'
+          or exists (
+            select 1
+            from garden_members gm
+            where gm.garden_id = g.id
+              and gm.user_id = auth.uid()
+              and gm.role = 'limited_editor'
+          )
         )
     );
 
@@ -221,21 +233,29 @@ create or replace function feed_plant(p_plant_id uuid)
 returns void
 language plpgsql
 security definer
+set search_path = public
 as $$
 begin
+  if auth.uid() is null then
+    raise exception 'Unauthorized';
+  end if;
+
   update plants p
   set last_fed_at = now()::text
   where p.id = p_plant_id
     and exists (
       select 1
       from gardens g
-      left join garden_members gm
-        on gm.garden_id = g.id
-       and gm.user_id = auth.uid()
       where g.id = p.garden_id
         and (
           g.owner_id = auth.uid()
-          or gm.role = 'limited_editor'
+          or exists (
+            select 1
+            from garden_members gm
+            where gm.garden_id = g.id
+              and gm.user_id = auth.uid()
+              and gm.role = 'limited_editor'
+          )
         )
     );
 
@@ -253,11 +273,16 @@ create or replace function accept_garden_share_link(p_token text)
 returns uuid
 language plpgsql
 security definer
+set search_path = public
 as $$
 declare
   v_garden_id uuid;
   v_role text;
 begin
+  if auth.uid() is null then
+    raise exception 'Unauthorized';
+  end if;
+
   select gsl.garden_id, gsl.role
     into v_garden_id, v_role
   from garden_share_links gsl
