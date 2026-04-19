@@ -12,10 +12,12 @@ export async function POST(
   const { id } = await params
   const supabase = await createClient()
 
-  const { error } = await supabase.rpc('water_plant', { p_plant_id: id })
   if (error) {
-    // permission errors / invalid id are treated as not found to avoid leaking
-    return NextResponse.json({ error: 'Not found' }, { status: 404 })
+    const isExpected = error.message.includes('Not allowed') || error.message.includes('not found')
+    return NextResponse.json(
+      { error: isExpected ? 'Not found' : 'Internal server error' },
+      { status: isExpected ? 404 : 500 }
+    )
   }
 
   const plant = await getPlant(id, user.id)
