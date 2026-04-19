@@ -21,7 +21,11 @@ export async function POST(
     )
   }
 
-  const plant = await getPlant(id, user.id)
-  if (!plant) return NextResponse.json({ error: 'Not found' }, { status: 404 })
-  return NextResponse.json(plant)
+  try {
+    const plant = await getPlant(id, user.id)
+    if (!plant) return NextResponse.json({ error: 'Not found' }, { status: 404 })
+    return NextResponse.json(plant)
+  } catch {
+    return NextResponse.json({ error: 'Internal server error' }, { status: 500 })
+  }
 }
