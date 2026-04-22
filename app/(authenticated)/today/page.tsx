@@ -38,6 +38,8 @@ export default async function TodayPage({
   const plants = await getPlants(user?.id ?? '', resolvedId)
   const today = new Date()
   const activeGarden = gardens.find(g => g.id === resolvedId)!
+  const ownedGardens = gardens.filter(g => g.role === 'owner')
+  const isOwner = activeGarden.role === 'owner'
 
   const dueItems: DueItem[] = []
   for (const plant of plants) {
@@ -73,7 +75,7 @@ export default async function TodayPage({
         <GardenHeader
           garden={activeGarden}
           plantCount={plants.length}
-          isLastGarden={gardens.length === 1}
+          isLastGarden={ownedGardens.length === 1 && isOwner}
           firstRemainingGardenId={gardens.find(g => g.id !== resolvedId)?.id ?? null}
         />
         <GardenTabs gardens={gardens} activeGardenId={resolvedId} basePath="/today" />

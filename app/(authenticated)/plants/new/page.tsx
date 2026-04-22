@@ -19,6 +19,11 @@ export default async function NewPlantPage({
     redirect(`/plants/new?garden=${resolvedId}`)
   }
 
+  const activeGarden = gardens.find(g => g.id === resolvedId)!
+  if (activeGarden.role !== 'owner') {
+    redirect(`/plants?garden=${resolvedId}`)
+  }
+
   return (
     <main className="flex-1 px-4 py-6 pb-28">
       <PlantForm gardenId={resolvedId} />

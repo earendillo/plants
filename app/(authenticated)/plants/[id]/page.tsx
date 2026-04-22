@@ -1,4 +1,5 @@
-import { notFound } from 'next/navigation'
+// app/(authenticated)/plants/[id]/page.tsx
+import { notFound, redirect } from 'next/navigation'
 import { getPlant } from '@/lib/db/plants'
 import { getGardens } from '@/lib/db/gardens'
 import { getAuthenticatedUser } from '@/lib/auth'
@@ -17,6 +18,11 @@ export default async function EditPlantPage({
   ])
 
   if (!plant) notFound()
+
+  const gardenForPlant = gardens.find(g => g.id === plant.gardenId)
+  if (!gardenForPlant || gardenForPlant.role !== 'owner') {
+    redirect(`/plants?garden=${plant.gardenId}`)
+  }
 
   return (
     <main className="flex-1 px-4 py-6 pb-28">

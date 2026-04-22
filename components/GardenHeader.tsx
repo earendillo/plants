@@ -3,7 +3,7 @@
 
 import { useState } from 'react'
 import { useRouter } from 'next/navigation'
-import { Pencil, Trash2 } from 'lucide-react'
+import { Pencil, Trash2, Share2, Copy, RefreshCw } from 'lucide-react'
 import { Garden } from '@/types'
 import {
   Dialog,
@@ -29,6 +29,7 @@ export function GardenHeader({
   firstRemainingGardenId,
 }: Props) {
   const router = useRouter()
+  const isOwner = garden.role === 'owner'
 
   // rename state
   const [renameOpen, setRenameOpen] = useState(false)
@@ -40,6 +41,12 @@ export function GardenHeader({
   const [deleteOpen, setDeleteOpen] = useState(false)
   const [deleteLoading, setDeleteLoading] = useState(false)
   const [deleteError, setDeleteError] = useState<string | null>(null)
+
+  // share state
+  const [shareOpen, setShareOpen] = useState(false)
+  const [shareUrl, setShareUrl] = useState<string | null>(null)
+  const [shareLoading, setShareLoading] = useState(false)
+  const [shareCopied, setShareCopied] = useState(false)
 
   function handleRenameOpenChange(next: boolean) {
     setRenameOpen(next)
@@ -55,6 +62,55 @@ export function GardenHeader({
     if (next) {
       setDeleteError(null)
       setDeleteLoading(false)
+    }
+  }
+
+  async function handleShareOpenChange(next: boolean) {
+    setShareOpen(next)
+    if (next) {
+      setShareLoading(true)
+      setShareCopied(false)
+      try {
+        const res = await fetch(`/api/gardens/${garden.id}/share-link`)
+        if (res.ok) {
+          const data = (await res.json()) as { url: string | null }
+          setShareUrl(data.url)
+        }
+      } finally {
+        setShareLoading(false)
+      }
+    }
+  }
+
+  async function handleCreateOrRotateLink() {
+    setShareLoading(true)
+    setShareCopied(false)
+    try {
+      const res = await fetch(`/api/gardens/${garden.id}/share-link`, { method: 'POST' })
+      if (res.ok) {
+        const data = (await res.json()) as { url: string }
+        setShareUrl(data.url)
+      }
+    } finally {
+      setShareLoading(false)
+    }
+  }
+
+  async function handleRevokeLink() {
+    setShareLoading(true)
+    try {
+      await fetch(`/api/gardens/${garden.id}/share-link`, { method: 'DELETE' })
+      setShareUrl(null)
+    } finally {
+      setShareLoading(false)
+    }
+  }
+
+  function handleCopy() {
+    if (shareUrl) {
+      navigator.clipboard.writeText(shareUrl)
+      setShareCopied(true)
+      setTimeout(() => setShareCopied(false), 2000)
     }
   }
 
@@ -118,89 +174,169 @@ export function GardenHeader({
     <div className="flex items-center gap-2">
       <h2 className="text-lg font-semibold text-brand-fg">{garden.name}</h2>
 
-      {/* Rename dialog */}
-      <Dialog open={renameOpen} onOpenChange={handleRenameOpenChange}>
-        <DialogTrigger
-          aria-label="Rename garden"
-          className="rounded p-1 text-brand-fg-dim hover:text-brand-fg transition-colors"
-        >
-          <Pencil size={16} />
-        </DialogTrigger>
-        <DialogContent className="bg-brand-surface border-white/10 text-brand-fg">
-          <DialogHeader>
-            <DialogTitle>Rename Garden</DialogTitle>
-          </DialogHeader>
-          <form onSubmit={handleRenameSubmit} className="space-y-4 pt-2">
-            {renameError && (
-              <p className="text-sm text-brand-alert">{renameError}</p>
-            )}
-            <Input
-              value={name}
-              onChange={e => setName(e.target.value)}
-              placeholder="Garden name"
-              className="border-white/10 bg-brand-bg text-brand-fg placeholder:text-brand-fg-dim"
-              autoFocus
-            />
-            <Button
-              type="submit"
-              disabled={
-                renameLoading ||
-                name.trim().length === 0 ||
-                name.trim() === garden.name
-              }
-              className="w-full bg-brand-cta text-brand-cta-fg hover:brightness-[0.92]"
+      {isOwner && (
+        <>
+          {/* Rename dialog */}
+          <Dialog open={renameOpen} onOpenChange={handleRenameOpenChange}>
+            <DialogTrigger
+              aria-label="Rename garden"
+              className="rounded p-1 text-brand-fg-dim hover:text-brand-fg transition-colors"
             >
-              {renameLoading ? 'Saving…' : 'Save'}
-            </Button>
-          </form>
-        </DialogContent>
-      </Dialog>
+              <Pencil size={16} />
+            </DialogTrigger>
+            <DialogContent className="bg-brand-surface border-white/10 text-brand-fg">
+              <DialogHeader>
+                <DialogTitle>Rename Garden</DialogTitle>
+              </DialogHeader>
+              <form onSubmit={handleRenameSubmit} className="space-y-4 pt-2">
+                {renameError && (
+                  <p className="text-sm text-brand-alert">{renameError}</p>
+                )}
+                <Input
+                  value={name}
+                  onChange={e => setName(e.target.value)}
+                  placeholder="Garden name"
+                  className="border-white/10 bg-brand-bg text-brand-fg placeholder:text-brand-fg-dim"
+                  autoFocus
+                />
+                <Button
+                  type="submit"
+                  disabled={
+                    renameLoading ||
+                    name.trim().length === 0 ||
+                    name.trim() === garden.name
+                  }
+                  className="w-full bg-brand-cta text-brand-cta-fg hover:brightness-[0.92]"
+                >
+                  {renameLoading ? 'Saving…' : 'Save'}
+                </Button>
+              </form>
+            </DialogContent>
+          </Dialog>
 
-      {/* Delete button */}
-      <button
-        aria-label={deleteTitle}
-        title={deleteTitle}
-        disabled={deleteDisabled}
-        onClick={() => setDeleteOpen(true)}
-        className="rounded p-1 text-brand-fg-dim hover:text-brand-alert transition-colors disabled:opacity-30 disabled:cursor-not-allowed disabled:hover:text-brand-fg-dim"
-      >
-        <Trash2 size={16} />
-      </button>
+          {/* Delete button */}
+          <button
+            aria-label={deleteTitle}
+            title={deleteTitle}
+            disabled={deleteDisabled}
+            onClick={() => setDeleteOpen(true)}
+            className="rounded p-1 text-brand-fg-dim hover:text-brand-alert transition-colors disabled:opacity-30 disabled:cursor-not-allowed disabled:hover:text-brand-fg-dim"
+          >
+            <Trash2 size={16} />
+          </button>
 
-      {/* Delete confirmation dialog */}
-      <Dialog open={deleteOpen} onOpenChange={handleDeleteOpenChange}>
-        <DialogContent className="bg-brand-surface border-white/10 text-brand-fg">
-          <DialogHeader>
-            <DialogTitle>Delete garden</DialogTitle>
-          </DialogHeader>
-          <div className="space-y-4 pt-2">
-            <p className="text-sm text-brand-fg-dim">
-              Are you sure you want to delete{' '}
-              <strong className="text-brand-fg">{garden.name}</strong>? This
-              cannot be undone.
-            </p>
-            {deleteError && (
-              <p className="text-sm text-brand-alert">{deleteError}</p>
-            )}
-            <div className="flex gap-2">
-              <Button
-                variant="outline"
-                onClick={() => setDeleteOpen(false)}
-                className="flex-1 border-white/10 bg-transparent text-brand-fg hover:bg-white/5"
-              >
-                Cancel
-              </Button>
-              <Button
-                onClick={handleDelete}
-                disabled={deleteLoading}
-                className="flex-1 bg-brand-alert text-white hover:brightness-[0.92]"
-              >
-                {deleteLoading ? 'Deleting…' : 'Delete'}
-              </Button>
-            </div>
-          </div>
-        </DialogContent>
-      </Dialog>
+          {/* Delete confirmation dialog */}
+          <Dialog open={deleteOpen} onOpenChange={handleDeleteOpenChange}>
+            <DialogContent className="bg-brand-surface border-white/10 text-brand-fg">
+              <DialogHeader>
+                <DialogTitle>Delete garden</DialogTitle>
+              </DialogHeader>
+              <div className="space-y-4 pt-2">
+                <p className="text-sm text-brand-fg-dim">
+                  Are you sure you want to delete{' '}
+                  <strong className="text-brand-fg">{garden.name}</strong>? This
+                  cannot be undone.
+                </p>
+                {deleteError && (
+                  <p className="text-sm text-brand-alert">{deleteError}</p>
+                )}
+                <div className="flex gap-2">
+                  <Button
+                    variant="outline"
+                    onClick={() => setDeleteOpen(false)}
+                    className="flex-1 border-white/10 bg-transparent text-brand-fg hover:bg-white/5"
+                  >
+                    Cancel
+                  </Button>
+                  <Button
+                    onClick={handleDelete}
+                    disabled={deleteLoading}
+                    className="flex-1 bg-brand-alert text-white hover:brightness-[0.92]"
+                  >
+                    {deleteLoading ? 'Deleting…' : 'Delete'}
+                  </Button>
+                </div>
+              </div>
+            </DialogContent>
+          </Dialog>
+
+          {/* Share dialog */}
+          <Dialog open={shareOpen} onOpenChange={handleShareOpenChange}>
+            <DialogTrigger
+              aria-label="Share garden"
+              className="rounded p-1 text-brand-fg-dim hover:text-brand-fg transition-colors"
+            >
+              <Share2 size={16} />
+            </DialogTrigger>
+            <DialogContent className="bg-brand-surface border-white/10 text-brand-fg">
+              <DialogHeader>
+                <DialogTitle>Share garden</DialogTitle>
+              </DialogHeader>
+              <div className="space-y-4 pt-2">
+                <p className="text-sm text-brand-fg-dim">
+                  Share this link with someone. They can view plants and mark
+                  watering/feeding — but cannot edit or delete.
+                </p>
+
+                {shareLoading && (
+                  <p className="text-sm text-brand-fg-dim">Loading…</p>
+                )}
+
+                {!shareLoading && shareUrl && (
+                  <>
+                    <div className="flex gap-2">
+                      <Input
+                        readOnly
+                        value={shareUrl}
+                        className="border-white/10 bg-brand-bg text-brand-fg text-xs"
+                      />
+                      <Button
+                        type="button"
+                        variant="outline"
+                        onClick={handleCopy}
+                        className="shrink-0 border-white/10 bg-transparent text-brand-fg hover:bg-white/5"
+                      >
+                        {shareCopied ? 'Copied!' : <Copy size={16} />}
+                      </Button>
+                    </div>
+                    <div className="flex gap-2">
+                      <Button
+                        type="button"
+                        variant="outline"
+                        onClick={handleCreateOrRotateLink}
+                        disabled={shareLoading}
+                        className="flex-1 border-white/10 bg-transparent text-brand-fg hover:bg-white/5 text-sm"
+                      >
+                        <RefreshCw size={14} className="mr-1" />
+                        Rotate link
+                      </Button>
+                      <Button
+                        type="button"
+                        onClick={handleRevokeLink}
+                        disabled={shareLoading}
+                        className="flex-1 bg-brand-alert text-white hover:brightness-[0.92] text-sm"
+                      >
+                        Revoke
+                      </Button>
+                    </div>
+                  </>
+                )}
+
+                {!shareLoading && !shareUrl && (
+                  <Button
+                    type="button"
+                    onClick={handleCreateOrRotateLink}
+                    disabled={shareLoading}
+                    className="w-full bg-brand-cta text-brand-cta-fg hover:brightness-[0.92]"
+                  >
+                    Create share link
+                  </Button>
+                )}
+              </div>
+            </DialogContent>
+          </Dialog>
+        </>
+      )}
     </div>
   )
 }
