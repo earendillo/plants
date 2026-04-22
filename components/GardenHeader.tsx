@@ -3,7 +3,7 @@
 
 import { useState } from 'react'
 import { useRouter } from 'next/navigation'
-import { Pencil, Trash2, Share2, Copy, RefreshCw } from 'lucide-react'
+import { Pencil, Trash2, Share2, Copy, RefreshCw, LogOut } from 'lucide-react'
 import { Garden } from '@/types'
 import {
   Dialog,
@@ -47,6 +47,11 @@ export function GardenHeader({
   const [shareUrl, setShareUrl] = useState<string | null>(null)
   const [shareLoading, setShareLoading] = useState(false)
   const [shareCopied, setShareCopied] = useState(false)
+
+  // leave state
+  const [leaveOpen, setLeaveOpen] = useState(false)
+  const [leaveLoading, setLeaveLoading] = useState(false)
+  const [leaveError, setLeaveError] = useState<string | null>(null)
 
   function handleRenameOpenChange(next: boolean) {
     setRenameOpen(next)
@@ -111,6 +116,40 @@ export function GardenHeader({
       navigator.clipboard.writeText(shareUrl)
       setShareCopied(true)
       setTimeout(() => setShareCopied(false), 2000)
+    }
+  }
+
+  function handleLeaveOpenChange(next: boolean) {
+    setLeaveOpen(next)
+    if (next) {
+      setLeaveError(null)
+      setLeaveLoading(false)
+    }
+  }
+
+  async function handleLeave() {
+    setLeaveLoading(true)
+    setLeaveError(null)
+    try {
+      const res = await fetch(`/api/gardens/${garden.id}/membership`, { method: 'DELETE' })
+      if (!res.ok) {
+        const body = (await res.json()) as { error: string }
+        setLeaveError(body.error ?? 'Failed to leave garden')
+        setLeaveLoading(false)
+        return
+      }
+      setLeaveLoading(false)
+      setLeaveOpen(false)
+      // Redirect away — the garden is no longer accessible
+      if (firstRemainingGardenId) {
+        router.push(`/plants?garden=${firstRemainingGardenId}`)
+      } else {
+        router.push('/plants')
+      }
+      router.refresh()
+    } catch {
+      setLeaveError('Failed to leave garden')
+      setLeaveLoading(false)
     }
   }
 
@@ -332,6 +371,55 @@ export function GardenHeader({
                     Create share link
                   </Button>
                 )}
+              </div>
+            </DialogContent>
+          </Dialog>
+        </>
+      )}
+
+      {!isOwner && (
+        <>
+          {/* Leave button */}
+          <button
+            aria-label="Leave garden"
+            title="Leave garden"
+            onClick={() => setLeaveOpen(true)}
+            className="rounded p-1 text-brand-fg-dim hover:text-brand-alert transition-colors"
+          >
+            <LogOut size={16} />
+          </button>
+
+          {/* Leave confirmation dialog */}
+          <Dialog open={leaveOpen} onOpenChange={handleLeaveOpenChange}>
+            <DialogContent className="bg-brand-surface border-white/10 text-brand-fg">
+              <DialogHeader>
+                <DialogTitle>Leave garden</DialogTitle>
+              </DialogHeader>
+              <div className="space-y-4 pt-2">
+                <p className="text-sm text-brand-fg-dim">
+                  Leave{' '}
+                  <strong className="text-brand-fg">{garden.name}</strong>?
+                  You will lose access unless re-invited.
+                </p>
+                {leaveError && (
+                  <p className="text-sm text-brand-alert">{leaveError}</p>
+                )}
+                <div className="flex gap-2">
+                  <Button
+                    variant="outline"
+                    onClick={() => setLeaveOpen(false)}
+                    className="flex-1 border-white/10 bg-transparent text-brand-fg hover:bg-white/5"
+                  >
+                    Cancel
+                  </Button>
+                  <Button
+                    onClick={handleLeave}
+                    disabled={leaveLoading}
+                    className="flex-1 bg-brand-alert text-white hover:brightness-[0.92]"
+                  >
+                    {leaveLoading ? 'Leaving…' : 'Leave'}
+                  </Button>
+                </div>
               </div>
             </DialogContent>
           </Dialog>
