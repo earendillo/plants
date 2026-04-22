@@ -14,6 +14,7 @@ export type Plant = {
 export type Garden = {
   id: string
   name: string
-  userId: string
+  userId: string          // garden owner's ID (owner_id in DB)
   createdAt: string
+  role: 'owner' | 'limited_editor'  // current viewer's role
 }

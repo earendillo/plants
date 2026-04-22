@@ -51,7 +51,9 @@ export async function DELETE(
     getGardens(user.id),
   ])
 
-  const targetGarden = gardens.find(g => g.id === id)
+  // Only owned gardens count toward the "last garden" and target garden checks
+  const ownedGardens = gardens.filter(g => g.role === 'owner')
+  const targetGarden = ownedGardens.find(g => g.id === id)
   if (!targetGarden) {
     return NextResponse.json({ error: 'Not found' }, { status: 404 })
   }
@@ -59,7 +61,7 @@ export async function DELETE(
   if (plants.length > 0) {
     return NextResponse.json({ error: 'Garden is not empty' }, { status: 409 })
   }
-  if (gardens.length <= 1) {
+  if (ownedGardens.length <= 1) {
     return NextResponse.json({ error: 'Cannot delete last garden' }, { status: 409 })
   }
 

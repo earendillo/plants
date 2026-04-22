@@ -3,6 +3,7 @@ import { NextRequest, NextResponse } from 'next/server'
 import { z } from 'zod'
 import { getPlants, createPlant } from '@/lib/db/plants'
 import { getAuthenticatedUser } from '@/lib/auth'
+import { isGardenOwner } from '@/lib/db/gardens'
 
 const createSchema = z.object({
   gardenId: z.string().uuid(),
@@ -32,6 +33,9 @@ export async function POST(request: NextRequest) {
   const result = createSchema.safeParse(body)
   if (!result.success) {
     return NextResponse.json({ error: result.error.flatten() }, { status: 400 })
+  }
+  if (!(await isGardenOwner(result.data.gardenId, user.id))) {
+    return NextResponse.json({ error: 'Forbidden' }, { status: 403 })
   }
   const plant = await createPlant({ ...result.data, userId: user.id })
   return NextResponse.json(plant, { status: 201 })

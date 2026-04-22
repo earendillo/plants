@@ -1,7 +1,9 @@
+// app/api/plants/[id]/route.ts
 import { NextRequest, NextResponse } from 'next/server'
 import { z } from 'zod'
 import { getPlant, updatePlant, deletePlant } from '@/lib/db/plants'
 import { getAuthenticatedUser } from '@/lib/auth'
+import { isGardenOwner } from '@/lib/db/gardens'
 
 const updateSchema = z.object({
   name: z.string().min(1).max(100).optional(),
@@ -34,6 +36,9 @@ export async function PUT(
   const { id } = await params
   const existing = await getPlant(id, user.id)
   if (!existing) return NextResponse.json({ error: 'Not found' }, { status: 404 })
+  if (!(await isGardenOwner(existing.gardenId, user.id))) {
+    return NextResponse.json({ error: 'Forbidden' }, { status: 403 })
+  }
   const body: unknown = await request.json()
   const result = updateSchema.safeParse(body)
   if (!result.success) {
@@ -52,6 +57,9 @@ export async function DELETE(
   const { id } = await params
   const existing = await getPlant(id, user.id)
   if (!existing) return NextResponse.json({ error: 'Not found' }, { status: 404 })
+  if (!(await isGardenOwner(existing.gardenId, user.id))) {
+    return NextResponse.json({ error: 'Forbidden' }, { status: 403 })
+  }
   await deletePlant(id)
   return new Response(null, { status: 204 })
 }
