@@ -142,3 +142,13 @@ export async function revokeShareLink(gardenId: string): Promise<void> {
     .is('revoked_at', null)
   if (error) throw new Error(error.message)
 }
+
+export async function leaveGarden(gardenId: string, userId: string): Promise<void> {
+  const supabase = await createClient()
+  const { error } = await supabase
+    .from('garden_members')
+    .delete()
+    .eq('garden_id', gardenId)
+    .eq('user_id', userId)
+  if (error) throw new Error(error.message)
+}
