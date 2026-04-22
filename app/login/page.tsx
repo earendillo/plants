@@ -2,13 +2,15 @@
 
 import { useState } from 'react'
 import Link from 'next/link'
-import { useRouter } from 'next/navigation'
+import { useRouter, useSearchParams } from 'next/navigation'
 import { useTranslations } from 'next-intl'
 import { supabase } from '@/lib/supabase/client'
 
 export default function LoginPage() {
   const router = useRouter()
   const t = useTranslations('login')
+  const searchParams = useSearchParams()
+  const nextPath = searchParams.get('next')
   const [mode, setMode] = useState<'signin' | 'signup'>('signin')
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
@@ -26,7 +28,7 @@ export default function LoginPage() {
       if (err) {
         setError(err.message)
       } else {
-        router.push('/today')
+        router.push(nextPath || '/today')
         router.refresh()
       }
     } else {
