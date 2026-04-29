@@ -102,6 +102,7 @@ export async function getActiveShareLinkToken(gardenId: string): Promise<string 
     .from('garden_share_links')
     .select('token')
     .eq('garden_id', gardenId)
+    .eq('allow_anonymous', false)
     .is('revoked_at', null)
     .order('created_at', { ascending: false })
     .limit(1)
@@ -112,15 +113,18 @@ export async function getActiveShareLinkToken(gardenId: string): Promise<string 
 
 export async function createOrRotateShareLink(gardenId: string): Promise<string> {
   const supabase = await createClient()
-  // Revoke any existing active links
+  // Revoke active member-invite links only (not anonymous links)
   await supabase
     .from('garden_share_links')
     .update({ revoked_at: new Date().toISOString() })
     .eq('garden_id', gardenId)
+    .eq('allow_anonymous', false)
     .is('revoked_at', null)
 
   const token = randomUUID()
   const { data: { user } } = await supabase.auth.getUser()
+  const expiresAt = new Date()
+  expiresAt.setMonth(expiresAt.getMonth() + 6)
   const { error } = await supabase
     .from('garden_share_links')
     .insert({
@@ -128,6 +132,8 @@ export async function createOrRotateShareLink(gardenId: string): Promise<string>
       token,
       role: 'limited_editor',
       created_by: user!.id,
+      allow_anonymous: false,
+      expires_at: expiresAt.toISOString(),
     })
   if (error) throw new Error(error.message)
   return token
@@ -139,6 +145,7 @@ export async function revokeShareLink(gardenId: string): Promise<void> {
     .from('garden_share_links')
     .update({ revoked_at: new Date().toISOString() })
     .eq('garden_id', gardenId)
+    .eq('allow_anonymous', false)
     .is('revoked_at', null)
   if (error) throw new Error(error.message)
 }
