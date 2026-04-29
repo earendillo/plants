@@ -2,6 +2,16 @@ import { createServerClient } from '@supabase/ssr'
 import { NextResponse, type NextRequest } from 'next/server'
 
 export async function middleware(request: NextRequest) {
+  const { pathname } = request.nextUrl
+
+  // Guest routes are fully public — skip Supabase auth check entirely
+  const isGuestPath =
+    pathname.startsWith('/guest') ||
+    pathname.startsWith('/api/guest')
+  if (isGuestPath) {
+    return NextResponse.next({ request })
+  }
+
   let supabaseResponse = NextResponse.next({ request })
 
   const supabase = createServerClient(
@@ -25,8 +35,6 @@ export async function middleware(request: NextRequest) {
 
   // IMPORTANT: Do not add logic between createServerClient and getUser()
   const { data: { user } } = await supabase.auth.getUser()
-
-  const { pathname } = request.nextUrl
 
   const isPublicPath =
     pathname.startsWith('/login') ||
