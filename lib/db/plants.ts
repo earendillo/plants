@@ -2,7 +2,7 @@
 import { Plant } from '@/types'
 import { createClient } from '@/lib/supabase/server'
 
-type DbPlant = {
+export type DbPlant = {
   id: string
   user_id: string
   garden_id: string
@@ -15,7 +15,7 @@ type DbPlant = {
   created_at: string
 }
 
-function toPlant(row: DbPlant): Plant {
+export function toPlant(row: DbPlant): Plant {
   return {
     id: row.id,
     userId: row.user_id,
