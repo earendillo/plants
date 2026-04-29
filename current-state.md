@@ -1,6 +1,6 @@
 # Plant Watering Tracker — Current State
 
-> AI-readable snapshot of the project as of 2026-04-28.
+> AI-readable snapshot of the project as of 2026-04-29.
 
 ## Overview
 
@@ -30,7 +30,7 @@ Personal plant care web app for tracking watering and feeding schedules. Started
 
 **garden_members** — garden_id, user_id, role (`owner` | `limited_editor`), created_at
 
-**garden_share_links** — id, garden_id, token (UUID), role, created_by, created_at, revoked_at, expires_at
+**garden_share_links** — id, garden_id, token (UUID), role, created_by, created_at, revoked_at, expires_at (NOT NULL), allow_anonymous (bool), label, duration_days
 
 ### TypeScript Types (`/types/index.ts`)
 
@@ -50,6 +50,7 @@ Auth callback route: `/auth/callback` (exchanges code for session).
 ## Middleware (`middleware.ts`)
 
 - Runs on all non-static requests
+- Guest paths (`/guest/*`, `/api/guest/*`) — early return, skip auth entirely
 - Unauthenticated users → redirect to `/login?next=<original-path>`
 - Authenticated users hitting `/login` → redirect to `/today`
 - Public paths: `/login`, `/forgot-password`, `/auth/*`, `/_next/*`, `/share/*`
@@ -69,6 +70,8 @@ Auth callback route: `/auth/callback` (exchanges code for session).
 | `/plants/new` | Create plant form (garden owners only) | yes |
 | `/plants/[id]` | Edit plant form (garden owners only) | yes |
 | `/share/[token]` | Accept garden share invitation | yes |
+| `/guest/[token]` | Validate anonymous share link, set guest JWT cookie, redirect to `/guest` | no |
+| `/guest` | Guest plant view — water/feed without logging in | no (guest JWT cookie) |
 
 ## API Routes
 
@@ -96,6 +99,17 @@ Auth callback route: `/auth/callback` (exchanges code for session).
 | POST | `/api/gardens/[id]/share-link` | garden owner | Create or rotate share link |
 | DELETE | `/api/gardens/[id]/share-link` | garden owner | Revoke all share links |
 | DELETE | `/api/gardens/[id]/membership` | non-owner member | Leave shared garden |
+| GET | `/api/gardens/[id]/anonymous-share-link` | garden owner | Get active anonymous guest link URL |
+| POST | `/api/gardens/[id]/anonymous-share-link` | garden owner | Create/rotate anonymous guest link (body: `durationDays`, `label`) |
+| DELETE | `/api/gardens/[id]/anonymous-share-link` | garden owner | Revoke anonymous guest link |
+
+### Guest (no auth required)
+
+| Method | Route | Access | Description |
+|--------|-------|--------|-------------|
+| POST | `/api/guest/token` | public | Validate anonymous token, issue guest JWT httpOnly cookie |
+| POST | `/api/guest/plants/[id]/water` | guest JWT cookie | Mark plant watered (RPC `water_plant_guest`) |
+| POST | `/api/guest/plants/[id]/feed` | guest JWT cookie | Mark plant fed (RPC `feed_plant_guest`) |
 
 ### Share
 
@@ -112,6 +126,14 @@ Two roles enforced at both RLS and application level:
 
 Share flow: owner generates link → recipient visits `/share/[token]` → POST to accept → RPC `accept_garden_share_link(token)` creates membership row.
 
+### Guest (Anonymous) Access
+
+Owners can also generate a time-limited anonymous link (1–14 days). No login required.
+
+Guest flow: owner generates anonymous link in share dialog (duration picker) → recipient visits `/guest/<token>` → client-side `GuestTokenValidator` POSTs to `/api/guest/token` → route validates via `validate_anonymous_share_link` RPC, signs a guest JWT (HS256, `SUPABASE_JWT_SECRET`), sets it as httpOnly cookie → browser is redirected to `/guest` → server component reads cookie, fetches garden + plants using `createGuestClient` (Authorization header with guest JWT), PostgREST verifies JWT and enforces RLS guest branch → Water/Feed buttons call `/api/guest/plants/[id]/water|feed` which invoke `water_plant_guest` / `feed_plant_guest` RPCs (SECURITY DEFINER, validate token + due-date check internally).
+
+Guest mutations silently no-op if plant is not due (RPC returns 0 rows updated).
+
 ## Key Components
 
 | Component | Location | Purpose |
@@ -122,6 +144,9 @@ Share flow: owner generates link → recipient visits `/share/[token]` → POST 
 | `DueCard` | `/components/DueCard.tsx` | Action card for today screen (water/feed buttons) |
 | `ActionButton` | `/components/ActionButton.tsx` | Client component for water/feed quick actions |
 | `GardenHeader` | `/components/GardenHeader.tsx` | Garden title + role-specific actions (rename/delete/share for owners, leave for members) |
+| `ShareDialog` | `/components/ShareDialog.tsx` | Share dialog: member invite link + anonymous guest link sections (extracted from GardenHeader) |
+| `GuestTokenValidator` | `/components/GuestTokenValidator.tsx` | Client component: exchanges URL token for guest JWT cookie, redirects to `/guest` |
+| `GuestPlantList` | `/components/GuestPlantList.tsx` | Plant list with Water/Feed buttons for guest view; optimistic local state updates |
 | `GardenTabs` | `/components/GardenTabs.tsx` | Horizontal garden switcher + create button |
 | `CreateGardenButton` | `/components/CreateGardenButton.tsx` | Dialog for creating new garden |
 | `BottomTabBar` | `/components/BottomTabBar.tsx` | Mobile bottom navigation (Today, Plants, Add, Sign Out) |
@@ -146,6 +171,8 @@ Share flow: owner generates link → recipient visits `/share/[token]` → POST 
 2. `20260419000000_share_gardens_rls.sql` — Full sharing infra: garden_members, garden_share_links, RLS policies, RPC functions (`accept_garden_share_link`, `water_plant`, `feed_plant`)
 3. `20260419001000_plants_last_actions_timestamptz.sql` — Convert timestamp columns to timestamptz
 4. `20260419002000_fix_rpc_row_security.sql` — Security fixes for RPC functions
+5. `20260429000000_guest_garden_access.sql` — Guest access: adds `allow_anonymous`, `label`, `duration_days` to garden_share_links; makes `expires_at` NOT NULL; performance indexes; updated RLS policies for gardens/plants with guest branch; RPCs `validate_anonymous_share_link`, `water_plant_guest`, `feed_plant_guest`
+6. `20260429000100_fix_guest_rls_recursion.sql` — Fixes infinite RLS recursion (gardens policy queried garden_share_links which queried back to gardens); introduces `is_valid_guest_token(token, garden_id)` SECURITY DEFINER helper used in both policies
 
 ## i18n
 
@@ -163,12 +190,14 @@ Supported via `next-intl`. Translation files in `/messages/` directory. `Languag
 /components          — Feature components listed above
 /components/ui       — shadcn/ui primitives (Button, Input, Dialog, Badge, etc.)
 /lib
-  /db/plants.ts      — Plant CRUD via Supabase
-  /db/gardens.ts     — Garden CRUD + membership queries
+  /db/plants.ts      — Plant CRUD via Supabase (exports DbPlant, toPlant)
+  /db/gardens.ts     — Garden CRUD + membership queries (scoped to allow_anonymous=false for member links)
+  /db/anonymous-links.ts — Anonymous guest link helpers (get/create/revoke)
   /auth.ts           — getAuthenticatedUser helper
   /utils.ts          — Date/due-date calculations
   /gardens.ts        — resolveActiveGarden helper
-  /supabase/         — Supabase client factories (server, middleware)
+  /guest-jwt.ts      — Sign guest JWT (signGuestJwt) and decode claims (decodeGuestJwtClaims)
+  /supabase/         — Supabase client factories (server, middleware, guest)
 /types/index.ts      — Plant, Garden types
 /supabase/migrations — SQL migration files
 /messages            — i18n translation files
@@ -183,5 +212,6 @@ The CLAUDE.md describes an MVP with mock DB and mock auth. The actual project ha
 - **Database**: Real Supabase PostgreSQL with RLS replaces the in-memory mock store
 - **Gardens**: Multi-garden support added (not in original spec)
 - **Sharing**: Full garden sharing with roles (owner/limited_editor) and share links
+- **Guest access**: Anonymous time-limited links for unauthenticated users (water/feed only)
 - **i18n**: Internationalization added (not in original spec)
 - **Membership**: Users can leave shared gardens
