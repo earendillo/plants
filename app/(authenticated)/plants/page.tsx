@@ -6,6 +6,8 @@ import { resolveActiveGarden } from '@/lib/gardens'
 import { PlantCard } from '@/components/PlantCard'
 import { GardenPicker } from '@/components/GardenPicker'
 import { GardenHeader } from '@/components/GardenHeader'
+import { GardenContentWrapper } from '@/components/GardenContentWrapper'
+import { PlantsPageSkeleton } from '@/components/PlantsPageSkeleton'
 import { getAuthenticatedUser } from '@/lib/auth'
 import { getTranslations } from 'next-intl/server'
 
@@ -45,6 +47,7 @@ export default async function PlantsPage({
         />
       </div>
 
+      <GardenContentWrapper skeleton={<PlantsPageSkeleton />}>
       <div className="px-5">
         <p className="mb-3 text-xs text-brand-fg-dim">
           {t('count', { count: plants.length })}
@@ -59,6 +62,7 @@ export default async function PlantsPage({
           </div>
         )}
       </div>
+      </GardenContentWrapper>
     </main>
   )
 }

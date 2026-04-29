@@ -8,6 +8,8 @@ import { DueCard } from '@/components/DueCard'
 import { GardenPicker } from '@/components/GardenPicker'
 import { GardenHeader } from '@/components/GardenHeader'
 import { PlantIcon } from '@/components/PlantIcon'
+import { GardenContentWrapper } from '@/components/GardenContentWrapper'
+import { TodayPageSkeleton } from '@/components/TodayPageSkeleton'
 import { Plant } from '@/types'
 import { getAuthenticatedUser } from '@/lib/auth'
 import { getTranslations, getLocale } from 'next-intl/server'
@@ -87,6 +89,7 @@ export default async function TodayPage({
       <p className="px-5 pb-4 text-xs text-brand-fg-dim">{dateStr}</p>
 
       {/* Content */}
+      <GardenContentWrapper skeleton={<TodayPageSkeleton />}>
       <div className="px-5">
         {dueItems.length === 0 ? (
           <div className="flex flex-col items-center py-14 text-center">
@@ -143,6 +146,7 @@ export default async function TodayPage({
           </div>
         )}
       </div>
+      </GardenContentWrapper>
     </main>
   )
 }

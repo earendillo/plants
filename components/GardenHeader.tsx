@@ -5,6 +5,7 @@ import { useState } from 'react'
 import { useRouter } from 'next/navigation'
 import { Pencil, Trash2, LogOut } from 'lucide-react'
 import { Garden } from '@/types'
+import { useGardenNavigation } from './GardenNavigationContext'
 import {
   Dialog,
   DialogContent,
@@ -30,6 +31,7 @@ export function GardenHeader({
   firstRemainingGardenId,
 }: Props) {
   const router = useRouter()
+  const { isPending } = useGardenNavigation()
   const isOwner = garden.role === 'owner'
 
   // rename state
@@ -163,7 +165,8 @@ export function GardenHeader({
           <Dialog open={renameOpen} onOpenChange={handleRenameOpenChange}>
             <DialogTrigger
               aria-label="Rename garden"
-              className="flex size-11 items-center justify-center rounded-xl border border-white/[0.09] bg-white/[0.04] text-brand-fg-sub transition-colors hover:bg-white/[0.09] hover:text-brand-fg"
+              disabled={isPending}
+              className="flex size-11 items-center justify-center rounded-xl border border-white/[0.09] bg-white/[0.04] text-brand-fg-sub transition-colors hover:bg-white/[0.09] hover:text-brand-fg disabled:opacity-30 disabled:cursor-not-allowed"
             >
               <Pencil size={16} />
             </DialogTrigger>
@@ -201,7 +204,7 @@ export function GardenHeader({
           <button
             aria-label={deleteTitle}
             title={deleteTitle}
-            disabled={deleteDisabled}
+            disabled={deleteDisabled || isPending}
             onClick={() => setDeleteOpen(true)}
             className="flex size-11 items-center justify-center rounded-xl border border-white/[0.09] bg-white/[0.04] text-brand-fg-sub transition-colors hover:bg-[rgba(224,85,85,0.12)] hover:text-brand-alert disabled:opacity-30 disabled:cursor-not-allowed disabled:hover:bg-white/[0.04] disabled:hover:text-brand-fg-sub"
           >
@@ -244,7 +247,7 @@ export function GardenHeader({
           </Dialog>
 
           {/* Share dialog */}
-          <ShareDialog gardenId={garden.id} />
+          <ShareDialog gardenId={garden.id} disabled={isPending} />
         </>
       )}
 
@@ -254,8 +257,9 @@ export function GardenHeader({
           <button
             aria-label="Leave garden"
             title="Leave garden"
+            disabled={isPending}
             onClick={() => setLeaveOpen(true)}
-            className="flex size-11 items-center justify-center rounded-xl border border-white/[0.09] bg-white/[0.04] text-brand-fg-sub transition-colors hover:bg-[rgba(224,85,85,0.12)] hover:text-brand-alert"
+            className="flex size-11 items-center justify-center rounded-xl border border-white/[0.09] bg-white/[0.04] text-brand-fg-sub transition-colors hover:bg-[rgba(224,85,85,0.12)] hover:text-brand-alert disabled:opacity-30 disabled:cursor-not-allowed disabled:hover:bg-white/[0.04] disabled:hover:text-brand-fg-sub"
           >
             <LogOut size={16} />
           </button>

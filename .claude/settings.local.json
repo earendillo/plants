@@ -39,7 +39,13 @@
       "Bash(gunzip)",
       "Bash(tar -x)",
       "Read(//tmp/plants-app/project/**)",
-      "Bash(python3 -c \"import json,sys; d=json.load\\(sys.stdin\\); print\\(json.dumps\\({k:d[k] for k in ['dueCard','plantCard','nav'] if k in d}, indent=2\\)\\)\")"
+      "Bash(python3 -c \"import json,sys; d=json.load\\(sys.stdin\\); print\\(json.dumps\\({k:d[k] for k in ['dueCard','plantCard','nav'] if k in d}, indent=2\\)\\)\")",
+      "Bash(curl:*)",
+      "Bash(cp \"C:/Users/Mateusz/.claude/projects/C--Users-Mateusz-Projects-plantsapp/f0a5faa2-d185-4155-a89e-76e3f1c333d6/tool-results/webfetch-1777490466133-vvyj3b.bin\" /tmp/design.gz)",
+      "Bash(gunzip -f /tmp/design.gz)",
+      "Read(//tmp/**)",
+      "Bash(ls /tmp/design*)",
+      "Bash(tar -xf design)"
     ]
   }
 }

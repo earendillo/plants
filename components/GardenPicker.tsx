@@ -3,6 +3,7 @@
 import { useState, useRef, useEffect } from 'react'
 import { useRouter, usePathname } from 'next/navigation'
 import { Garden } from '@/types'
+import { useGardenNavigation } from './GardenNavigationContext'
 
 type Props = {
   gardens: Garden[]
@@ -19,6 +20,7 @@ export function GardenPicker({ gardens, activeGardenId, basePath }: Props) {
   const ref = useRef<HTMLDivElement>(null)
   const router = useRouter()
   const pathname = usePathname()
+  const { navigateTo } = useGardenNavigation()
 
   const activeGarden = gardens.find(g => g.id === activeGardenId)
 
@@ -79,7 +81,7 @@ export function GardenPicker({ gardens, activeGardenId, basePath }: Props) {
             <button
               key={g.id}
               onClick={() => {
-                router.push(`${basePath}?garden=${g.id}`)
+                navigateTo(`${basePath}?garden=${g.id}`)
                 setOpen(false)
               }}
               className={[
