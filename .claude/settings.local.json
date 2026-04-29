@@ -29,7 +29,12 @@
       "Bash(grep -v \"className\\\\|type=\\\\|onClick\\\\|import\\\\|useState\\\\|useRef\\\\|const\\\\|async\\\\|//\")",
       "Bash(xargs grep:*)",
       "Bash(gh pr:*)",
-      "Bash(ls -la /c/Users/Mateusz/Projects/plantsapp/app/api/gardens/[id]/share-link/)"
+      "Bash(ls -la /c/Users/Mateusz/Projects/plantsapp/app/api/gardens/[id]/share-link/)",
+      "Bash(git check-ignore:*)",
+      "Bash(mkdir -p \"C:/Users/Mateusz/Projects/plantsapp/app/api/guest/plants/[id]/water\")",
+      "Bash(mkdir -p \"C:/Users/Mateusz/Projects/plantsapp/app/api/guest/plants/[id]/feed\")",
+      "Bash(mkdir -p \"C:/Users/Mateusz/Projects/plantsapp/app/api/gardens/[id]/anonymous-share-link\")",
+      "Bash(mkdir -p \"C:/Users/Mateusz/Projects/plantsapp/app/guest/[token]\")"
     ]
   }
 }
