@@ -7,9 +7,10 @@ import { useTranslations } from 'next-intl'
 type Props = {
   plantId: string
   action: 'water' | 'feed'
+  isOverdue?: boolean
 }
 
-export function ActionButton({ plantId, action }: Props) {
+export function ActionButton({ plantId, action, isOverdue }: Props) {
   const router = useRouter()
   const [loading, setLoading] = useState(false)
   const t = useTranslations('actionButton')
@@ -27,11 +28,15 @@ export function ActionButton({ plantId, action }: Props) {
     }
   }
 
+  const cls = isOverdue
+    ? 'rounded-[13px] bg-brand-alert px-5 py-2.5 text-sm font-semibold text-white shadow-[0_2px_12px_rgba(224,85,85,0.3)] transition-[filter] hover:brightness-[0.9] active:brightness-[0.82] disabled:opacity-50'
+    : 'rounded-[13px] bg-brand-cta px-5 py-2.5 text-sm font-semibold text-brand-cta-fg shadow-[0_2px_12px_rgba(207,238,158,0.2)] transition-[filter] hover:brightness-[0.92] active:brightness-[0.84] disabled:opacity-50'
+
   return (
     <button
       onClick={handleClick}
       disabled={loading}
-      className="rounded-lg bg-brand-cta px-4 py-2 text-sm font-semibold text-brand-cta-fg transition-[filter] hover:brightness-[0.92] active:brightness-[0.84] disabled:opacity-50"
+      className={cls}
     >
       {loading ? '…' : action === 'water' ? t('water') : t('feed')}
     </button>

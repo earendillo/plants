@@ -19,8 +19,13 @@ export default function AuthenticatedLayout({ children }: { children: React.Reac
 
   return (
     <div className="flex min-h-screen flex-col bg-brand-bg">
-      <header className="border-b border-white/6 px-6 py-5">
-        <h1 className="text-2xl text-brand-fg">{title}</h1>
+      <header className="px-5 pb-2 pt-4">
+        <h1
+          className="font-heading text-[28px] leading-none text-brand-fg"
+          style={{ fontWeight: 400, letterSpacing: '-0.025em' }}
+        >
+          {title}
+        </h1>
       </header>
       {children}
       <BottomTabBar />

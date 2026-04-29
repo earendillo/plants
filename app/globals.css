@@ -47,15 +47,18 @@
   --radius-3xl: calc(var(--radius) * 2.2);
   --radius-4xl: calc(var(--radius) * 2.6);
   /* brand tokens */
-  --color-brand-bg: #1E2019;
-  --color-brand-surface: #272b22;
+  --color-brand-bg: #191c15;
+  --color-brand-surface: #222820;
+  --color-brand-surface2: #2b3026;
   --color-brand-overdue-surface: #2b1f20;
   --color-brand-cta: #CFEE9E;
-  --color-brand-cta-fg: #1a2012;
-  --color-brand-alert: #E63946;
-  --color-brand-muted: #a3a8a0;
-  --color-brand-fg: #e8eae4;
-  --color-brand-fg-dim: #7a7d72;
+  --color-brand-cta-fg: #141a0d;
+  --color-brand-alert: #e05555;
+  --color-brand-amber: #E8C86A;
+  --color-brand-muted: #8a9082;
+  --color-brand-fg: #e5e9de;
+  --color-brand-fg-sub: #9ba090;
+  --color-brand-fg-dim: #8e9489;
 }
 
 :root {
@@ -140,4 +143,14 @@
   h1 {
     font-family: var(--font-heading);
   }
+}
+
+.grain-overlay {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23n)' opacity='0.035'/%3E%3C/svg%3E");
+  mix-blend-mode: overlay;
+  border-radius: inherit;
 }

@@ -4,7 +4,7 @@ import { getPlants } from '@/lib/db/plants'
 import { getGardens } from '@/lib/db/gardens'
 import { resolveActiveGarden } from '@/lib/gardens'
 import { PlantCard } from '@/components/PlantCard'
-import { GardenTabs } from '@/components/GardenTabs'
+import { GardenPicker } from '@/components/GardenPicker'
 import { GardenHeader } from '@/components/GardenHeader'
 import { getAuthenticatedUser } from '@/lib/auth'
 import { getTranslations } from 'next-intl/server'
@@ -33,24 +33,32 @@ export default async function PlantsPage({
   const ownedGardens = gardens.filter(g => g.role === 'owner')
 
   return (
-    <main className="flex-1 px-4 py-4 pb-28 space-y-3">
-      <GardenHeader
-        garden={activeGarden}
-        plantCount={plants.length}
-        isLastGarden={ownedGardens.length === 1 && isOwner}
-        firstRemainingGardenId={gardens.find(g => g.id !== resolvedId)?.id ?? null}
-      />
-      <GardenTabs gardens={gardens} activeGardenId={resolvedId} basePath="/plants" />
-      <p className="text-sm text-brand-fg-dim">
-        {t('count', { count: plants.length })}
-      </p>
-      {plants.length === 0 ? (
-        <p className="py-16 text-center text-brand-fg-dim">{t('empty')}</p>
-      ) : (
-        plants.map(plant => (
-          <PlantCard key={plant.id} plant={plant} today={today} canEdit={isOwner} />
-        ))
-      )}
+    <main className="flex-1 pb-28">
+      {/* Garden row */}
+      <div className="flex items-center justify-between gap-2 px-5 pb-3 pt-1">
+        <GardenPicker gardens={gardens} activeGardenId={resolvedId} basePath="/plants" />
+        <GardenHeader
+          garden={activeGarden}
+          plantCount={plants.length}
+          isLastGarden={ownedGardens.length === 1 && isOwner}
+          firstRemainingGardenId={gardens.find(g => g.id !== resolvedId)?.id ?? null}
+        />
+      </div>
+
+      <div className="px-5">
+        <p className="mb-3 text-xs text-brand-fg-dim">
+          {t('count', { count: plants.length })}
+        </p>
+        {plants.length === 0 ? (
+          <p className="py-16 text-center text-brand-fg-dim">{t('empty')}</p>
+        ) : (
+          <div className="grid grid-cols-2 gap-3">
+            {plants.map(plant => (
+              <PlantCard key={plant.id} plant={plant} today={today} canEdit={isOwner} />
+            ))}
+          </div>
+        )}
+      </div>
     </main>
   )
 }

@@ -34,7 +34,12 @@
       "Bash(mkdir -p \"C:/Users/Mateusz/Projects/plantsapp/app/api/guest/plants/[id]/water\")",
       "Bash(mkdir -p \"C:/Users/Mateusz/Projects/plantsapp/app/api/guest/plants/[id]/feed\")",
       "Bash(mkdir -p \"C:/Users/Mateusz/Projects/plantsapp/app/api/gardens/[id]/anonymous-share-link\")",
-      "Bash(mkdir -p \"C:/Users/Mateusz/Projects/plantsapp/app/guest/[token]\")"
+      "Bash(mkdir -p \"C:/Users/Mateusz/Projects/plantsapp/app/guest/[token]\")",
+      "WebFetch(domain:api.anthropic.com)",
+      "Bash(gunzip)",
+      "Bash(tar -x)",
+      "Read(//tmp/plants-app/project/**)",
+      "Bash(python3 -c \"import json,sys; d=json.load\\(sys.stdin\\); print\\(json.dumps\\({k:d[k] for k in ['dueCard','plantCard','nav'] if k in d}, indent=2\\)\\)\")"
     ]
   }
 }

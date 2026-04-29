@@ -33,7 +33,10 @@
     "waterOverdue": "💧 Water — {days}d overdue",
     "waterDueToday": "💧 Water due today",
     "feedOverdue": "🌿 Feed — {days}d overdue",
-    "feedDueToday": "🌿 Feed due today"
+    "feedDueToday": "🌿 Feed due today",
+    "needsWatering": "Needs watering",
+    "needsFeeding": "Needs feeding",
+    "interval": "Every {days, plural, one {# day} other {# days}}"
   },
   "actionButton": {
     "water": "Water",

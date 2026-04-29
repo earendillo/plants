@@ -128,7 +128,7 @@ export function ShareDialog({ gardenId }: Props) {
     <Dialog open={open} onOpenChange={handleOpenChange}>
       <DialogTrigger
         aria-label="Share garden"
-        className="rounded p-1 text-brand-fg-dim hover:text-brand-fg transition-colors"
+        className="flex size-11 items-center justify-center rounded-xl border border-white/[0.09] bg-white/[0.04] text-brand-fg-sub transition-colors hover:bg-white/[0.09] hover:text-brand-fg"
       >
         <Share2 size={16} />
       </DialogTrigger>

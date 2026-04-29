@@ -156,16 +156,14 @@ export function GardenHeader({
         : 'Delete garden'
 
   return (
-    <div className="flex items-center gap-2">
-      <h2 className="text-lg font-semibold text-brand-fg">{garden.name}</h2>
-
+    <div className="flex items-center gap-1.5">
       {isOwner && (
         <>
           {/* Rename dialog */}
           <Dialog open={renameOpen} onOpenChange={handleRenameOpenChange}>
             <DialogTrigger
               aria-label="Rename garden"
-              className="rounded p-1 text-brand-fg-dim hover:text-brand-fg transition-colors"
+              className="flex size-11 items-center justify-center rounded-xl border border-white/[0.09] bg-white/[0.04] text-brand-fg-sub transition-colors hover:bg-white/[0.09] hover:text-brand-fg"
             >
               <Pencil size={16} />
             </DialogTrigger>
@@ -205,7 +203,7 @@ export function GardenHeader({
             title={deleteTitle}
             disabled={deleteDisabled}
             onClick={() => setDeleteOpen(true)}
-            className="rounded p-1 text-brand-fg-dim hover:text-brand-alert transition-colors disabled:opacity-30 disabled:cursor-not-allowed disabled:hover:text-brand-fg-dim"
+            className="flex size-11 items-center justify-center rounded-xl border border-white/[0.09] bg-white/[0.04] text-brand-fg-sub transition-colors hover:bg-[rgba(224,85,85,0.12)] hover:text-brand-alert disabled:opacity-30 disabled:cursor-not-allowed disabled:hover:bg-white/[0.04] disabled:hover:text-brand-fg-sub"
           >
             <Trash2 size={16} />
           </button>
@@ -257,7 +255,7 @@ export function GardenHeader({
             aria-label="Leave garden"
             title="Leave garden"
             onClick={() => setLeaveOpen(true)}
-            className="rounded p-1 text-brand-fg-dim hover:text-brand-alert transition-colors"
+            className="flex size-11 items-center justify-center rounded-xl border border-white/[0.09] bg-white/[0.04] text-brand-fg-sub transition-colors hover:bg-[rgba(224,85,85,0.12)] hover:text-brand-alert"
           >
             <LogOut size={16} />
           </button>
