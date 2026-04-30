@@ -23,7 +23,9 @@
     "title": "Add Plant"
   },
   "plantEdit": {
-    "title": "Edit Plant"
+    "title": "Edit Plant",
+    "tabDetails": "Details",
+    "tabActivity": "Activity"
   },
   "plantCard": {
     "statusOverdue": "Overdue",
@@ -98,6 +100,15 @@
     "saveChanges": "Save Changes",
     "saveSuccess": "Changes saved.",
     "errorSaveFailed": "Failed to save. Please try again."
+  },
+  "activityTimeline": {
+    "title": "Recent Activity",
+    "watered": "Watered",
+    "fed": "Fed",
+    "empty": "No activity yet",
+    "today": "Today",
+    "hoursAgo": "{hours, plural, one {# hour ago} other {# hours ago}}",
+    "daysAgo": "{days, plural, one {# day ago} other {# days ago}}"
   },
   "setPassword": {
     "title": "Set new password",

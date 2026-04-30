@@ -19,6 +19,13 @@ export type Garden = {
   role: 'owner' | 'limited_editor'  // current viewer's role
 }
 
+export type ActivityLog = {
+  id: string
+  plantId: string
+  activityType: 'water' | 'feed'
+  performedAt: string  // ISO timestamp
+}
+
 export type Profile = {
   id: string
   displayName: string | null

@@ -1,6 +1,6 @@
 # Plant Watering Tracker — Current State
 
-> AI-readable snapshot of the project as of 2026-04-29.
+> AI-readable snapshot of the project as of 2026-04-30.
 
 ## Overview
 
@@ -26,6 +26,8 @@ Personal plant care web app for tracking watering and feeding schedules. Started
 
 **plants** — id, user_id, garden_id, name, emoji, watering_interval_days, feeding_interval_days, last_watered_at (timestamptz), last_fed_at (timestamptz), created_at
 
+**activity_logs** — id (uuid PK), plant_id (FK to plants, cascade delete), activity_type (`water` | `feed`), performed_at (timestamptz, default now()). Index on (plant_id, performed_at DESC). RLS: SELECT piggybacks on plants visibility. No direct INSERT/UPDATE/DELETE policies — all writes via security-definer RPCs.
+
 **gardens** — id, name, owner_id (FK to auth.users), created_at. UNIQUE(owner_id, name).
 
 **garden_members** — garden_id, user_id, role (`owner` | `limited_editor`), created_at
@@ -36,6 +38,7 @@ Personal plant care web app for tracking watering and feeding schedules. Started
 
 - `Plant` — camelCase mirror of plants table
 - `Garden` — id, name, userId (mapped from owner_id), createdAt, role (derived from membership)
+- `ActivityLog` — id, plantId, activityType (`water` | `feed`), performedAt (ISO timestamp)
 - `Profile` — id, displayName, avatarUrl, timezone, createdAt
 
 ## Auth
@@ -69,7 +72,7 @@ Auth callback route: `/auth/callback` (exchanges code for session).
 | `/today` | Dashboard: plants due/overdue for watering or feeding | yes |
 | `/plants` | Full plant list for active garden | yes |
 | `/plants/new` | Create plant form (garden owners only) | yes |
-| `/plants/[id]` | Edit plant form (garden owners only) | yes |
+| `/plants/[id]` | Plant detail with tabbed view: Details (edit form) + Activity (timeline). Garden owners only. | yes |
 | `/profile` | Edit display name; shows read-only email | yes |
 | `/share/[token]` | Accept garden share invitation | yes |
 | `/guest/[token]` | Validate anonymous share link, set guest JWT cookie, redirect to `/guest` | no |
@@ -88,6 +91,7 @@ Auth callback route: `/auth/callback` (exchanges code for session).
 | DELETE | `/api/plants/[id]` | garden owner | Delete plant |
 | POST | `/api/plants/[id]/water` | owner or member | Mark watered (RPC `water_plant`) |
 | POST | `/api/plants/[id]/feed` | owner or member | Mark fed (RPC `feed_plant`) |
+| GET | `/api/plants/[id]/history?limit=N` | authenticated | Activity log (default 10, max 50) |
 
 ### Profile
 
@@ -158,6 +162,8 @@ Guest mutations silently no-op if plant is not due (RPC returns 0 rows updated).
 | `GuestPlantList` | `/components/GuestPlantList.tsx` | Plant list with Water/Feed buttons for guest view; optimistic local state updates |
 | `GardenTabs` | `/components/GardenTabs.tsx` | Horizontal garden switcher + create button |
 | `CreateGardenButton` | `/components/CreateGardenButton.tsx` | Dialog for creating new garden |
+| `ActivityTimeline` | `/components/ActivityTimeline.tsx` | Client component: fetches and renders recent water/feed events with relative timestamps |
+| `PlantDetailTabs` | `/components/PlantDetailTabs.tsx` | Client component: tabbed layout for plant detail page (Details / Activity tabs) |
 | `BottomTabBar` | `/components/BottomTabBar.tsx` | Mobile bottom navigation (Today, Plants, Add, Sign Out) |
 | `LanguageSelector` | `/components/LanguageSelector.tsx` | i18n language switcher |
 | `ProfileForm` | `/components/ProfileForm.tsx` | Display name edit form with read-only email field |
@@ -184,6 +190,10 @@ Guest mutations silently no-op if plant is not due (RPC returns 0 rows updated).
 4. `20260419002000_fix_rpc_row_security.sql` — Security fixes for RPC functions
 5. `20260429000000_guest_garden_access.sql` — Guest access: adds `allow_anonymous`, `label`, `duration_days` to garden_share_links; makes `expires_at` NOT NULL; performance indexes; updated RLS policies for gardens/plants with guest branch; RPCs `validate_anonymous_share_link`, `water_plant_guest`, `feed_plant_guest`
 6. `20260429000100_fix_guest_rls_recursion.sql` — Fixes infinite RLS recursion (gardens policy queried garden_share_links which queried back to gardens); introduces `is_valid_guest_token(token, garden_id)` SECURITY DEFINER helper used in both policies
+7. `20260429001000_allow_members_to_leave_garden.sql` — Allow limited_editor members to leave gardens
+8. `20260430000000_add_profiles.sql` — Profiles table with display_name, avatar_url, timezone
+9. `20260430100000_add_activity_logs_minimal.sql` — activity_logs table with RLS (SELECT via plants visibility)
+10. `20260430100100_rpcs_log_activity.sql` — Updates water_plant, feed_plant, water_plant_guest, feed_plant_guest RPCs to insert into activity_logs after each action
 
 ## i18n
 

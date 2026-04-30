@@ -4,6 +4,8 @@ import { getPlant } from '@/lib/db/plants'
 import { getGardens } from '@/lib/db/gardens'
 import { getAuthenticatedUser } from '@/lib/auth'
 import { PlantForm } from '@/components/PlantForm'
+import { ActivityTimeline } from '@/components/ActivityTimeline'
+import { PlantDetailTabs } from '@/components/PlantDetailTabs'
 
 export default async function EditPlantPage({
   params,
@@ -26,7 +28,10 @@ export default async function EditPlantPage({
 
   return (
     <main className="flex-1 px-4 py-6 pb-28">
-      <PlantForm plant={plant} gardens={gardens} />
+      <PlantDetailTabs
+        detailsContent={<PlantForm plant={plant} gardens={gardens} />}
+        activityContent={<ActivityTimeline plantId={plant.id} />}
+      />
     </main>
   )
 }

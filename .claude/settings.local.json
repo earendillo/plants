@@ -47,7 +47,8 @@
       "Bash(ls /tmp/design*)",
       "Bash(tar -xf design)",
       "Bash(gunzip -c \"C:\\\\Users\\\\Mateusz\\\\.claude\\\\projects\\\\C--Users-Mateusz-Projects-plantsapp\\\\9695b97e-24f7-4fec-9ac3-9423d43c8018\\\\tool-results\\\\webfetch-1777496778861-alitht.bin\")",
-      "Bash(tar -x --to-stdout \"plants-app/project/Plants App.html\")"
+      "Bash(tar -x --to-stdout \"plants-app/project/Plants App.html\")",
+      "Bash(node:*)"
     ]
   }
 }

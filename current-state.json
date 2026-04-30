@@ -34,7 +34,14 @@
       },
       "plants": {
         "actions": ["Watering", "Feeding"],
-        "logic": "Interval-based scheduling; RPCs: water_plant, feed_plant, water_plant_guest, feed_plant_guest"
+        "logic": "Interval-based scheduling; RPCs: water_plant, feed_plant, water_plant_guest, feed_plant_guest",
+        "activity_logs": {
+          "status": "implemented",
+          "table": "activity_logs (id, plant_id, activity_type, performed_at)",
+          "logging": "Automatic via RPCs — all water/feed actions insert into activity_logs",
+          "api": "GET /api/plants/[id]/history?limit=N (auth required, default 10, max 50)",
+          "ui": "ActivityTimeline component in tabbed plant detail page (Details | Activity tabs)"
+        }
       },
       "profile": {
         "status": "implemented",
@@ -51,7 +58,7 @@
       "migrations": "/supabase/migrations/"
     },
     "database_schema": {
-      "tables": ["plants", "gardens", "garden_members", "garden_share_links", "profiles"]
+      "tables": ["plants", "gardens", "garden_members", "garden_share_links", "profiles", "activity_logs"]
     },
     "roadmap": []
   }

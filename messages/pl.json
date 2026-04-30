@@ -23,7 +23,9 @@
     "title": "Add Plant"
   },
   "plantEdit": {
-    "title": "Edit Plant"
+    "title": "Edit Plant",
+    "tabDetails": "Szczegóły",
+    "tabActivity": "Aktywność"
   },
   "plantCard": {
     "statusOverdue": "Overdue",
@@ -98,6 +100,15 @@
     "saveChanges": "Save changes",
     "saveSuccess": "Changes saved.",
     "errorSaveFailed": "Failed to save. Please try again."
+  },
+  "activityTimeline": {
+    "title": "Ostatnia aktywność",
+    "watered": "Podlano",
+    "fed": "Nawieziono",
+    "empty": "Brak aktywności",
+    "today": "Dzisiaj",
+    "hoursAgo": "{hours, plural, one {# godzinę temu} few {# godziny temu} many {# godzin temu} other {# godzin temu}}",
+    "daysAgo": "{days, plural, one {# dzień temu} few {# dni temu} many {# dni temu} other {# dni temu}}"
   },
   "setPassword": {
     "title": "Set new password",

@@ -1,5 +1,5 @@
 // lib/db/plants.ts
-import { Plant } from '@/types'
+import { Plant, ActivityLog } from '@/types'
 import { createClient } from '@/lib/supabase/server'
 
 export type DbPlant = {
@@ -109,4 +109,37 @@ export async function deletePlant(id: string): Promise<void> {
   const supabase = await createClient()
   const { error } = await supabase.from('plants').delete().eq('id', id)
   if (error) throw new Error(error.message)
+}
+
+// --- Activity Logs ---
+
+type DbActivityLog = {
+  id: string
+  plant_id: string
+  activity_type: 'water' | 'feed'
+  performed_at: string
+}
+
+function toActivityLog(row: DbActivityLog): ActivityLog {
+  return {
+    id: row.id,
+    plantId: row.plant_id,
+    activityType: row.activity_type,
+    performedAt: row.performed_at,
+  }
+}
+
+export async function getActivityLogs(
+  plantId: string,
+  limit = 10
+): Promise<ActivityLog[]> {
+  const supabase = await createClient()
+  const { data, error } = await supabase
+    .from('activity_logs')
+    .select('*')
+    .eq('plant_id', plantId)
+    .order('performed_at', { ascending: false })
+    .limit(limit)
+  if (error) throw new Error(error.message)
+  return (data as DbActivityLog[]).map(toActivityLog)
 }
