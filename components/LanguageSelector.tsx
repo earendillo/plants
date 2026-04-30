@@ -11,17 +11,17 @@ export function LanguageSelector() {
   }
 
   return (
-    <div className="flex items-center gap-1 rounded-full bg-black/20 px-2 py-1 text-xs font-semibold text-white">
+    <div className="flex items-center gap-1 px-3 text-xs font-semibold text-brand-fg-dim">
       <button
         onClick={() => switchTo('en')}
-        className={locale === 'en' ? 'opacity-100' : 'opacity-50 hover:opacity-75'}
+        className={locale === 'en' ? 'text-brand-fg' : 'hover:text-brand-fg-sub transition-colors'}
       >
         EN
       </button>
-      <span className="opacity-40">/</span>
+      <span className="opacity-30">/</span>
       <button
         onClick={() => switchTo('pl')}
-        className={locale === 'pl' ? 'opacity-100' : 'opacity-50 hover:opacity-75'}
+        className={locale === 'pl' ? 'text-brand-fg' : 'hover:text-brand-fg-sub transition-colors'}
       >
         PL
       </button>

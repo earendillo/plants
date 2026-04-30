@@ -2,7 +2,6 @@ import type { Metadata } from 'next'
 import { Fraunces, Plus_Jakarta_Sans } from 'next/font/google'
 import { NextIntlClientProvider } from 'next-intl'
 import { getLocale, getMessages } from 'next-intl/server'
-import { LanguageSelector } from '@/components/LanguageSelector'
 import './globals.css'
 
 const fraunces = Fraunces({
@@ -34,9 +33,6 @@ export default async function RootLayout({
     <html lang={locale} className={`${fraunces.variable} ${plusJakartaSans.variable}`}>
       <body className="min-h-screen bg-brand-bg">
         <NextIntlClientProvider messages={messages}>
-          <div className="fixed top-4 right-4 z-50">
-            <LanguageSelector />
-          </div>
           {children}
         </NextIntlClientProvider>
       </body>

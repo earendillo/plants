@@ -3,7 +3,9 @@
     "today": "Today",
     "plants": "Plants",
     "add": "Add",
-    "signOut": "Sign out"
+    "profile": "Profile",
+    "signOut": "Sign out",
+    "settings": "Settings"
   },
   "today": {
     "title": "Today's care",
@@ -86,6 +88,16 @@
     "sendButton": "Send reset link",
     "successMessage": "Check your inbox — we've sent a password reset link.",
     "backToLogin": "Back to login"
+  },
+  "profile": {
+    "title": "Profile",
+    "emailLabel": "Email",
+    "displayNameLabel": "Display name",
+    "displayNamePlaceholder": "Your name",
+    "saving": "Saving…",
+    "saveChanges": "Save Changes",
+    "saveSuccess": "Changes saved.",
+    "errorSaveFailed": "Failed to save. Please try again."
   },
   "setPassword": {
     "title": "Set new password",

@@ -3,7 +3,9 @@
     "today": "Today",
     "plants": "Plants",
     "add": "Add",
-    "signOut": "Sign out"
+    "profile": "Profile",
+    "signOut": "Sign Out",
+    "settings": "Settings"
   },
   "today": {
     "title": "Today's care",
@@ -57,7 +59,7 @@
     "namePlaceholder": "e.g. Monstera",
     "waterDaysLabel": "Water every (days)",
     "feedDaysLabel": "Feed every (days)",
-    "gardenLabel": "Ogród"
+    "gardenLabel": "Garden"
   },
   "login": {
     "appName": "PlantCare",
@@ -86,6 +88,16 @@
     "sendButton": "Send reset link",
     "successMessage": "Check your inbox — we've sent a password reset link.",
     "backToLogin": "Back to login"
+  },
+  "profile": {
+    "title": "Profile",
+    "emailLabel": "Email",
+    "displayNameLabel": "Display name",
+    "displayNamePlaceholder": "Your name",
+    "saving": "Saving…",
+    "saveChanges": "Save changes",
+    "saveSuccess": "Changes saved.",
+    "errorSaveFailed": "Failed to save. Please try again."
   },
   "setPassword": {
     "title": "Set new password",

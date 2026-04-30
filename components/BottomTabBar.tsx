@@ -1,9 +1,8 @@
 'use client'
 
 import Link from 'next/link'
-import { usePathname, useRouter, useSearchParams } from 'next/navigation'
+import { usePathname, useSearchParams } from 'next/navigation'
 import { useTranslations } from 'next-intl'
-import { supabase } from '@/lib/supabase/client'
 
 type TabKey = 'today' | 'plants' | 'add'
 
@@ -42,15 +41,6 @@ function AddIcon({ active }: { active: boolean }) {
   )
 }
 
-function SignOutIcon() {
-  return (
-    <svg width="22" height="22" viewBox="0 0 22 22" fill="none">
-      <path d="M8 11H18M18 11L15 8M18 11L15 14" stroke="#8e9489" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
-      <path d="M13 7V5C13 4 12 3 11 3H5C4 3 3 4 3 5V17C3 18 4 19 5 19H11C12 19 13 18 13 17V15" stroke="#8e9489" strokeWidth="1.5" strokeLinecap="round"/>
-    </svg>
-  )
-}
-
 const TABS: Array<{ href: string; key: TabKey }> = [
   { href: '/today', key: 'today' },
   { href: '/plants', key: 'plants' },
@@ -65,16 +55,10 @@ const TAB_ICONS: Record<TabKey, (active: boolean) => React.ReactNode> = {
 
 export function BottomTabBar() {
   const pathname = usePathname()
-  const router = useRouter()
   const searchParams = useSearchParams()
   const t = useTranslations('nav')
   const gardenParam = searchParams.get('garden')
   const tabHref = (base: string) => gardenParam ? `${base}?garden=${gardenParam}` : base
-
-  async function handleSignOut() {
-    await supabase.auth.signOut()
-    router.push('/login')
-  }
 
   return (
     <nav className="fixed bottom-0 left-0 right-0 flex bg-brand-bg border-t border-white/[0.07] pb-2">
@@ -98,14 +82,6 @@ export function BottomTabBar() {
           </Link>
         )
       })}
-
-      <button
-        onClick={handleSignOut}
-        className="flex flex-1 flex-col items-center gap-1 pt-2.5 pb-1 text-[10px] font-medium tracking-[0.02em] border-t-2 border-transparent -mt-px text-brand-fg-dim transition-colors hover:text-brand-fg-sub"
-      >
-        <SignOutIcon />
-        <span>{t('signOut')}</span>
-      </button>
     </nav>
   )
 }

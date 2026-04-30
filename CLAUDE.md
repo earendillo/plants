@@ -7,6 +7,7 @@
 - After each screen is done, run `npm run lint` and fix any errors before continuing
 - Ask before installing any package not already in the stack
 - Keep components small — if a file exceeds 150 lines, split it
+- When the feature is complete, add short meaningful note to current-state.md file
 
 ## Current MVP build order
 Work through these in sequence. Check off as you go.

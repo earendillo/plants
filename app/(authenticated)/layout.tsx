@@ -3,6 +3,7 @@
 import { usePathname } from 'next/navigation'
 import { useTranslations } from 'next-intl'
 import { BottomTabBar } from '@/components/BottomTabBar'
+import { TopBar } from '@/components/TopBar'
 import { GardenNavigationProvider } from '@/components/GardenNavigationContext'
 
 export default function AuthenticatedLayout({ children }: { children: React.ReactNode }) {
@@ -21,6 +22,7 @@ export default function AuthenticatedLayout({ children }: { children: React.Reac
   return (
     <GardenNavigationProvider>
       <div className="flex min-h-screen flex-col bg-brand-bg">
+        <TopBar />
         <header className="px-5 pb-2 pt-4">
           <h1
             className="font-heading text-[28px] leading-none text-brand-fg"
@@ -29,7 +31,9 @@ export default function AuthenticatedLayout({ children }: { children: React.Reac
             {title}
           </h1>
         </header>
-        {children}
+        <main className="flex flex-1 flex-col">
+          {children}
+        </main>
         <BottomTabBar />
       </div>
     </GardenNavigationProvider>

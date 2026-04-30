@@ -18,3 +18,11 @@ export type Garden = {
   createdAt: string
   role: 'owner' | 'limited_editor'  // current viewer's role
 }
+
+export type Profile = {
+  id: string
+  displayName: string | null
+  avatarUrl: string | null
+  timezone: string
+  createdAt: string
+}
