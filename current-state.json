@@ -1,0 +1,90 @@
+{
+    "project": "plant-watering-tracker",
+    "version": "2.0.0",
+    "last_updated": "2026-04-30",
+    "stack": {
+      "framework": "Next.js 16 (App Router)",
+      "language": "TypeScript (Strict)",
+      "database": "Supabase PostgreSQL (RLS Active)",
+      "auth": "Supabase Auth (@supabase/ssr)",
+      "ui": "Tailwind 4, shadcn/ui (base-ui)",
+      "i18n": "next-intl 4"
+    },
+    "architecture": {
+      "data_access": "Server-side modules in /lib/db/",
+      "api_pattern": "Standard Next.js Route Handlers with Zod validation",
+      "auth_strategy": "JWT via Cookies, Middleware session refresh, Custom Guest JWT (HS256)",
+      "navigation": {
+        "top": "Sticky TopBar with Sheet (Profile, Sign Out)",
+        "bottom": "3-tab Mobile Nav (Today, Plants, Add)"
+      }
+    },
+    "implemented_features": {
+      "auth": {
+        "flows": ["Email/Password", "Google OAuth", "Password Reset"],
+        "middleware": "Auth-guarded routes vs Public/Guest exceptions"
+      },
+      "gardens": {
+        "multi_tenant": true,
+        "roles": ["owner", "limited_editor"],
+        "sharing": {
+          "authenticated": "Invite links via membership table",
+          "anonymous": "Time-limited (1-14 days) guest JWT access"
+        }
+      },
+      "plants": {
+        "actions": ["Watering", "Feeding"],
+        "logic": "Interval-based scheduling with RPC-based mutations"
+      },
+      "profile": {
+        "fields": ["displayName", "avatarUrl", "timezone"],
+        "persistence": "profiles table linked to auth.users"
+      }
+    },
+    "directory_map": {
+      "types": "/types/index.ts",
+      "db_helpers": "/lib/db/",
+      "business_logic": "/lib/utils.ts",
+      "components": "/components/",
+      "api": "/app/api/",
+      "migrations": "/supabase/migrations/"
+    },
+    "database_schema": {
+      "tables": [
+        {
+          "name": "plants",
+          "description": "Core plant data and schedule state"
+        },
+        {
+          "name": "gardens",
+          "description": "Garden containers owned by users"
+        },
+        {
+          "name": "garden_members",
+          "description": "RBAC mapping for shared garden access"
+        },
+        {
+          "name": "garden_share_links",
+          "description": "Token-based invites for both users and guests"
+        },
+        {
+          "name": "profiles",
+          "description": "Extended user metadata"
+        }
+      ]
+    },
+    "roadmap": [
+      {
+        "id": "push_notifications",
+        "priority": "high",
+        "status": "planned",
+        "description": "Web Push API for watering reminders"
+      },
+      {
+        "id": "photo_uploads",
+        "priority": "medium",
+        "status": "planned",
+        "description": "Supabase Storage integration for plant progress photos"
+      }
+    ]
+  }

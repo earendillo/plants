@@ -1,13 +1,14 @@
 @AGENTS.md
 
 # Claude-specific notes
+- current-state.json is the memory file for AI agents for quick refreshing the knowledge about the current state of the project
 
 ## Workflow
 - Build one screen at a time, confirm before moving to the next
 - After each screen is done, run `npm run lint` and fix any errors before continuing
 - Ask before installing any package not already in the stack
 - Keep components small — if a file exceeds 150 lines, split it
-- When the feature is complete, add short meaningful note to current-state.md file
+- When the feature is complete, update current-state.md and current-state.json files.
 
 ## Current MVP build order
 Work through these in sequence. Check off as you go.
