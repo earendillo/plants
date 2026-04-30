@@ -1,7 +1,7 @@
 // app/(authenticated)/today/page.tsx
 import { redirect } from 'next/navigation'
 import { getPlants } from '@/lib/db/plants'
-import { getGardens } from '@/lib/db/gardens'
+import { getGardens, ensureDefaultGarden } from '@/lib/db/gardens'
 import { resolveActiveGarden } from '@/lib/gardens'
 import { isDueForWatering, isDueForFeeding, daysUntilDue } from '@/lib/utils'
 import { DueCard } from '@/components/DueCard'
@@ -32,6 +32,11 @@ export default async function TodayPage({
     getTranslations('today'),
     getLocale(),
   ])
+
+  if (gardens.length === 0) {
+    await ensureDefaultGarden(user!.id)
+    redirect('/today')
+  }
 
   const resolvedId = resolveActiveGarden(gardens, gardenParam)
   if (gardenParam !== resolvedId) {

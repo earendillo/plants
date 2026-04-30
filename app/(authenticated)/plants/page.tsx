@@ -1,7 +1,7 @@
 // app/(authenticated)/plants/page.tsx
 import { redirect } from 'next/navigation'
 import { getPlants } from '@/lib/db/plants'
-import { getGardens } from '@/lib/db/gardens'
+import { getGardens, ensureDefaultGarden } from '@/lib/db/gardens'
 import { resolveActiveGarden } from '@/lib/gardens'
 import { PlantCard } from '@/components/PlantCard'
 import { GardenPicker } from '@/components/GardenPicker'
@@ -22,6 +22,11 @@ export default async function PlantsPage({
     getGardens(user?.id ?? ''),
     getTranslations('plants'),
   ])
+
+  if (gardens.length === 0) {
+    await ensureDefaultGarden(user!.id)
+    redirect('/plants')
+  }
 
   const resolvedId = resolveActiveGarden(gardens, gardenParam)
   if (gardenParam !== resolvedId) {

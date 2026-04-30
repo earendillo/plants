@@ -1,6 +1,6 @@
 // app/(authenticated)/plants/new/page.tsx
 import { redirect } from 'next/navigation'
-import { getGardens } from '@/lib/db/gardens'
+import { getGardens, ensureDefaultGarden } from '@/lib/db/gardens'
 import { resolveActiveGarden } from '@/lib/gardens'
 import { getAuthenticatedUser } from '@/lib/auth'
 import { PlantForm } from '@/components/PlantForm'
@@ -13,6 +13,11 @@ export default async function NewPlantPage({
   const { garden: gardenParam } = await searchParams
   const user = await getAuthenticatedUser()
   const gardens = await getGardens(user?.id ?? '')
+
+  if (gardens.length === 0) {
+    await ensureDefaultGarden(user!.id)
+    redirect('/plants/new')
+  }
 
   const resolvedId = resolveActiveGarden(gardens, gardenParam)
   if (gardenParam !== resolvedId) {
