@@ -36,6 +36,7 @@ Personal plant care web app for tracking watering and feeding schedules. Started
 
 - `Plant` — camelCase mirror of plants table
 - `Garden` — id, name, userId (mapped from owner_id), createdAt, role (derived from membership)
+- `Profile` — id, displayName, avatarUrl, timezone, createdAt
 
 ## Auth
 
@@ -69,6 +70,7 @@ Auth callback route: `/auth/callback` (exchanges code for session).
 | `/plants` | Full plant list for active garden | yes |
 | `/plants/new` | Create plant form (garden owners only) | yes |
 | `/plants/[id]` | Edit plant form (garden owners only) | yes |
+| `/profile` | Edit display name; shows read-only email | yes |
 | `/share/[token]` | Accept garden share invitation | yes |
 | `/guest/[token]` | Validate anonymous share link, set guest JWT cookie, redirect to `/guest` | no |
 | `/guest` | Guest plant view — water/feed without logging in | no (guest JWT cookie) |
@@ -86,6 +88,13 @@ Auth callback route: `/auth/callback` (exchanges code for session).
 | DELETE | `/api/plants/[id]` | garden owner | Delete plant |
 | POST | `/api/plants/[id]/water` | owner or member | Mark watered (RPC `water_plant`) |
 | POST | `/api/plants/[id]/feed` | owner or member | Mark fed (RPC `feed_plant`) |
+
+### Profile
+
+| Method | Route | Access | Description |
+|--------|-------|--------|-------------|
+| GET | `/api/profile` | authenticated | Get own profile (returns empty shape if not yet created) |
+| PUT | `/api/profile` | authenticated | Update display_name |
 
 ### Gardens
 
@@ -151,6 +160,8 @@ Guest mutations silently no-op if plant is not due (RPC returns 0 rows updated).
 | `CreateGardenButton` | `/components/CreateGardenButton.tsx` | Dialog for creating new garden |
 | `BottomTabBar` | `/components/BottomTabBar.tsx` | Mobile bottom navigation (Today, Plants, Add, Sign Out) |
 | `LanguageSelector` | `/components/LanguageSelector.tsx` | i18n language switcher |
+| `ProfileForm` | `/components/ProfileForm.tsx` | Display name edit form with read-only email field |
+| `TopBar` | `/components/TopBar.tsx` | Sticky top bar: PlantTracker brand link (left) + hamburger menu Sheet (right) with Profile link and Sign Out |
 
 ## Utility Functions (`/lib/utils.ts`)
 
@@ -193,6 +204,7 @@ Supported via `next-intl`. Translation files in `/messages/` directory. `Languag
   /db/plants.ts      — Plant CRUD via Supabase (exports DbPlant, toPlant)
   /db/gardens.ts     — Garden CRUD + membership queries (scoped to allow_anonymous=false for member links)
   /db/anonymous-links.ts — Anonymous guest link helpers (get/create/revoke)
+  /db/profiles.ts    — Profile get/upsert via Supabase
   /auth.ts           — getAuthenticatedUser helper
   /utils.ts          — Date/due-date calculations
   /gardens.ts        — resolveActiveGarden helper
@@ -203,6 +215,12 @@ Supported via `next-intl`. Translation files in `/messages/` directory. `Languag
 /messages            — i18n translation files
 /i18n                — next-intl config
 ```
+
+## Navigation Layout
+
+- **TopBar** (`/components/TopBar.tsx`) — sticky top bar with PlantTracker brand (links `/today`) on the left and a hamburger `Sheet` menu on the right. Sheet contains: Profile link + Sign Out button.
+- **BottomTabBar** — trimmed to 3 core tabs: Today, Plants, Add. Profile and Sign Out removed (now in TopBar drawer).
+- `components/ui/sheet.tsx` — custom Sheet component built on `@base-ui/react/dialog`, slides in from the right.
 
 ## What Has Changed From Original CLAUDE.md Spec
 
