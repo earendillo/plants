@@ -2,6 +2,7 @@ import Link from 'next/link'
 import { getTranslations } from 'next-intl/server'
 import { Plant } from '@/types'
 import { daysUntilDue } from '@/lib/utils'
+import { Badge } from '@/components/ui/badge'
 import { PlantIcon, PLANT_TINTS, emojiToPlantType } from '@/components/PlantIcon'
 
 type Props = {
@@ -77,16 +78,9 @@ export async function PlantCard({ plant, today, canEdit }: Props) {
               {t('statusOk', { days: bestDays })}
             </span>
           ) : (
-            <span
-              className="inline-block rounded-full px-2 py-0.5 text-[11px] font-semibold tracking-[0.03em]"
-              style={
-                status === 'overdue'
-                  ? { background: 'rgba(224,85,85,0.10)', color: '#e05555' }
-                  : { background: 'rgba(232,200,106,0.12)', color: '#E8C86A' }
-              }
-            >
+            <Badge variant={status === 'overdue' ? 'overdue-verbose' : 'due-today-verbose'}>
               {status === 'overdue' ? t('statusOverdue') : t('statusDueToday')}
-            </span>
+            </Badge>
           )}
         </div>
       </div>

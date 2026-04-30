@@ -1,6 +1,7 @@
 import { getTranslations } from 'next-intl/server'
 import { Plant } from '@/types'
 import { ActionButton } from '@/components/ActionButton'
+import { Badge } from '@/components/ui/badge'
 import { PlantIcon, PLANT_TINTS, emojiToPlantType } from '@/components/PlantIcon'
 
 type Props = {
@@ -60,16 +61,9 @@ export async function DueCard({ plant, action, daysUntil }: Props) {
         </div>
 
         {/* Status chip */}
-        <span
-          className="flex-shrink-0 rounded-full px-2.5 py-1 text-[11px] font-bold uppercase tracking-[0.04em]"
-          style={
-            isOverdue
-              ? { background: 'rgba(224,85,85,0.10)', color: '#e05555' }
-              : { background: 'rgba(232,200,106,0.12)', color: '#E8C86A' }
-          }
-        >
+        <Badge variant={isOverdue ? 'overdue' : 'due-today'} className="flex-shrink-0">
           {isOverdue ? `−${overdueDays}d` : 'Today'}
-        </span>
+        </Badge>
       </div>
 
       {/* Action footer */}

@@ -217,12 +217,10 @@ export function PlantIcon({ type, color: c, size = 56 }: Props) {
     <svg width={size} height={size} viewBox="0 0 56 64" fill="none">
       <rect x="18" y="8" width="9" height="52" rx="4" fill={c} opacity="0.65"/>
       <rect x="22" y="8" width="9" height="52" rx="4" fill={c} opacity="0.80"/>
-      {[52, 40, 28, 16].map(y => (
-        <>
-          <rect key={`a${y}`} x="18" y={y} width="9"  height="2.5" rx="1.2" fill="rgba(0,0,0,0.12)"/>
-          <rect key={`b${y}`} x="22" y={y} width="9"  height="2.5" rx="1.2" fill="rgba(0,0,0,0.12)"/>
-        </>
-      ))}
+      {[52, 40, 28, 16].flatMap(y => [
+        <rect key={`a${y}`} x="18" y={y} width="9"  height="2.5" rx="1.2" fill="rgba(0,0,0,0.12)"/>,
+        <rect key={`b${y}`} x="22" y={y} width="9"  height="2.5" rx="1.2" fill="rgba(0,0,0,0.12)"/>,
+      ])}
       <path d="M27 16 C30 10 40  8 44 12 C38 14 30 16 27 16Z" fill={c}/>
       <path d="M27 28 C24 20 14 18 10 22 C16 24 24 28 27 28Z" fill={c}/>
       <path d="M31 16 C36  8 46  6 50 10 C44 13 34 15 31 16Z" fill={c} opacity="0.75"/>
@@ -240,7 +238,7 @@ export function PlantIcon({ type, color: c, size = 56 }: Props) {
       <ellipse cx="20" cy="48" rx="5" ry="3" transform="rotate(-30 20 48)" fill={c} opacity="0.45"/>
       <ellipse cx="28" cy="46" rx="5" ry="3" transform="rotate(-30 28 46)" fill={c} opacity="0.45"/>
       <ellipse cx="36" cy="48" rx="5" ry="3" transform="rotate(30 36 48)"  fill={c} opacity="0.45"/>
-      {([[14, 40, 0.65], [20, 36, 1], [28, 32, 1], [36, 36, 1], [42, 40, 0.65]] as [number, number, number][]).map(([x, y, op]) =>
+      {([[14, 40, 0.65], [20, 36, 1], [28, 32, 1], [36, 36, 1], [42, 40, 0.65]] as [number, number, number][]).flatMap(([x, y, op]) =>
         [0, 1, 2, 3, 4].map(i => (
           <ellipse key={`${x}-${i}`} cx={x} cy={y - i * 4.5} rx="4" ry="3.5" fill={c} opacity={op * (0.4 + i * 0.14)}/>
         ))
