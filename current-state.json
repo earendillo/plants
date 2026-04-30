@@ -1,6 +1,6 @@
 {
     "project": "plant-watering-tracker",
-    "version": "2.0.0",
+    "version": "0.0.1",
     "last_updated": "2026-04-30",
     "stack": {
       "framework": "Next.js 16 (App Router)",
@@ -29,14 +29,15 @@
         "roles": ["owner", "limited_editor"],
         "sharing": {
           "authenticated": "Invite links via membership table",
-          "anonymous": "Time-limited (1-14 days) guest JWT access"
+          "anonymous": "Time-limited guest JWT access via is_valid_guest_token helper"
         }
       },
       "plants": {
         "actions": ["Watering", "Feeding"],
-        "logic": "Interval-based scheduling with RPC-based mutations"
+        "logic": "Interval-based scheduling; RPCs: water_plant, feed_plant, water_plant_guest, feed_plant_guest"
       },
       "profile": {
+        "status": "implemented",
         "fields": ["displayName", "avatarUrl", "timezone"],
         "persistence": "profiles table linked to auth.users"
       }
@@ -50,41 +51,7 @@
       "migrations": "/supabase/migrations/"
     },
     "database_schema": {
-      "tables": [
-        {
-          "name": "plants",
-          "description": "Core plant data and schedule state"
-        },
-        {
-          "name": "gardens",
-          "description": "Garden containers owned by users"
-        },
-        {
-          "name": "garden_members",
-          "description": "RBAC mapping for shared garden access"
-        },
-        {
-          "name": "garden_share_links",
-          "description": "Token-based invites for both users and guests"
-        },
-        {
-          "name": "profiles",
-          "description": "Extended user metadata"
-        }
-      ]
+      "tables": ["plants", "gardens", "garden_members", "garden_share_links", "profiles"]
     },
-    "roadmap": [
-      {
-        "id": "push_notifications",
-        "priority": "high",
-        "status": "planned",
-        "description": "Web Push API for watering reminders"
-      },
-      {
-        "id": "photo_uploads",
-        "priority": "medium",
-        "status": "planned",
-        "description": "Supabase Storage integration for plant progress photos"
-      }
-    ]
+    "roadmap": []
   }
