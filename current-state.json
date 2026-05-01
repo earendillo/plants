@@ -1,64 +1,21 @@
 {
-    "project": "plant-watering-tracker",
-    "version": "0.0.1",
-    "last_updated": "2026-04-30",
-    "stack": {
-      "framework": "Next.js 16 (App Router)",
-      "language": "TypeScript (Strict)",
-      "database": "Supabase PostgreSQL (RLS Active)",
-      "auth": "Supabase Auth (@supabase/ssr)",
-      "ui": "Tailwind 4, shadcn/ui (base-ui)",
-      "i18n": "next-intl 4"
+  "pj": "plant-watering-tracker",
+  "stack": "Next16(AppRouter)|TS(Strict)|Supabase(RLS+SSR)|TW4+shadcn|next-intl4",
+  "arch": {
+    "da": "Server-modules@/lib/db/",
+    "api": "RouteHandlers+Zod",
+    "auth": "JWT-Cookies+Middleware+Guest-JWT(HS256)",
+    "nav": "Top:Sticky+Sheet|Bottom:3-tab(Today,Plants,Add)"
+  },
+  "impl": {
+    "auth": ["Email/Pass", "GoogleOAuth", "PassReset", "Auth-guarded-middleware"],
+    "gardens": "Multi-tenant|Roles(owner,limited_editor)|Invite-links|Guest-JWT(is_valid_guest_token)",
+    "plants": {
+      "logic": "Interval-scheduling|RPCs(water_plant,feed_plant+guest_variants)",
+      "logs": "Auto-logging@activity_logs|GET /api/plants/[id]/history|UI:ActivityTimeline"
     },
-    "architecture": {
-      "data_access": "Server-side modules in /lib/db/",
-      "api_pattern": "Standard Next.js Route Handlers with Zod validation",
-      "auth_strategy": "JWT via Cookies, Middleware session refresh, Custom Guest JWT (HS256)",
-      "navigation": {
-        "top": "Sticky TopBar with Sheet (Profile, Sign Out)",
-        "bottom": "3-tab Mobile Nav (Today, Plants, Add)"
-      }
-    },
-    "implemented_features": {
-      "auth": {
-        "flows": ["Email/Password", "Google OAuth", "Password Reset"],
-        "middleware": "Auth-guarded routes vs Public/Guest exceptions"
-      },
-      "gardens": {
-        "multi_tenant": true,
-        "roles": ["owner", "limited_editor"],
-        "sharing": {
-          "authenticated": "Invite links via membership table",
-          "anonymous": "Time-limited guest JWT access via is_valid_guest_token helper"
-        }
-      },
-      "plants": {
-        "actions": ["Watering", "Feeding"],
-        "logic": "Interval-based scheduling; RPCs: water_plant, feed_plant, water_plant_guest, feed_plant_guest",
-        "activity_logs": {
-          "status": "implemented",
-          "table": "activity_logs (id, plant_id, activity_type, performed_at)",
-          "logging": "Automatic via RPCs — all water/feed actions insert into activity_logs",
-          "api": "GET /api/plants/[id]/history?limit=N (auth required, default 10, max 50)",
-          "ui": "ActivityTimeline component in tabbed plant detail page (Details | Activity tabs)"
-        }
-      },
-      "profile": {
-        "status": "implemented",
-        "fields": ["displayName", "avatarUrl", "timezone"],
-        "persistence": "profiles table linked to auth.users"
-      }
-    },
-    "directory_map": {
-      "types": "/types/index.ts",
-      "db_helpers": "/lib/db/",
-      "business_logic": "/lib/utils.ts",
-      "components": "/components/",
-      "api": "/app/api/",
-      "migrations": "/supabase/migrations/"
-    },
-    "database_schema": {
-      "tables": ["plants", "gardens", "garden_members", "garden_share_links", "profiles", "activity_logs"]
-    },
-    "roadmap": []
-  }
+    "profile": "Fields(displayName,avatarUrl,timezone)|Table:profiles"
+  },
+  "paths": "types:/types/idx.ts|db:/lib/db/|biz:/lib/utils.ts|ui:/components/|api:/app/api/|mig:/supabase/migrations/",
+  "db": ["plants", "gardens", "garden_members", "garden_share_links", "profiles", "activity_logs"]
+}
