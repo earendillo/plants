@@ -4,12 +4,13 @@
 1. **State:** Always read `current-state.json` for progress/arch map.
 2. **Types:** Read `/types/index.ts` before implementing logic.
 3. **Next.js:** If unsure about App Router patterns, check `node_modules/next/dist/docs/`.
+4. **Mapping**: Always assume DB is snake_case and UI is camelCase. Mapping happens EXCLUSIVELY in /lib/db/.
 
 ## Coding Standards
 - **Strict TS:** Named exports only. No `any`. 
 - **Validation:** Use Zod for all API route inputs.
 - **Data Access:** ONLY via `/lib/db/` abstraction.
-- **Auth:** Mock mode. Use `localStorage` + `userId: "user_1"`.
+- **Auth:** Use Supabase Auth. Get `userId` from `supabase.auth.getUser()` or session. NEVER use localStorage for DB state.
 
 ## Communication
 - Be concise. Code over explanations.
