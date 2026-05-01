@@ -146,37 +146,37 @@ export type Database = {
       plants: {
         Row: {
           created_at: string | null
-          emoji: string
           feeding_interval_days: number
           garden_id: string
           id: string
           last_fed_at: string | null
           last_watered_at: string | null
           name: string
+          plant_type: string
           user_id: string
           watering_interval_days: number
         }
         Insert: {
           created_at?: string | null
-          emoji: string
           feeding_interval_days: number
           garden_id: string
           id?: string
           last_fed_at?: string | null
           last_watered_at?: string | null
           name: string
+          plant_type?: string
           user_id: string
           watering_interval_days: number
         }
         Update: {
           created_at?: string | null
-          emoji?: string
           feeding_interval_days?: number
           garden_id?: string
           id?: string
           last_fed_at?: string | null
           last_watered_at?: string | null
           name?: string
+          plant_type?: string
           user_id?: string
           watering_interval_days?: number
         }

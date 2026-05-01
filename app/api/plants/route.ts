@@ -4,11 +4,12 @@ import { z } from 'zod'
 import { getPlants, createPlant } from '@/lib/db/plants'
 import { getAuthenticatedUser } from '@/lib/auth'
 import { isGardenOwner } from '@/lib/db/gardens'
+import type { PlantType } from '@/components/PlantIcon'
 
 const createSchema = z.object({
   gardenId: z.string().uuid(),
   name: z.string().min(1).max(100),
-  emoji: z.string().min(1).max(4),
+  type: z.string().min(1),
   wateringIntervalDays: z.number().int().min(1).max(365),
   feedingIntervalDays: z.number().int().min(1).max(365),
   lastWateredAt: z.string().nullable(),
@@ -37,6 +38,10 @@ export async function POST(request: NextRequest) {
   if (!(await isGardenOwner(result.data.gardenId, user.id))) {
     return NextResponse.json({ error: 'Forbidden' }, { status: 403 })
   }
-  const plant = await createPlant({ ...result.data, userId: user.id })
+  const plant = await createPlant({
+    ...result.data,
+    type: result.data.type as PlantType,
+    userId: user.id,
+  })
   return NextResponse.json(plant, { status: 201 })
 }

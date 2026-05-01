@@ -56,7 +56,7 @@
     "errorDeleteFailed": "Failed to delete. Please try again."
   },
   "plantFormFields": {
-    "emojiLabel": "Emoji",
+    "typeLabel": "Plant type",
     "nameLabel": "Plant name",
     "namePlaceholder": "e.g. Monstera",
     "waterDaysLabel": "Water every (days)",

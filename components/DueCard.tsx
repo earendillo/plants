@@ -2,7 +2,7 @@ import { getTranslations } from 'next-intl/server'
 import { Plant } from '@/types'
 import { ActionButton } from '@/components/ActionButton'
 import { Badge } from '@/components/ui/badge'
-import { PlantIcon, PLANT_TINTS, emojiToPlantType } from '@/components/PlantIcon'
+import { PlantIcon, PLANT_TINTS } from '@/components/PlantIcon'
 
 type Props = {
   plant: Plant
@@ -15,8 +15,7 @@ export async function DueCard({ plant, action, daysUntil }: Props) {
   const isOverdue = daysUntil < 0
   const overdueDays = Math.abs(daysUntil)
 
-  const plantType = emojiToPlantType(plant.emoji)
-  const tint = PLANT_TINTS[plantType]
+  const tint = PLANT_TINTS[plant.type]
 
   const actionLabel = action === 'water' ? t('needsWatering') : t('needsFeeding')
 
@@ -46,7 +45,7 @@ export async function DueCard({ plant, action, daysUntil }: Props) {
           className="flex size-[50px] flex-shrink-0 items-center justify-center rounded-2xl"
           style={{ background: iconBubbleBg }}
         >
-          <PlantIcon type={plantType} color={iconColor} size={30} />
+          <PlantIcon type={plant.type} color={iconColor} size={30} />
         </div>
 
         {/* Name + action label */}

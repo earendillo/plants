@@ -4,6 +4,7 @@ import { useState } from 'react'
 import { useRouter } from 'next/navigation'
 import { useTranslations } from 'next-intl'
 import { Garden, Plant } from '@/types'
+import { type PlantType } from '@/components/PlantIcon'
 import { PlantFormFields } from '@/components/PlantFormFields'
 
 type Props = {
@@ -15,7 +16,7 @@ type Props = {
 export function PlantForm({ plant, gardenId, gardens }: Props) {
   const router = useRouter()
   const t = useTranslations('plantForm')
-  const [emoji, setEmoji] = useState(plant?.emoji ?? '🌿')
+  const [plantType, setPlantType] = useState<PlantType>(plant?.type ?? 'other')
   const [name, setName] = useState(plant?.name ?? '')
   const [waterDays, setWaterDays] = useState(
     String(plant?.wateringIntervalDays ?? 7)
@@ -42,7 +43,7 @@ export function PlantForm({ plant, gardenId, gardens }: Props) {
 
     const body = plant
       ? {
-          emoji,
+          type: plantType,
           name,
           wateringIntervalDays: waterInt,
           feedingIntervalDays: feedInt,
@@ -52,7 +53,7 @@ export function PlantForm({ plant, gardenId, gardens }: Props) {
         }
       : {
           gardenId: selectedGardenId || gardenId!,
-          emoji,
+          type: plantType,
           name,
           wateringIntervalDays: waterInt,
           feedingIntervalDays: feedInt,
@@ -112,11 +113,11 @@ export function PlantForm({ plant, gardenId, gardens }: Props) {
       )}
 
       <PlantFormFields
-        emoji={emoji}
+        plantType={plantType}
         name={name}
         waterDays={waterDays}
         feedDays={feedDays}
-        onEmojiChange={setEmoji}
+        onPlantTypeChange={setPlantType}
         onNameChange={setName}
         onWaterDaysChange={setWaterDays}
         onFeedDaysChange={setFeedDays}

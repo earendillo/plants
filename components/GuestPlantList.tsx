@@ -5,6 +5,7 @@ import { useState } from 'react'
 import { Plant } from '@/types'
 import { isDueForWatering, isDueForFeeding } from '@/lib/utils'
 import { Button } from '@/components/ui/button'
+import { PlantIcon, PLANT_TINTS } from '@/components/PlantIcon'
 
 type Props = {
   initialPlants: Plant[]
@@ -58,7 +59,7 @@ export function GuestPlantList({ initialPlants }: Props) {
             key={plant.id}
             className="flex items-center gap-3 rounded-lg border border-white/10 bg-brand-surface p-4"
           >
-            <span className="text-2xl">{plant.emoji}</span>
+            <PlantIcon type={plant.type} color={PLANT_TINTS[plant.type]} size={32} />
             <span className="flex-1 font-medium text-brand-fg">{plant.name}</span>
             <Button
               onClick={() => handleWater(plant.id)}

@@ -1,13 +1,14 @@
 // lib/db/plants.ts
 import { Plant, ActivityLog } from '@/types'
 import { createClient } from '@/lib/supabase/server'
+import type { PlantType } from '@/components/PlantIcon'
 
 export type DbPlant = {
   id: string
   user_id: string
   garden_id: string
   name: string
-  emoji: string
+  plant_type: string
   watering_interval_days: number
   feeding_interval_days: number
   last_watered_at: string | null
@@ -21,7 +22,7 @@ export function toPlant(row: DbPlant): Plant {
     userId: row.user_id,
     gardenId: row.garden_id,
     name: row.name,
-    emoji: row.emoji,
+    type: row.plant_type as PlantType,
     wateringIntervalDays: row.watering_interval_days,
     feedingIntervalDays: row.feeding_interval_days,
     lastWateredAt: row.last_watered_at,
@@ -33,7 +34,7 @@ export function toPlant(row: DbPlant): Plant {
 function toDbUpdate(data: Partial<Plant>): Record<string, unknown> {
   const update: Record<string, unknown> = {}
   if (data.name !== undefined) update.name = data.name
-  if (data.emoji !== undefined) update.emoji = data.emoji
+  if (data.type !== undefined) update.plant_type = data.type
   if (data.wateringIntervalDays !== undefined) update.watering_interval_days = data.wateringIntervalDays
   if (data.feedingIntervalDays !== undefined) update.feeding_interval_days = data.feedingIntervalDays
   if (data.lastWateredAt !== undefined) update.last_watered_at = data.lastWateredAt
@@ -78,7 +79,7 @@ export async function createPlant(
       user_id: data.userId,
       garden_id: data.gardenId,
       name: data.name,
-      emoji: data.emoji,
+      plant_type: data.type,
       watering_interval_days: data.wateringIntervalDays,
       feeding_interval_days: data.feedingIntervalDays,
       last_watered_at: data.lastWateredAt,

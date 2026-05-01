@@ -4,10 +4,11 @@ import { z } from 'zod'
 import { getPlant, updatePlant, deletePlant } from '@/lib/db/plants'
 import { getAuthenticatedUser } from '@/lib/auth'
 import { isGardenOwner } from '@/lib/db/gardens'
+import type { Plant } from '@/types'
 
 const updateSchema = z.object({
   name: z.string().min(1).max(100).optional(),
-  emoji: z.string().min(1).max(4).optional(),
+  type: z.string().min(1).optional(),
   wateringIntervalDays: z.number().int().min(1).max(365).optional(),
   feedingIntervalDays: z.number().int().min(1).max(365).optional(),
   lastWateredAt: z.string().nullable().optional(),
@@ -44,7 +45,7 @@ export async function PUT(
   if (!result.success) {
     return NextResponse.json({ error: result.error.flatten() }, { status: 400 })
   }
-  const updated = await updatePlant(id, result.data)
+  const updated = await updatePlant(id, result.data as Partial<Plant>)
   return NextResponse.json(updated)
 }
 

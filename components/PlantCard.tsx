@@ -3,7 +3,7 @@ import { getTranslations } from 'next-intl/server'
 import { Plant } from '@/types'
 import { daysUntilDue } from '@/lib/utils'
 import { Badge } from '@/components/ui/badge'
-import { PlantIcon, PLANT_TINTS, emojiToPlantType } from '@/components/PlantIcon'
+import { PlantIcon, PLANT_TINTS } from '@/components/PlantIcon'
 
 type Props = {
   plant: Plant
@@ -27,8 +27,7 @@ export async function PlantCard({ plant, today, canEdit }: Props) {
   const status = getWorstStatus(waterDays, feedDays)
   const bestDays = Math.min(waterDays, feedDays)
 
-  const plantType = emojiToPlantType(plant.emoji)
-  const tint = PLANT_TINTS[plantType]
+  const tint = PLANT_TINTS[plant.type]
 
   const borderColor = status === 'overdue' ? 'rgba(224,85,85,0.22)' : 'rgba(255,255,255,0.07)'
   const boxShadow = status === 'overdue' ? '0 4px 24px rgba(224,85,85,0.08)' : '0 2px 12px rgba(0,0,0,0.2)'
@@ -49,7 +48,7 @@ export async function PlantCard({ plant, today, canEdit }: Props) {
           className="absolute size-[72px] rounded-full"
           style={{ background: `${tint}12` }}
         />
-        <PlantIcon type={plantType} color={tint} size={50} />
+        <PlantIcon type={plant.type} color={tint} size={50} />
         {status !== 'ok' && (
           <div
             className="absolute right-2.5 top-2.5 size-2 rounded-full"

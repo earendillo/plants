@@ -554,14 +554,14 @@ export default function DesignSystemPage() {
 
 // ── Icon section data ──────────────────────────────────────────────────────
 const ICON_ORIGINALS: PlantType[] = ['monstera', 'cactus', 'succulent', 'herb', 'vine']
-const ICON_NEW_TYPES: PlantType[] = ['palm', 'banana', 'vegetable', 'olive', 'fern', 'strelitzia', 'orchid', 'aloe', 'bamboo', 'lavender', 'spider', 'flower']
+const ICON_NEW_TYPES: PlantType[] = ['palm', 'banana', 'vegetable', 'olive', 'fern', 'strelitzia', 'orchid', 'aloe', 'bamboo', 'lavender', 'spider', 'flower', 'other']
 const ICON_LABELS: Record<PlantType, string> = {
   monstera: 'Monstera',     cactus: 'Cactus',       succulent: 'Succulent',
   herb: 'Herb',             vine: 'Vine / Pothos',  palm: 'Palm',
   banana: 'Banana Plant',   vegetable: 'Vegetable', olive: 'Olive Branch',
   fern: 'Fern',             strelitzia: 'Strelitzia', orchid: 'Orchid',
   aloe: 'Aloe',             bamboo: 'Bamboo',       lavender: 'Lavender',
-  spider: 'Spider Plant',   flower: 'Flower',
+  spider: 'Spider Plant',   flower: 'Flower',       other: 'Other',
 }
 
 function IconGrid({ types }: { types: PlantType[] }) {

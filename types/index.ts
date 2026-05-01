@@ -1,12 +1,14 @@
 // Frontend types (camelCase). Do NOT use Supabase Row types here.
 // Translation between snake_case DB and these types happens in /lib/db/.
 
+import type { PlantType } from '@/components/PlantIcon'
+
 export type Plant = {
   id: string
   userId: string
   gardenId: string
   name: string
-  emoji: string
+  type: PlantType
   wateringIntervalDays: number
   feedingIntervalDays: number
   lastWateredAt: string | null

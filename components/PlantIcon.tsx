@@ -2,7 +2,7 @@ export type PlantType =
   | 'monstera' | 'cactus' | 'succulent' | 'herb' | 'vine'
   | 'palm' | 'banana' | 'vegetable' | 'olive' | 'fern'
   | 'strelitzia' | 'orchid' | 'aloe' | 'bamboo' | 'lavender'
-  | 'spider' | 'flower'
+  | 'spider' | 'flower' | 'other'
 
 export const PLANT_TINTS: Record<PlantType, string> = {
   // originals
@@ -24,17 +24,28 @@ export const PLANT_TINTS: Record<PlantType, string> = {
   lavender:   '#C4B0E4',
   spider:     '#C0E89A',
   flower:     '#F0C0C8',
+  other:      '#B8D4B8',
 }
 
-export function emojiToPlantType(emoji: string): PlantType {
-  if (emoji === '🌵') return 'cactus'
-  if (['🌺', '🌸', '🌻', '🌼', '💐', '🪷', '🌹', '🌷'].includes(emoji)) return 'flower'
-  if (['🪴', '🌴'].includes(emoji)) return 'palm'
-  if (['🥬', '🥕', '🪴'].includes(emoji)) return 'vegetable'
-  if (['🍀', '🌱', '🌾', '🌿', '🍃'].includes(emoji)) return 'herb'
-  if (['🎋'].includes(emoji)) return 'bamboo'
-  if (['🪻'].includes(emoji)) return 'lavender'
-  return 'vine'
+export const PLANT_TYPE_LABELS: Record<PlantType, string> = {
+  monstera: 'Monstera',
+  cactus: 'Cactus',
+  succulent: 'Succulent',
+  herb: 'Herb',
+  vine: 'Vine',
+  palm: 'Palm',
+  banana: 'Banana',
+  vegetable: 'Vegetable',
+  olive: 'Olive',
+  fern: 'Fern',
+  strelitzia: 'Strelitzia',
+  orchid: 'Orchid',
+  aloe: 'Aloe',
+  bamboo: 'Bamboo',
+  lavender: 'Lavender',
+  spider: 'Spider plant',
+  flower: 'Flower',
+  other: 'Other',
 }
 
 type Props = { type: PlantType; color: string; size?: number }
@@ -278,5 +289,12 @@ export function PlantIcon({ type, color: c, size = 56 }: Props) {
     )
   }
 
-  return null
+  // 'other' — generic seedling
+  return (
+    <svg width={size} height={size} viewBox="0 0 56 64" fill="none">
+      <path d="M28 60L28 34" stroke={c} strokeWidth="2.5" strokeLinecap="round"/>
+      <path d="M28 34C20 28 14 18 18 10C24 14 28 24 28 34Z" fill={c}/>
+      <path d="M28 34C36 28 42 18 38 10C32 14 28 24 28 34Z" fill={c} opacity="0.80"/>
+    </svg>
+  )
 }

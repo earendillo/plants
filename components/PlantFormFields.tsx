@@ -2,13 +2,14 @@
 
 import { useTranslations } from 'next-intl'
 import { Garden } from '@/types'
+import { type PlantType, PLANT_TYPE_LABELS } from '@/components/PlantIcon'
 
 type Props = {
-  emoji: string
+  plantType: PlantType
   name: string
   waterDays: string
   feedDays: string
-  onEmojiChange: (v: string) => void
+  onPlantTypeChange: (v: PlantType) => void
   onNameChange: (v: string) => void
   onWaterDaysChange: (v: string) => void
   onFeedDaysChange: (v: string) => void
@@ -18,12 +19,14 @@ type Props = {
   onGardenChange?: (id: string) => void
 }
 
+const PLANT_TYPES = Object.keys(PLANT_TYPE_LABELS) as PlantType[]
+
 export function PlantFormFields({
-  emoji,
+  plantType,
   name,
   waterDays,
   feedDays,
-  onEmojiChange,
+  onPlantTypeChange,
   onNameChange,
   onWaterDaysChange,
   onFeedDaysChange,
@@ -37,17 +40,21 @@ export function PlantFormFields({
   return (
     <>
       <div>
-        <label htmlFor="emoji" className="block text-sm font-semibold text-brand-muted">
-          {t('emojiLabel')}
+        <label htmlFor="plantType" className="block text-sm font-semibold text-brand-muted">
+          {t('typeLabel')}
         </label>
-        <input
-          id="emoji"
-          value={emoji}
-          onChange={e => onEmojiChange(e.target.value)}
-          required
-          maxLength={4}
-          className="mt-1 w-16 rounded-lg border border-white/10 bg-brand-surface px-3 py-3 text-center text-2xl text-brand-fg focus:border-brand-cta focus:outline-none focus:ring-1 focus:ring-brand-cta/20"
-        />
+        <select
+          id="plantType"
+          value={plantType}
+          onChange={e => onPlantTypeChange(e.target.value as PlantType)}
+          className={inputClass}
+        >
+          {PLANT_TYPES.map(pt => (
+            <option key={pt} value={pt}>
+              {PLANT_TYPE_LABELS[pt]}
+            </option>
+          ))}
+        </select>
       </div>
 
       <div>
