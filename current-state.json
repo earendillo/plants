@@ -16,6 +16,11 @@
     },
     "profile": "Fields(displayName,avatarUrl,timezone)|Table:profiles"
   },
+  "types": {
+    "source": "/types/supabase.ts",
+    "status": "synchronized_with_db",
+    "generated_at": "2026-05-01"
+  },
   "paths": "types:/types/idx.ts|db:/lib/db/|biz:/lib/utils.ts|ui:/components/|api:/app/api/|mig:/supabase/migrations/",
   "db": ["plants", "gardens", "garden_members", "garden_share_links", "profiles", "activity_logs"]
 }
