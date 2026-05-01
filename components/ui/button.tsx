@@ -11,8 +11,11 @@ const buttonVariants = cva(
         // Primary — lime CTA
         default:
           "rounded-[14px] bg-brand-cta text-brand-cta-fg text-sm font-bold shadow-[0_4px_20px_rgba(207,238,158,0.2)] hover:brightness-[0.92] active:brightness-[0.84] focus-visible:ring-3 focus-visible:ring-brand-cta/30",
-        // Secondary — muted ghost
+        // Secondary — green outline (OAuth / social actions)
         secondary:
+          "rounded-[14px] border-brand-cta/40 bg-transparent text-brand-cta text-sm font-bold hover:bg-brand-cta/5 active:bg-brand-cta/10 focus-visible:ring-3 focus-visible:ring-brand-cta/20",
+        // Tertiary — muted ghost
+        tertiary:
           "rounded-[12px] border-white/10 bg-white/[0.06] text-brand-fg-sub text-[13px] hover:bg-white/[0.09] active:bg-white/[0.11] focus-visible:ring-3 focus-visible:ring-white/20",
         // Outline — transparent with border
         outline:

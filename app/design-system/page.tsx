@@ -27,8 +27,12 @@ export default function DesignSystemPage() {
             <Button variant="default" disabled>Disabled</Button>
           </Group>
 
-          <Group label="Secondary / Ghost">
-            <Button variant="secondary">Cancel</Button>
+          <Group label="Secondary / Outline CTA">
+            <Button variant="secondary">Continue with Google</Button>
+          </Group>
+
+          <Group label="Tertiary / Ghost">
+            <Button variant="tertiary">Cancel</Button>
             <Button variant="outline">Outline</Button>
             <Button variant="link">Link</Button>
           </Group>
@@ -61,7 +65,7 @@ export default function DesignSystemPage() {
 
           <Group label="Compact (sm)">
             <Button variant="default" size="sm">Save</Button>
-            <Button variant="secondary" size="sm">Cancel</Button>
+            <Button variant="tertiary" size="sm">Cancel</Button>
             <Button variant="destructive" size="sm">Delete</Button>
           </Group>
         </section>

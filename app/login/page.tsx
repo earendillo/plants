@@ -5,6 +5,9 @@ import Link from 'next/link'
 import { useRouter, useSearchParams } from 'next/navigation'
 import { useTranslations } from 'next-intl'
 import { supabase } from '@/lib/supabase/client'
+import { Button } from '@/components/ui/button'
+import { Input } from '@/components/ui/input'
+import { Label } from '@/components/ui/label'
 
 export default function LoginPage() {
   const router = useRouter()
@@ -51,17 +54,12 @@ export default function LoginPage() {
     })
   }
 
-  const inputClass =
-    'mt-1 block w-full rounded-lg border border-white/10 bg-brand-surface px-4 py-3 ' +
-    'text-brand-fg placeholder:text-brand-fg-dim focus:border-brand-cta ' +
-    'focus:outline-none focus:ring-1 focus:ring-brand-cta/20'
-
   return (
     <main className="flex min-h-screen items-center justify-center bg-brand-bg px-4">
       <div className="w-full max-w-sm">
         <div className="mb-8 text-center">
           <div className="text-6xl">🌿</div>
-          <h1 className="mt-2 text-2xl text-brand-fg">{t('appName')}</h1>
+          <h1 className="mt-2 text-2xl font-heading text-brand-fg">{t('appName')}</h1>
           <p className="mt-1 text-sm text-brand-fg-dim">{t('subtitle')}</p>
         </div>
 
@@ -73,32 +71,32 @@ export default function LoginPage() {
           <>
             <form onSubmit={handleSubmit} className="space-y-4">
               <div>
-                <label htmlFor="email" className="block text-sm font-semibold text-brand-muted">
+                <Label htmlFor="email" className="text-brand-fg-sub">
                   {t('emailLabel')}
-                </label>
-                <input
+                </Label>
+                <Input
                   id="email"
                   type="email"
                   value={email}
                   onChange={e => setEmail(e.target.value)}
                   required
                   placeholder={t('emailPlaceholder')}
-                  className={inputClass}
+                  className="mt-1"
                 />
               </div>
 
               <div>
-                <label htmlFor="password" className="block text-sm font-semibold text-brand-muted">
+                <Label htmlFor="password" className="text-brand-fg-sub">
                   {t('passwordLabel')}
-                </label>
-                <input
+                </Label>
+                <Input
                   id="password"
                   type="password"
                   value={password}
                   onChange={e => setPassword(e.target.value)}
                   required
                   placeholder={t('passwordPlaceholder')}
-                  className={inputClass}
+                  className="mt-1"
                 />
               </div>
 
@@ -114,13 +112,9 @@ export default function LoginPage() {
                 <p className="text-sm text-brand-alert">{error}</p>
               )}
 
-              <button
-                type="submit"
-                disabled={loading}
-                className="w-full rounded-lg bg-brand-cta py-3 text-base font-semibold text-brand-cta-fg transition-[filter] hover:brightness-[0.92] active:brightness-[0.84] disabled:opacity-50"
-              >
+              <Button type="submit" disabled={loading} className="w-full">
                 {loading ? '...' : mode === 'signin' ? t('signIn') : t('createAccount')}
-              </button>
+              </Button>
             </form>
 
             <div className="mt-4 flex items-center gap-3">
@@ -129,33 +123,28 @@ export default function LoginPage() {
               <div className="h-px flex-1 bg-white/6" />
             </div>
 
-            <button
+            <Button
+              variant="secondary"
               onClick={handleGoogle}
-              className="mt-4 w-full rounded-lg border border-brand-cta/40 bg-transparent py-3 text-base font-semibold text-brand-cta hover:bg-brand-cta/5 active:bg-brand-cta/10 transition-colors"
+              className="mt-4 w-full"
             >
               {t('continueWithGoogle')}
-            </button>
+            </Button>
 
             <p className="mt-6 text-center text-sm text-brand-fg-dim">
               {mode === 'signin' ? (
                 <>
                   {t('noAccount')}{' '}
-                  <button
-                    onClick={() => { setMode('signup'); setError(null) }}
-                    className="font-semibold text-brand-cta hover:text-brand-cta/80 transition-colors"
-                  >
+                  <Button variant="link" onClick={() => { setMode('signup'); setError(null) }}>
                     {t('signUp')}
-                  </button>
+                  </Button>
                 </>
               ) : (
                 <>
                   {t('alreadyHaveAccount')}{' '}
-                  <button
-                    onClick={() => { setMode('signin'); setError(null) }}
-                    className="font-semibold text-brand-cta hover:text-brand-cta/80 transition-colors"
-                  >
+                  <Button variant="link" onClick={() => { setMode('signin'); setError(null) }}>
                     {t('signInLink')}
-                  </button>
+                  </Button>
                 </>
               )}
             </p>
