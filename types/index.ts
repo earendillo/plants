@@ -1,3 +1,6 @@
+// Frontend types (camelCase). Do NOT use Supabase Row types here.
+// Translation between snake_case DB and these types happens in /lib/db/.
+
 export type Plant = {
   id: string
   userId: string
@@ -6,30 +9,43 @@ export type Plant = {
   emoji: string
   wateringIntervalDays: number
   feedingIntervalDays: number
-  lastWateredAt: string | null  // ISO date string, e.g. "2026-04-14"
-  lastFedAt: string | null      // ISO date string
-  createdAt: string             // ISO date string
+  lastWateredAt: string | null
+  lastFedAt: string | null
+  createdAt: string | null
 }
+
+export type PlantInsert = Omit<Plant, 'id' | 'createdAt'>
+export type PlantUpdate = Partial<Omit<Plant, 'id' | 'createdAt'>>
 
 export type Garden = {
   id: string
   name: string
-  userId: string          // garden owner's ID (owner_id in DB)
+  userId: string
   createdAt: string
-  role: 'owner' | 'limited_editor'  // current viewer's role
+  role: GardenRole
 }
 
 export type ActivityLog = {
   id: string
   plantId: string
-  activityType: 'water' | 'feed'
-  performedAt: string  // ISO timestamp
+  activityType: ActivityType
+  performedAt: string | null
 }
 
 export type Profile = {
   id: string
   displayName: string | null
   avatarUrl: string | null
-  timezone: string
+  timezone: string | null
+  createdAt: string | null
+}
+
+export type GardenMember = {
+  gardenId: string
+  userId: string
+  role: GardenRole
   createdAt: string
 }
+
+export type GardenRole = 'owner' | 'limited_editor'
+export type ActivityType = 'water' | 'feed'

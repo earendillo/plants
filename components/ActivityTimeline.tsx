@@ -77,7 +77,7 @@ export function ActivityTimeline({ plantId }: { plantId: string }) {
               {log.activityType === 'water' ? t('watered') : t('fed')}
             </span>
             <span className="ml-auto text-xs text-brand-fg-dim">
-              {formatRelativeTime(log.performedAt, now, t)}
+              {formatRelativeTime(log.performedAt ?? '', now, t)}
             </span>
           </div>
           {i < logs.length - 1 && <Separator className="bg-white/6" />}

@@ -14,3 +14,13 @@
 ## Communication
 - Be concise. Code over explanations.
 - If a file exceeds 150 lines, suggest a split.
+
+## Strict Database Migration Workflow
+This project is in rapid development. The database schema changes frequently. 
+Whenever you create a migration, modify a table, add an RPC, or change RLS policies, you MUST execute the following loop:
+
+1. **Sync DB Types:** Run `npm run update-types` to overwrite `types/supabase.ts` with the new schema.
+2. **Review Changes:** Inspect the diff in `types/supabase.ts` to see what actually changed in the `snake_case` definitions.
+3. **Update Frontend Types:** If the schema change introduces new columns or modifies existing ones, update the corresponding `camelCase` models in `types/index.ts`.
+4. **Fix Mappers:** Update the mapping functions inside `/lib/db/` to correctly translate the new `snake_case` DB fields to the updated `camelCase` Frontend types.
+5. **Verify:** Run `npx tsc --noEmit` to guarantee the translation layer is intact and no UI components are broken.
