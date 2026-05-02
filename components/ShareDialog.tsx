@@ -204,7 +204,7 @@ export function ShareDialog({ gardenId, disabled }: Props) {
             <div>
               <p className="text-sm font-medium text-brand-fg">Guest access</p>
               <p className="text-sm text-brand-fg-dim">
-                Anyone with this link can water and feed plants without logging in.
+                Anyone with this link can water plants without logging in.
               </p>
             </div>
 

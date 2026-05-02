@@ -12,7 +12,7 @@
     "auth": ["Email/Pass", "GoogleOAuth", "PassReset", "Auth-guarded-middleware"],
     "gardens": "Multi-tenant|Roles(owner,limited_editor)|Invite-links|Guest-JWT(is_valid_guest_token)",
     "plants": {
-      "logic": "Interval-scheduling|RPCs(water_plant,feed_plant+guest_variants)",
+      "logic": "Interval-scheduling|RPCs(water_plant,feed_plant)|GuestRPC(water_plant_guest only)",
       "crud": "Create(/plants/new)|Edit(/plants/[id])|Delete(DeletePlantDialog)|List(/plants)",
       "logs": "Auto-logging@activity_logs|GET /api/plants/[id]/history|UI:ActivityTimeline",
       "plantType": "PlantType enum(succulent,flower,tree,herb,fern,cactus,vine,shrub,palm,grass)|PlantIcon|PlantTypeSelector",

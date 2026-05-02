@@ -3,7 +3,7 @@
 
 import { useState } from 'react'
 import { Plant } from '@/types'
-import { isDueForWatering, isDueForFeeding } from '@/lib/utils'
+import { isDueForWatering } from '@/lib/utils'
 import { Button } from '@/components/ui/button'
 import { PlantIcon, PLANT_TINTS } from '@/components/PlantIcon'
 
@@ -30,20 +30,6 @@ export function GuestPlantList({ initialPlants }: Props) {
     }
   }
 
-  async function handleFeed(plantId: string) {
-    const res = await fetch(`/api/guest/plants/${plantId}/feed`, {
-      method: 'POST',
-    })
-    if (!res.ok) return
-    const data = (await res.json()) as { updated: boolean }
-    if (data.updated) {
-      setPlants(prev =>
-        prev.map(p =>
-          p.id === plantId ? { ...p, lastFedAt: new Date().toISOString() } : p
-        )
-      )
-    }
-  }
 
   if (plants.length === 0) {
     return <p className="text-brand-fg-dim">No plants in this garden.</p>
@@ -53,7 +39,6 @@ export function GuestPlantList({ initialPlants }: Props) {
     <ul className="space-y-3">
       {plants.map(plant => {
         const waterDue = isDueForWatering(plant, today)
-        const feedDue = isDueForFeeding(plant, today)
         return (
           <li
             key={plant.id}
@@ -68,15 +53,6 @@ export function GuestPlantList({ initialPlants }: Props) {
               className="bg-brand-cta text-brand-cta-fg hover:brightness-[0.92] disabled:opacity-40"
             >
               Water
-            </Button>
-            <Button
-              onClick={() => handleFeed(plant.id)}
-              disabled={!feedDue}
-              size="sm"
-              variant="outline"
-              className="border-white/10 bg-transparent text-brand-fg hover:bg-white/5 disabled:opacity-40"
-            >
-              Feed
             </Button>
           </li>
         )
