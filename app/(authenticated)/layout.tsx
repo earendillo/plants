@@ -11,26 +11,27 @@ export default function AuthenticatedLayout({ children }: { children: React.Reac
   const tToday = useTranslations('today')
   const tPlants = useTranslations('plants')
   const tPlantNew = useTranslations('plantNew')
-  const tPlantEdit = useTranslations('plantEdit')
+  const isEditPage = pathname !== '/plants/new' && pathname.startsWith('/plants/')
 
   let title = ''
   if (pathname === '/today') title = tToday('title')
   else if (pathname === '/plants') title = tPlants('title')
   else if (pathname === '/plants/new') title = tPlantNew('title')
-  else if (pathname.startsWith('/plants/')) title = tPlantEdit('title')
 
   return (
     <GardenNavigationProvider>
       <div className="flex min-h-screen flex-col bg-brand-bg">
         <TopBar />
-        <header className="px-5 pb-2 pt-4">
-          <h1
-            className="font-heading text-[28px] leading-none text-brand-fg"
-            style={{ fontWeight: 400, letterSpacing: '-0.025em' }}
-          >
-            {title}
-          </h1>
-        </header>
+        {!isEditPage && (
+          <header className="px-5 pb-2 pt-4">
+            <h1
+              className="font-heading text-[28px] leading-none text-brand-fg"
+              style={{ fontWeight: 400, letterSpacing: '-0.025em' }}
+            >
+              {title}
+            </h1>
+          </header>
+        )}
         <main className="flex flex-1 flex-col">
           {children}
         </main>
