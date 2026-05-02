@@ -25,6 +25,7 @@
 - [ ] 8. Add/Edit form
 
 ## Finalizing Features
+- After every significant change (new features, architectural changes, DB adjustments) make sure `current-state.json` is updated and represents real current state of the app
 - When a feature is 100% complete:
   1. Update `current-state.json` with new paths/logic.
   2. Check off the item in this list.
