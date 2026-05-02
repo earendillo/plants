@@ -115,7 +115,9 @@
     "empty": "Brak aktywności",
     "today": "Dzisiaj",
     "hoursAgo": "{hours, plural, one {# godzinę temu} few {# godziny temu} many {# godzin temu} other {# godzin temu}}",
-    "daysAgo": "{days, plural, one {# dzień temu} few {# dni temu} many {# dni temu} other {# dni temu}}"
+    "daysAgo": "{days, plural, one {# dzień temu} few {# dni temu} many {# dni temu} other {# dni temu}}",
+    "byActor": "przez {name}",
+    "guest": "Gość"
   },
   "setPassword": {
     "title": "Set new password",

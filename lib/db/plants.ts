@@ -119,6 +119,7 @@ type DbActivityLog = {
   plant_id: string
   activity_type: 'water' | 'feed'
   performed_at: string
+  performer: { display_name: string | null }[] | null
 }
 
 function toActivityLog(row: DbActivityLog): ActivityLog {
@@ -127,6 +128,7 @@ function toActivityLog(row: DbActivityLog): ActivityLog {
     plantId: row.plant_id,
     activityType: row.activity_type,
     performedAt: row.performed_at,
+    performedByName: row.performer?.[0]?.display_name ?? null,
   }
 }
 
@@ -137,7 +139,7 @@ export async function getActivityLogs(
   const supabase = await createClient()
   const { data, error } = await supabase
     .from('activity_logs')
-    .select('*')
+    .select('id, plant_id, activity_type, performed_at, performer:profiles!performed_by_user_id(display_name)')
     .eq('plant_id', plantId)
     .order('performed_at', { ascending: false })
     .limit(limit)

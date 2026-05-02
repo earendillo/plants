@@ -14,7 +14,7 @@
     "plants": {
       "logic": "Interval-scheduling|RPCs(water_plant,feed_plant)|GuestRPC(water_plant_guest only)",
       "crud": "Create(/plants/new)|Edit(/plants/[id])|Delete(DeletePlantDialog)|List(/plants)",
-      "logs": "Auto-logging@activity_logs|GET /api/plants/[id]/history|UI:ActivityTimeline",
+      "logs": "Auto-logging@activity_logs(performed_by_user_id→profiles join)|GET /api/plants/[id]/history|UI:ActivityTimeline(shows actor name or Guest)",
       "plantType": "PlantType enum(succulent,flower,tree,herb,fern,cactus,vine,shrub,palm,grass)|PlantIcon|PlantTypeSelector",
       "ui": ["PlantCard", "DueCard", "PlantForm", "PlantFormFields", "PlantEditHero", "PlantTypeSelector", "PlantDetailTabs", "DeletePlantDialog", "PlantIcon"]
     },
@@ -24,7 +24,7 @@
   "types": {
     "source": "/types/supabase.ts",
     "status": "synchronized_with_db",
-    "generated_at": "2026-05-01",
+    "generated_at": "2026-05-02",
     "convention": "snake_case (strictly match DB columns)",
     "helpers": "/types/index.ts (Plant,Garden,ActivityLog,Profile,GardenMember,GardenRole,ActivityType)"
   },

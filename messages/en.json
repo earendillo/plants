@@ -115,7 +115,9 @@
     "empty": "No activity yet",
     "today": "Today",
     "hoursAgo": "{hours, plural, one {# hour ago} other {# hours ago}}",
-    "daysAgo": "{days, plural, one {# day ago} other {# days ago}}"
+    "daysAgo": "{days, plural, one {# day ago} other {# days ago}}",
+    "byActor": "by {name}",
+    "guest": "Guest"
   },
   "setPassword": {
     "title": "Set new password",

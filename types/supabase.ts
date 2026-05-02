@@ -19,18 +19,21 @@ export type Database = {
           activity_type: string
           id: string
           performed_at: string | null
+          performed_by_user_id: string | null
           plant_id: string
         }
         Insert: {
           activity_type: string
           id?: string
           performed_at?: string | null
+          performed_by_user_id?: string | null
           plant_id: string
         }
         Update: {
           activity_type?: string
           id?: string
           performed_at?: string | null
+          performed_by_user_id?: string | null
           plant_id?: string
         }
         Relationships: [
@@ -39,6 +42,13 @@ export type Database = {
             columns: ["plant_id"]
             isOneToOne: false
             referencedRelation: "plants"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "activity_logs_performed_by_user_id_fkey"
+            columns: ["performed_by_user_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
             referencedColumns: ["id"]
           },
         ]
