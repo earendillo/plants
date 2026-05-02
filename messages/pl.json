@@ -117,6 +117,7 @@
     "hoursAgo": "{hours, plural, one {# godzinę temu} few {# godziny temu} many {# godzin temu} other {# godzin temu}}",
     "daysAgo": "{days, plural, one {# dzień temu} few {# dni temu} many {# dni temu} other {# dni temu}}",
     "byActor": "przez {name}",
+    "you": "Ty",
     "guest": "Gość"
   },
   "setPassword": {

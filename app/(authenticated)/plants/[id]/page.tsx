@@ -30,7 +30,7 @@ export default async function EditPlantPage({
       <PlantForm
         plant={plant}
         gardens={gardens}
-        activityContent={<ActivityTimeline plantId={plant.id} />}
+        activityContent={<ActivityTimeline plantId={plant.id} currentUserId={user!.id} />}
       />
     </main>
   )

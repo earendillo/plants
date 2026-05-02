@@ -20,7 +20,7 @@ function formatRelativeTime(
   return t('today')
 }
 
-export function ActivityTimeline({ plantId }: { plantId: string }) {
+export function ActivityTimeline({ plantId, currentUserId }: { plantId: string; currentUserId: string }) {
   const t = useTranslations('activityTimeline')
   const [logs, setLogs] = useState<ActivityLog[]>([])
   const [loading, setLoading] = useState(true)
@@ -77,7 +77,7 @@ export function ActivityTimeline({ plantId }: { plantId: string }) {
               {log.activityType === 'water' ? t('watered') : t('fed')}
             </span>
             <span className="text-xs text-brand-fg-dim">
-              {t('byActor', { name: log.performedByName ?? t('guest') })}
+              {t('byActor', { name: log.performedByUserId === currentUserId ? t('you') : (log.performedByName ?? t('guest')) })}
             </span>
             <span className="ml-auto text-xs text-brand-fg-dim">
               {formatRelativeTime(log.performedAt ?? '', now, t)}

@@ -32,6 +32,7 @@ export type ActivityLog = {
   plantId: string
   activityType: ActivityType
   performedAt: string | null
+  performedByUserId: string | null
   performedByName: string | null
 }
 
