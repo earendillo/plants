@@ -25,7 +25,8 @@
   "plantEdit": {
     "title": "Edit Plant",
     "tabDetails": "Szczegóły",
-    "tabActivity": "Aktywność"
+    "tabActivity": "Aktywność",
+    "backLabel": "Rośliny"
   },
   "plantCard": {
     "statusOverdue": "Overdue",
@@ -53,14 +54,15 @@
     "deletePlant": "Delete Plant",
     "errorInvalidNumbers": "Please enter valid numbers for watering and feeding intervals.",
     "errorSaveFailed": "Failed to save. Please try again.",
-    "errorDeleteFailed": "Failed to delete. Please try again."
+    "errorDeleteFailed": "Failed to delete. Please try again.",
+    "unnamedPlant": "Nienazwana roślina"
   },
   "plantFormFields": {
     "typeLabel": "Typ rośliny",
-    "nameLabel": "Plant name",
-    "namePlaceholder": "e.g. Monstera",
-    "waterDaysLabel": "Water every (days)",
-    "feedDaysLabel": "Feed every (days)",
+    "nameLabel": "Nazwa",
+    "namePlaceholder": "np. Monstera",
+    "waterDaysLabel": "Podlewanie co",
+    "feedDaysLabel": "Nawożenie co",
     "gardenLabel": "Garden"
   },
   "login": {
