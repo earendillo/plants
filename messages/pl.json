@@ -55,7 +55,12 @@
     "errorInvalidNumbers": "Please enter valid numbers for watering and feeding intervals.",
     "errorSaveFailed": "Failed to save. Please try again.",
     "errorDeleteFailed": "Failed to delete. Please try again.",
-    "unnamedPlant": "Nienazwana roślina"
+    "unnamedPlant": "Nienazwana roślina",
+    "deleteConfirmTitle": "Usunąć roślinę?",
+    "deleteConfirmDesc": "Tej operacji nie można cofnąć. Roślina i cała jej historia aktywności zostaną trwale usunięte.",
+    "deleteCancel": "Anuluj",
+    "deleteConfirm": "Usuń",
+    "deleting": "Usuwanie…"
   },
   "plantFormFields": {
     "typeLabel": "Typ rośliny",

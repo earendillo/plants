@@ -8,6 +8,7 @@ import { type PlantType } from '@/components/PlantIcon'
 import { PlantFormFields } from '@/components/PlantFormFields'
 import { PlantEditHero } from '@/components/PlantEditHero'
 import { PlantDetailTabs } from '@/components/PlantDetailTabs'
+import { DeletePlantDialog } from '@/components/DeletePlantDialog'
 
 type Props = {
   plant?: Plant
@@ -26,6 +27,7 @@ export function PlantForm({ plant, gardenId, gardens, activityContent }: Props) 
   const [selectedGardenId, setSelectedGardenId] = useState(plant?.gardenId ?? gardenId ?? '')
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState<string | null>(null)
+  const [deleteOpen, setDeleteOpen] = useState(false)
 
   function handleBack() {
     if (plant) {
@@ -49,25 +51,15 @@ export function PlantForm({ plant, gardenId, gardens, activityContent }: Props) 
       return
     }
 
+    const shared = { type: plantType, name, wateringIntervalDays: waterInt, feedingIntervalDays: feedInt }
     const body = plant
-      ? {
-          type: plantType, name,
-          wateringIntervalDays: waterInt, feedingIntervalDays: feedInt,
-          lastWateredAt: plant.lastWateredAt, lastFedAt: plant.lastFedAt,
-          gardenId: selectedGardenId,
-        }
-      : {
-          gardenId: selectedGardenId || gardenId!,
-          type: plantType, name,
-          wateringIntervalDays: waterInt, feedingIntervalDays: feedInt,
-          lastWateredAt: null, lastFedAt: null,
-        }
+      ? { ...shared, lastWateredAt: plant.lastWateredAt, lastFedAt: plant.lastFedAt, gardenId: selectedGardenId }
+      : { ...shared, gardenId: selectedGardenId || gardenId!, lastWateredAt: null, lastFedAt: null }
 
     try {
-      const res = await fetch(
-        plant ? `/api/plants/${plant.id}` : '/api/plants',
-        { method: plant ? 'PUT' : 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(body) },
-      )
+      const res = await fetch(plant ? `/api/plants/${plant.id}` : '/api/plants', {
+        method: plant ? 'PUT' : 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(body),
+      })
       if (!res.ok) throw new Error(`Server error: ${res.status}`)
       const targetGardenId = selectedGardenId || gardenId || plant?.gardenId
       router.push(targetGardenId ? `/plants?garden=${targetGardenId}` : '/plants')
@@ -116,12 +108,18 @@ export function PlantForm({ plant, gardenId, gardens, activityContent }: Props) 
       </button>
 
       {plant && (
-        <button
-          type="button" onClick={handleDelete} disabled={loading}
-          className="w-full rounded-2xl border-[1.5px] border-[rgba(224,85,85,0.40)] bg-[rgba(224,85,85,0.10)] py-3 text-[13px] font-semibold text-[#f07070] disabled:opacity-50"
-        >
-          {t('deletePlant')}
-        </button>
+        <>
+          <button
+            type="button" onClick={() => setDeleteOpen(true)} disabled={loading}
+            className="w-full rounded-2xl border-[1.5px] border-[rgba(224,85,85,0.40)] bg-[rgba(224,85,85,0.10)] py-3 text-[13px] font-semibold text-[#f07070] disabled:opacity-50"
+          >
+            {t('deletePlant')}
+          </button>
+          <DeletePlantDialog
+            open={deleteOpen} onOpenChange={setDeleteOpen}
+            onConfirm={handleDelete} loading={loading}
+          />
+        </>
       )}
     </form>
   )
@@ -130,7 +128,7 @@ export function PlantForm({ plant, gardenId, gardens, activityContent }: Props) 
     <div className="flex h-full flex-col">
       <PlantEditHero plantType={plantType} onBack={handleBack} />
 
-      <div className="flex-1 overflow-y-auto px-5 pt-5 pb-6">
+      <div className="flex-1 overflow-y-auto px-5 pt-5 pb-28">
         <h1 className="mb-5 text-[28px] font-normal leading-none tracking-tight">
           {name || t('unnamedPlant')}
         </h1>

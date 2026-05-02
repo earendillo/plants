@@ -5,24 +5,48 @@
     "da": "Server-modules@/lib/db/",
     "api": "RouteHandlers+Zod",
     "auth": "JWT-Cookies+Middleware+Guest-JWT(HS256)",
-    "nav": "Top:Sticky+Sheet|Bottom:3-tab(Today,Plants,Add)"
+    "nav": "Top:Sticky+Sheet|Bottom:3-tab(Today,Plants,Add)",
+    "i18n": "next-intl4|en+pl|messages/{en,pl}.json"
   },
   "impl": {
     "auth": ["Email/Pass", "GoogleOAuth", "PassReset", "Auth-guarded-middleware"],
     "gardens": "Multi-tenant|Roles(owner,limited_editor)|Invite-links|Guest-JWT(is_valid_guest_token)",
     "plants": {
       "logic": "Interval-scheduling|RPCs(water_plant,feed_plant+guest_variants)",
-      "logs": "Auto-logging@activity_logs|GET /api/plants/[id]/history|UI:ActivityTimeline"
+      "crud": "Create(/plants/new)|Edit(/plants/[id])|Delete(DeletePlantDialog)|List(/plants)",
+      "logs": "Auto-logging@activity_logs|GET /api/plants/[id]/history|UI:ActivityTimeline",
+      "plantType": "PlantType enum(succulent,flower,tree,herb,fern,cactus,vine,shrub,palm,grass)|PlantIcon|PlantTypeSelector",
+      "ui": ["PlantCard", "DueCard", "PlantForm", "PlantFormFields", "PlantEditHero", "PlantTypeSelector", "PlantDetailTabs", "DeletePlantDialog", "PlantIcon"]
     },
-    "profile": "Fields(displayName,avatarUrl,timezone)|Table:profiles"
+    "profile": "Fields(displayName,avatarUrl,timezone)|Table:profiles|ProfileForm",
+    "guest": "GuestPlantList|GuestTokenValidator|Anonymous-share-links"
   },
   "types": {
     "source": "/types/supabase.ts",
     "status": "synchronized_with_db",
     "generated_at": "2026-05-01",
     "convention": "snake_case (strictly match DB columns)",
-    "helpers": "/types/index.ts (use Plant, Garden, ActivityLog types)"
+    "helpers": "/types/index.ts (Plant,Garden,ActivityLog,Profile,GardenMember,GardenRole,ActivityType)"
   },
-  "paths": "types:/types/idx.ts|db:/lib/db/|biz:/lib/utils.ts|ui:/components/|api:/app/api/|mig:/supabase/migrations/",
-  "db": ["plants", "gardens", "garden_members", "garden_share_links", "profiles", "activity_logs"]
+  "paths": {
+    "types": "/types/index.ts",
+    "supabaseTypes": "/types/supabase.ts",
+    "db": "/lib/db/{plants,gardens,profiles,anonymous-links}.ts",
+    "utils": "/lib/utils.ts",
+    "components": "/components/",
+    "uiLib": "/components/ui/",
+    "api": "/app/api/{plants,gardens,profile,guest,share}/",
+    "pages": "/app/(authenticated)/{today,plants,profile}/",
+    "migrations": "/supabase/migrations/"
+  },
+  "db": ["plants", "gardens", "garden_members", "garden_share_links", "profiles", "activity_logs"],
+  "components": {
+    "layout": ["TopBar", "BottomTabBar", "GardenHeader", "GardenTabs", "GardenContentWrapper", "GardenPicker", "GardenNavigationContext"],
+    "plants": ["PlantCard", "DueCard", "PlantForm", "PlantFormFields", "PlantEditHero", "PlantTypeSelector", "PlantDetailTabs", "PlantIcon", "DeletePlantDialog", "PlantsPageSkeleton"],
+    "actions": ["ActionButton", "ActivityTimeline"],
+    "garden": ["CreateGardenButton", "ShareDialog"],
+    "guest": ["GuestPlantList", "GuestTokenValidator"],
+    "profile": ["ProfileForm", "LanguageSelector"],
+    "skeletons": ["PlantsPageSkeleton", "TodayPageSkeleton"]
+  }
 }
