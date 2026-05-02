@@ -79,11 +79,12 @@ export function PlantIcon({ type, color: c, size = 56 }: Props) {
   if (type === 'succulent') {
     const petals = [0, 60, 120, 180, 240, 300].map((a, i) => {
       const r = (a * Math.PI) / 180
-      const px = 28 + Math.cos(r) * 14
-      const py = 28 + Math.sin(r) * 14
+      const px = Math.round((28 + Math.cos(r) * 14) * 100) / 100
+      const py = Math.round((28 + Math.sin(r) * 14) * 100) / 100
+      const op = Math.round((0.72 + i * 0.045) * 1000) / 1000
       return (
         <ellipse key={i} cx={px} cy={py} rx="9" ry="12"
-          transform={`rotate(${a}, ${px}, ${py})`} fill={c} opacity={0.72 + i * 0.045}/>
+          transform={`rotate(${a}, ${px}, ${py})`} fill={c} opacity={op}/>
       )
     })
     return (
@@ -273,8 +274,8 @@ export function PlantIcon({ type, color: c, size = 56 }: Props) {
   if (type === 'flower') {
     const petals = [0, 72, 144, 216, 288].map(a => {
       const r = (a * Math.PI) / 180
-      const px = 28 + Math.cos(r) * 13
-      const py = 24 + Math.sin(r) * 13
+      const px = Math.round((28 + Math.cos(r) * 13) * 100) / 100
+      const py = Math.round((24 + Math.sin(r) * 13) * 100) / 100
       return <ellipse key={a} cx={px} cy={py} rx="8" ry="10"
         transform={`rotate(${a}, ${px}, ${py})`} fill={c} opacity="0.90"/>
     })
