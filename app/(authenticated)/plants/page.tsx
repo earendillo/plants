@@ -18,13 +18,15 @@ export default async function PlantsPage({
 }) {
   const { garden: gardenParam } = await searchParams
   const user = await getAuthenticatedUser()
+  if (!user) redirect('/login')
+
   const [gardens, t] = await Promise.all([
-    getGardens(user?.id ?? ''),
+    getGardens(user.id),
     getTranslations('plants'),
   ])
 
   if (gardens.length === 0) {
-    await ensureDefaultGarden(user!.id)
+    await ensureDefaultGarden(user.id)
     redirect('/plants')
   }
 
@@ -33,7 +35,7 @@ export default async function PlantsPage({
     redirect(`/plants?garden=${resolvedId}`)
   }
 
-  const plants = await getPlants(user?.id ?? '', resolvedId)
+  const plants = await getPlants(user.id, resolvedId)
   const today = new Date()
   const activeGarden = gardens.find(g => g.id === resolvedId)!
   const isOwner = activeGarden.role === 'owner'

@@ -1,4 +1,5 @@
 // app/(authenticated)/profile/page.tsx
+import { redirect } from 'next/navigation'
 import { getAuthenticatedUser } from '@/lib/auth'
 import { getProfile } from '@/lib/db/profiles'
 import { ProfileForm } from '@/components/ProfileForm'
@@ -9,8 +10,9 @@ export default async function ProfilePage() {
     getAuthenticatedUser(),
     getTranslations('profile'),
   ])
+  if (!user) redirect('/login')
 
-  const profile = user ? await getProfile(user.id) : null
+  const profile = await getProfile(user.id)
 
   return (
     <main className="flex-1 pb-28">
@@ -20,7 +22,7 @@ export default async function ProfilePage() {
         </h1>
       </div>
       <div className="px-5">
-        <ProfileForm profile={profile} email={user?.email ?? ''} />
+        <ProfileForm profile={profile} email={user.email ?? ''} />
       </div>
     </main>
   )

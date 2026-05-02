@@ -12,10 +12,12 @@ export default async function NewPlantPage({
 }) {
   const { garden: gardenParam } = await searchParams
   const user = await getAuthenticatedUser()
-  const gardens = await getGardens(user?.id ?? '')
+  if (!user) redirect('/login')
+
+  const gardens = await getGardens(user.id)
 
   if (gardens.length === 0) {
-    await ensureDefaultGarden(user!.id)
+    await ensureDefaultGarden(user.id)
     redirect('/plants/new')
   }
 

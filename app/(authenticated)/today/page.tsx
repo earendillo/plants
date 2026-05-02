@@ -27,14 +27,16 @@ export default async function TodayPage({
 }) {
   const { garden: gardenParam } = await searchParams
   const user = await getAuthenticatedUser()
+  if (!user) redirect('/login')
+
   const [gardens, t, locale] = await Promise.all([
-    getGardens(user?.id ?? ''),
+    getGardens(user.id),
     getTranslations('today'),
     getLocale(),
   ])
 
   if (gardens.length === 0) {
-    await ensureDefaultGarden(user!.id)
+    await ensureDefaultGarden(user.id)
     redirect('/today')
   }
 
@@ -43,7 +45,7 @@ export default async function TodayPage({
     redirect(`/today?garden=${resolvedId}`)
   }
 
-  const plants = await getPlants(user?.id ?? '', resolvedId)
+  const plants = await getPlants(user.id, resolvedId)
   const today = new Date()
   const activeGarden = gardens.find(g => g.id === resolvedId)!
   const ownedGardens = gardens.filter(g => g.role === 'owner')

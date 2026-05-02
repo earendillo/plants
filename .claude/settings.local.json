@@ -82,7 +82,8 @@
       "Bash(tar -xzf design.tar.gz \"plants-app/project/Plants App.html\")",
       "Bash([ -f \"C:\\\\\\\\Users\\\\\\\\Mateusz\\\\\\\\Projects\\\\\\\\plantsapp\\\\\\\\.next\\\\\\\\dev\\\\\\\\logs\\\\\\\\next-development.log\" ])",
       "Bash(tail -100 \"C:\\\\\\\\Users\\\\\\\\Mateusz\\\\\\\\Projects\\\\\\\\plantsapp\\\\\\\\.next\\\\\\\\dev\\\\\\\\logs\\\\\\\\next-development.log\")",
-      "Bash(ls C:\\\\\\\\Users\\\\\\\\Mateusz\\\\\\\\Projects\\\\\\\\plantsapp\\\\\\\\supabase\\\\\\\\migrations/)"
+      "Bash(ls C:\\\\\\\\Users\\\\\\\\Mateusz\\\\\\\\Projects\\\\\\\\plantsapp\\\\\\\\supabase\\\\\\\\migrations/)",
+      "Bash(wc -l components/*.tsx)"
     ]
   }
 }

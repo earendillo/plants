@@ -13,9 +13,11 @@ export default async function EditPlantPage({
 }) {
   const { id } = await params
   const user = await getAuthenticatedUser()
+  if (!user) redirect('/login')
+
   const [plant, gardens] = await Promise.all([
-    getPlant(id, user?.id ?? ''),
-    getGardens(user?.id ?? ''),
+    getPlant(id, user.id),
+    getGardens(user.id),
   ])
 
   if (!plant) notFound()
@@ -30,7 +32,7 @@ export default async function EditPlantPage({
       <PlantForm
         plant={plant}
         gardens={gardens}
-        activityContent={<ActivityTimeline plantId={plant.id} currentUserId={user!.id} />}
+        activityContent={<ActivityTimeline plantId={plant.id} currentUserId={user.id} />}
       />
     </main>
   )
