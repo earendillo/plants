@@ -4,7 +4,7 @@
 - Memory: `current-state.json` (Primary source of truth for app state/arch). Referece it before any task.
 
 ## Rules
-- **Exports:** No default exports. Use named exports only.
+- **Exports:** No default exports. Use named exports only. (Exception: Next.js App Router pages/layouts require `export default`.)
 - **Complexity:** Max 150 lines per component. Split if exceeded.
 - **Workflow:** One screen at a time. Run `npm run lint` & fix after each step.
 - **Minimalism:** No real auth (localStorage mock), no real DB (in-memory mock).
