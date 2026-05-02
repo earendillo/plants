@@ -2,10 +2,8 @@
 import { cookies } from 'next/headers'
 import { decodeGuestJwtClaims } from '@/lib/guest-jwt'
 import { createGuestClient } from '@/lib/supabase/guest'
-import { DbPlant, toPlant } from '@/lib/db/plants'
+import { getGuestGarden, getGuestPlants } from '@/lib/db/guest'
 import { GuestPlantList } from '@/components/GuestPlantList'
-
-type DbGarden = { id: string; name: string }
 
 const sessionExpiredUi = (
   <main className="min-h-screen bg-brand-bg p-6 text-brand-fg flex items-center justify-center">
@@ -26,20 +24,12 @@ export default async function GuestPage() {
 
   const client = createGuestClient(guestJwt)
 
-  const [gardenResult, plantsResult] = await Promise.all([
-    client
-      .from('gardens')
-      .select('id, name')
-      .eq('id', claims.gardenId)
-      .single(),
-    client
-      .from('plants')
-      .select('*')
-      .eq('garden_id', claims.gardenId)
-      .order('created_at', { ascending: true }),
+  const [garden, plants] = await Promise.all([
+    getGuestGarden(client, claims.gardenId),
+    getGuestPlants(client, claims.gardenId),
   ])
 
-  if (gardenResult.error || !gardenResult.data) {
+  if (!garden) {
     return (
       <main className="min-h-screen bg-brand-bg p-6 text-brand-fg flex items-center justify-center">
         <p className="text-brand-fg-dim text-center">
@@ -48,9 +38,6 @@ export default async function GuestPage() {
       </main>
     )
   }
-
-  const garden = gardenResult.data as DbGarden
-  const plants = (plantsResult.data ?? []).map(row => toPlant(row as DbPlant))
 
   return (
     <main className="min-h-screen bg-brand-bg p-6 text-brand-fg">
