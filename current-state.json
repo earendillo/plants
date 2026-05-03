@@ -3,20 +3,20 @@
   "stack": "Next16(AppRouter)|TS(Strict)|Supabase(RLS+SSR)|TW4+shadcn|next-intl4",
   "arch": {
     "da": "Server-modules@/lib/db/",
-    "api": "RouteHandlers+Zod",
+    "api": "RouteHandlers+Zod+handleApiError+uuidParam",
     "auth": "JWT-Cookies+Middleware+Guest-JWT(HS256)",
     "nav": "Top:Sticky+Sheet|Bottom:3-tab(Today,Plants,Add)",
-    "i18n": "next-intl4|en+pl|messages/{en,pl}.json"
+    "i18n": "next-intl4|en+pl|messages/{en,pl}.json|namespaces:nav,today,plants,plantNew,plantEdit,plantCard,dueCard,actionButton,plantForm,plantFormFields,gardenHeader,shareDialog,gardenPicker,guestPlantList,login,forgotPassword,profile,activityTimeline,setPassword"
   },
   "impl": {
     "auth": ["Email/Pass", "GoogleOAuth", "PassReset", "Auth-guarded-middleware"],
     "gardens": "Multi-tenant|Roles(owner,limited_editor)|Invite-links|Guest-JWT(is_valid_guest_token)",
     "plants": {
-      "logic": "Interval-scheduling|RPCs(water_plant,feed_plant)|GuestRPC(water_plant_guest only)",
+      "logic": "Interval-scheduling|RPCs(water_plant,feed_plant)|GuestRPC(water_plant_guest only)|collectDueItems@/lib/due-items.ts",
       "crud": "Create(/plants/new)|Edit(/plants/[id])|Delete(DeletePlantDialog)|List(/plants)",
       "logs": "Auto-logging@activity_logs(performed_by_user_id→profiles join)|GET /api/plants/[id]/history|UI:ActivityTimeline(shows actor name or Guest)",
-      "plantType": "PlantType enum(succulent,flower,tree,herb,fern,cactus,vine,shrub,palm,grass)|PlantIcon|PlantTypeSelector",
-      "ui": ["PlantCard", "DueCard", "PlantForm", "PlantFormFields", "PlantEditHero", "PlantTypeSelector", "PlantDetailTabs", "DeletePlantDialog", "PlantIcon"]
+      "plantType": "PlantType+PLANT_TYPES@/types/index.ts|z.enum(PLANT_TYPES) validation|PlantIcon|PlantTypeSelector",
+      "ui": ["PlantCard", "DueCard", "PlantForm", "PlantFormFields", "PlantEditHero", "PlantTypeSelector", "PlantDetailTabs", "DeletePlantDialog", "PlantIcon", "GardenSelect"]
     },
     "profile": "Fields(displayName,avatarUrl,timezone)|Table:profiles|ProfileForm",
     "guest": "GuestPlantList|GuestTokenValidator|Anonymous-share-links"
@@ -26,13 +26,17 @@
     "status": "synchronized_with_db",
     "generated_at": "2026-05-02",
     "convention": "snake_case (strictly match DB columns)",
-    "helpers": "/types/index.ts (Plant,Garden,ActivityLog,Profile,GardenMember,GardenRole,ActivityType)"
+    "helpers": "/types/index.ts (Plant,Garden,ActivityLog,Profile,GardenMember,GardenRole,ActivityType,PlantType,PLANT_TYPES)"
   },
   "paths": {
     "types": "/types/index.ts",
     "supabaseTypes": "/types/supabase.ts",
     "db": "/lib/db/{plants,gardens,profiles,anonymous-links}.ts",
     "utils": "/lib/utils.ts",
+    "validation": "/lib/validation.ts",
+    "apiError": "/lib/api-error.ts",
+    "dueItems": "/lib/due-items.ts",
+    "plantIconPaths": "/lib/plant-icon-paths.tsx",
     "components": "/components/",
     "uiLib": "/components/ui/",
     "api": "/app/api/{plants,gardens,profile,guest,share}/",
@@ -42,9 +46,9 @@
   "db": ["plants", "gardens", "garden_members", "garden_share_links", "profiles", "activity_logs"],
   "components": {
     "layout": ["TopBar", "BottomTabBar", "GardenHeader", "GardenTabs", "GardenContentWrapper", "GardenPicker", "GardenNavigationContext"],
-    "plants": ["PlantCard", "DueCard", "PlantForm", "PlantFormFields", "PlantEditHero", "PlantTypeSelector", "PlantDetailTabs", "PlantIcon", "DeletePlantDialog", "PlantsPageSkeleton"],
+    "plants": ["PlantCard", "DueCard", "PlantForm", "PlantFormFields", "PlantEditHero", "PlantTypeSelector", "PlantDetailTabs", "PlantIcon", "DeletePlantDialog", "PlantsPageSkeleton", "GardenSelect"],
     "actions": ["ActionButton", "ActivityTimeline"],
-    "garden": ["CreateGardenButton", "ShareDialog"],
+    "garden": ["ShareDialog", "MemberShareSection", "GuestShareSection", "RenameGardenDialog", "DeleteGardenDialog", "LeaveGardenDialog"],
     "guest": ["GuestPlantList", "GuestTokenValidator"],
     "profile": ["ProfileForm", "LanguageSelector"],
     "skeletons": ["PlantsPageSkeleton", "TodayPageSkeleton"]

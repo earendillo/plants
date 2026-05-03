@@ -4,11 +4,13 @@ import { z } from 'zod'
 import { getPlant, updatePlant, deletePlant } from '@/lib/db/plants'
 import { getAuthenticatedUser } from '@/lib/auth'
 import { isGardenOwner } from '@/lib/db/gardens'
-import type { Plant } from '@/types'
+import { PLANT_TYPES, type Plant } from '@/types'
+import { uuidParam } from '@/lib/validation'
+import { handleApiError } from '@/lib/api-error'
 
 const updateSchema = z.object({
   name: z.string().min(1).max(100).optional(),
-  type: z.string().min(1).optional(),
+  type: z.enum(PLANT_TYPES).optional(),
   wateringIntervalDays: z.number().int().min(1).max(365).optional(),
   feedingIntervalDays: z.number().int().min(1).max(365).optional(),
   lastWateredAt: z.string().nullable().optional(),
@@ -20,47 +22,68 @@ export async function GET(
   _req: NextRequest,
   { params }: { params: Promise<{ id: string }> }
 ) {
-  const user = await getAuthenticatedUser()
-  if (!user) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
-  const { id } = await params
-  const plant = await getPlant(id, user.id)
-  if (!plant) return NextResponse.json({ error: 'Not found' }, { status: 404 })
-  return NextResponse.json(plant)
+  try {
+    const user = await getAuthenticatedUser()
+    if (!user) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
+    const { id } = await params
+    if (!uuidParam.safeParse(id).success) {
+      return NextResponse.json({ error: 'Invalid ID' }, { status: 400 })
+    }
+    const plant = await getPlant(id, user.id)
+    if (!plant) return NextResponse.json({ error: 'Not found' }, { status: 404 })
+    return NextResponse.json(plant)
+  } catch (err) {
+    return handleApiError(err)
+  }
 }
 
 export async function PUT(
   request: NextRequest,
   { params }: { params: Promise<{ id: string }> }
 ) {
-  const user = await getAuthenticatedUser()
-  if (!user) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
-  const { id } = await params
-  const existing = await getPlant(id, user.id)
-  if (!existing) return NextResponse.json({ error: 'Not found' }, { status: 404 })
-  if (!(await isGardenOwner(existing.gardenId, user.id))) {
-    return NextResponse.json({ error: 'Forbidden' }, { status: 403 })
+  try {
+    const user = await getAuthenticatedUser()
+    if (!user) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
+    const { id } = await params
+    if (!uuidParam.safeParse(id).success) {
+      return NextResponse.json({ error: 'Invalid ID' }, { status: 400 })
+    }
+    const existing = await getPlant(id, user.id)
+    if (!existing) return NextResponse.json({ error: 'Not found' }, { status: 404 })
+    if (!(await isGardenOwner(existing.gardenId, user.id))) {
+      return NextResponse.json({ error: 'Forbidden' }, { status: 403 })
+    }
+    const body: unknown = await request.json()
+    const result = updateSchema.safeParse(body)
+    if (!result.success) {
+      return NextResponse.json({ error: result.error.flatten() }, { status: 400 })
+    }
+    const updated = await updatePlant(id, result.data as Partial<Plant>)
+    return NextResponse.json(updated)
+  } catch (err) {
+    return handleApiError(err)
   }
-  const body: unknown = await request.json()
-  const result = updateSchema.safeParse(body)
-  if (!result.success) {
-    return NextResponse.json({ error: result.error.flatten() }, { status: 400 })
-  }
-  const updated = await updatePlant(id, result.data as Partial<Plant>)
-  return NextResponse.json(updated)
 }
 
 export async function DELETE(
   _req: NextRequest,
   { params }: { params: Promise<{ id: string }> }
 ) {
-  const user = await getAuthenticatedUser()
-  if (!user) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
-  const { id } = await params
-  const existing = await getPlant(id, user.id)
-  if (!existing) return NextResponse.json({ error: 'Not found' }, { status: 404 })
-  if (!(await isGardenOwner(existing.gardenId, user.id))) {
-    return NextResponse.json({ error: 'Forbidden' }, { status: 403 })
+  try {
+    const user = await getAuthenticatedUser()
+    if (!user) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
+    const { id } = await params
+    if (!uuidParam.safeParse(id).success) {
+      return NextResponse.json({ error: 'Invalid ID' }, { status: 400 })
+    }
+    const existing = await getPlant(id, user.id)
+    if (!existing) return NextResponse.json({ error: 'Not found' }, { status: 404 })
+    if (!(await isGardenOwner(existing.gardenId, user.id))) {
+      return NextResponse.json({ error: 'Forbidden' }, { status: 403 })
+    }
+    await deletePlant(id)
+    return new Response(null, { status: 204 })
+  } catch (err) {
+    return handleApiError(err)
   }
-  await deletePlant(id)
-  return new Response(null, { status: 204 })
 }

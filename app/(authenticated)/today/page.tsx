@@ -3,22 +3,15 @@ import { redirect } from 'next/navigation'
 import { getPlants } from '@/lib/db/plants'
 import { getGardens, ensureDefaultGarden } from '@/lib/db/gardens'
 import { resolveActiveGarden } from '@/lib/gardens'
-import { isDueForWatering, isDueForFeeding, daysUntilDue } from '@/lib/utils'
+import { collectDueItems } from '@/lib/due-items'
 import { DueCard } from '@/components/DueCard'
 import { GardenPicker } from '@/components/GardenPicker'
 import { GardenHeader } from '@/components/GardenHeader'
 import { PlantIcon } from '@/components/PlantIcon'
 import { GardenContentWrapper } from '@/components/GardenContentWrapper'
 import { TodayPageSkeleton } from '@/components/TodayPageSkeleton'
-import { Plant } from '@/types'
 import { getAuthenticatedUser } from '@/lib/auth'
 import { getTranslations, getLocale } from 'next-intl/server'
-
-type DueItem = {
-  plant: Plant
-  action: 'water' | 'feed'
-  daysUntil: number
-}
 
 export default async function TodayPage({
   searchParams,
@@ -51,23 +44,7 @@ export default async function TodayPage({
   const ownedGardens = gardens.filter(g => g.role === 'owner')
   const isOwner = activeGarden.role === 'owner'
 
-  const dueItems: DueItem[] = []
-  for (const plant of plants) {
-    if (isDueForWatering(plant, today)) {
-      dueItems.push({
-        plant,
-        action: 'water',
-        daysUntil: daysUntilDue(plant.lastWateredAt, plant.wateringIntervalDays, today),
-      })
-    }
-    if (isDueForFeeding(plant, today)) {
-      dueItems.push({
-        plant,
-        action: 'feed',
-        daysUntil: daysUntilDue(plant.lastFedAt, plant.feedingIntervalDays, today),
-      })
-    }
-  }
+  const dueItems = collectDueItems(plants, today)
 
   const overdue = dueItems.filter(item => item.daysUntil < 0)
   const dueToday = dueItems.filter(item => item.daysUntil === 0)

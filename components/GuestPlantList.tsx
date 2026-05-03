@@ -2,6 +2,7 @@
 'use client'
 
 import { useState } from 'react'
+import { useTranslations } from 'next-intl'
 import { Plant } from '@/types'
 import { isDueForWatering } from '@/lib/utils'
 import { Button } from '@/components/ui/button'
@@ -12,6 +13,7 @@ type Props = {
 }
 
 export function GuestPlantList({ initialPlants }: Props) {
+  const t = useTranslations('guestPlantList')
   const [plants, setPlants] = useState<Plant[]>(initialPlants)
   const today = new Date()
 
@@ -32,7 +34,7 @@ export function GuestPlantList({ initialPlants }: Props) {
 
 
   if (plants.length === 0) {
-    return <p className="text-brand-fg-dim">No plants in this garden.</p>
+    return <p className="text-brand-fg-dim">{t('empty')}</p>
   }
 
   return (
@@ -52,7 +54,7 @@ export function GuestPlantList({ initialPlants }: Props) {
               size="sm"
               className="bg-brand-cta text-brand-cta-fg hover:brightness-[0.92] disabled:opacity-40"
             >
-              Water
+              {t('water')}
             </Button>
           </li>
         )

@@ -1,7 +1,7 @@
 // lib/db/plants.ts
 import { Plant, ActivityLog } from '@/types'
 import { createClient } from '@/lib/supabase/server'
-import type { PlantType } from '@/components/PlantIcon'
+import type { PlantType } from '@/types'
 
 export type DbPlant = {
   id: string
@@ -31,8 +31,18 @@ export function toPlant(row: DbPlant): Plant {
   }
 }
 
-function toDbUpdate(data: Partial<Plant>): Record<string, unknown> {
-  const update: Record<string, unknown> = {}
+type DbPlantUpdate = {
+  name?: string
+  plant_type?: string
+  watering_interval_days?: number
+  feeding_interval_days?: number
+  last_watered_at?: string | null
+  last_fed_at?: string | null
+  garden_id?: string
+}
+
+function toDbUpdate(data: Partial<Plant>): DbPlantUpdate {
+  const update: DbPlantUpdate = {}
   if (data.name !== undefined) update.name = data.name
   if (data.type !== undefined) update.plant_type = data.type
   if (data.wateringIntervalDays !== undefined) update.watering_interval_days = data.wateringIntervalDays

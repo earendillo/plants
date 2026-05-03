@@ -4,6 +4,7 @@ import { z } from 'zod'
 import { updateGarden, deleteGarden, getGardens } from '@/lib/db/gardens'
 import { getPlants } from '@/lib/db/plants'
 import { getAuthenticatedUser } from '@/lib/auth'
+import { uuidParam } from '@/lib/validation'
 
 const patchSchema = z.object({
   name: z.string().min(1).max(100),
@@ -17,6 +18,9 @@ export async function PATCH(
   if (!user) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
 
   const { id } = await params
+  if (!uuidParam.safeParse(id).success) {
+    return NextResponse.json({ error: 'Invalid ID' }, { status: 400 })
+  }
   const body: unknown = await request.json()
   const result = patchSchema.safeParse(body)
   if (!result.success) {
@@ -45,6 +49,9 @@ export async function DELETE(
   if (!user) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
 
   const { id } = await params
+  if (!uuidParam.safeParse(id).success) {
+    return NextResponse.json({ error: 'Invalid ID' }, { status: 400 })
+  }
 
   const [plants, gardens] = await Promise.all([
     getPlants(user.id, id),

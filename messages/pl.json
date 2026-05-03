@@ -39,9 +39,10 @@
     "waterDueToday": "💧 Water due today",
     "feedOverdue": "🌿 Feed — {days}d overdue",
     "feedDueToday": "🌿 Feed due today",
-    "needsWatering": "Needs watering",
-    "needsFeeding": "Needs feeding",
-    "interval": "Every {days, plural, one {# day} other {# days}}"
+    "needsWatering": "Wymaga podlewania",
+    "needsFeeding": "Wymaga nawożenia",
+    "interval": "Co {days, plural, one {# dzień} few {# dni} many {# dni} other {# dni}}",
+    "today": "Dzisiaj"
   },
   "actionButton": {
     "water": "Water",
@@ -119,6 +120,57 @@
     "byActor": "przez {name}",
     "you": "Ty",
     "guest": "Gość"
+  },
+  "gardenHeader": {
+    "renameTitle": "Zmień nazwę ogrodu",
+    "gardenNamePlaceholder": "Nazwa ogrodu",
+    "saving": "Zapisywanie…",
+    "save": "Zapisz",
+    "deleteTitle": "Usuń ogród",
+    "deleteConfirm": "Czy na pewno chcesz usunąć {name}? Tej operacji nie można cofnąć.",
+    "cancel": "Anuluj",
+    "deleting": "Usuwanie…",
+    "delete": "Usuń",
+    "leaveTitle": "Opuść ogród",
+    "leaveConfirm": "Opuścić {name}? Stracisz dostęp, chyba że zostaniesz ponownie zaproszony.",
+    "leaving": "Opuszczanie…",
+    "leave": "Opuść",
+    "renameLabel": "Zmień nazwę ogrodu",
+    "deleteLabel": "Usuń ogród",
+    "removePlantsFirst": "Najpierw usuń wszystkie rośliny",
+    "cannotDeleteLast": "Nie można usunąć ostatniego ogrodu",
+    "leaveLabel": "Opuść ogród",
+    "errorDuplicate": "Ogród o tej nazwie już istnieje",
+    "errorRenameFailed": "Nie udało się zmienić nazwy",
+    "errorDeleteFailed": "Nie udało się usunąć ogrodu",
+    "errorLeaveFailed": "Nie udało się opuścić ogrodu"
+  },
+  "shareDialog": {
+    "title": "Udostępnij ogród",
+    "description": "Udostępnij ten link komuś. Może przeglądać rośliny i oznaczać podlewanie/nawożenie — ale nie może edytować ani usuwać.",
+    "loading": "Ładowanie…",
+    "copied": "Skopiowano!",
+    "rotateLink": "Zmień link",
+    "revoke": "Unieważnij",
+    "createShareLink": "Utwórz link",
+    "guestAccess": "Dostęp gościa",
+    "guestDescription": "Każdy z tym linkiem może podlewać rośliny bez logowania.",
+    "revokeGuestLink": "Unieważnij link gościa",
+    "expiresIn": "Wygasa za",
+    "day": "{count, plural, one {# dzień} few {# dni} many {# dni} other {# dni}}",
+    "createGuestLink": "Utwórz link gościa"
+  },
+  "gardenPicker": {
+    "newGarden": "+ Nowy ogród",
+    "gardenNamePlaceholder": "Nazwa ogrodu",
+    "cancel": "Anuluj",
+    "create": "Utwórz",
+    "errorDuplicate": "Ogród o tej nazwie już istnieje",
+    "errorCreateFailed": "Nie udało się utworzyć ogrodu"
+  },
+  "guestPlantList": {
+    "empty": "Brak roślin w tym ogrodzie.",
+    "water": "Podlej"
   },
   "setPassword": {
     "title": "Set new password",

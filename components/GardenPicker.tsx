@@ -2,6 +2,7 @@
 
 import { useState, useRef, useEffect } from 'react'
 import { useRouter, usePathname } from 'next/navigation'
+import { useTranslations } from 'next-intl'
 import { Garden } from '@/types'
 import { useGardenNavigation } from './GardenNavigationContext'
 
@@ -12,6 +13,7 @@ type Props = {
 }
 
 export function GardenPicker({ gardens, activeGardenId, basePath }: Props) {
+  const t = useTranslations('gardenPicker')
   const [open, setOpen] = useState(false)
   const [createOpen, setCreateOpen] = useState(false)
   const [newName, setNewName] = useState('')
@@ -43,7 +45,7 @@ export function GardenPicker({ gardens, activeGardenId, basePath }: Props) {
         body: JSON.stringify({ name: newName }),
       })
       if (res.status === 409) {
-        setCreateError('A garden with that name already exists')
+        setCreateError(t('errorDuplicate'))
         setCreating(false)
         return
       }
@@ -54,7 +56,7 @@ export function GardenPicker({ gardens, activeGardenId, basePath }: Props) {
       router.push(`${pathname}?garden=${garden.id}`)
       router.refresh()
     } catch {
-      setCreateError('Failed to create garden')
+      setCreateError(t('errorCreateFailed'))
       setCreating(false)
     }
   }
@@ -102,7 +104,7 @@ export function GardenPicker({ gardens, activeGardenId, basePath }: Props) {
               onClick={() => { setCreateOpen(true); setCreateError(null) }}
               className="block w-full rounded-xl px-3 py-2 text-left text-sm text-brand-fg-dim hover:bg-white/5 hover:text-brand-fg-sub transition-colors"
             >
-              + New garden
+              {t('newGarden')}
             </button>
           ) : (
             <form onSubmit={handleCreate} className="flex flex-col gap-2 p-2">
@@ -112,7 +114,7 @@ export function GardenPicker({ gardens, activeGardenId, basePath }: Props) {
               <input
                 value={newName}
                 onChange={e => setNewName(e.target.value)}
-                placeholder="Garden name"
+                placeholder={t('gardenNamePlaceholder')}
                 autoFocus
                 className="rounded-lg border border-white/10 bg-brand-surface px-3 py-2 text-sm text-brand-fg placeholder:text-brand-fg-dim focus:border-brand-cta focus:outline-none"
               />
@@ -122,14 +124,14 @@ export function GardenPicker({ gardens, activeGardenId, basePath }: Props) {
                   onClick={() => { setCreateOpen(false); setNewName('') }}
                   className="flex-1 rounded-lg border border-white/10 py-1.5 text-xs text-brand-fg-sub hover:bg-white/5 transition-colors"
                 >
-                  Cancel
+                  {t('cancel')}
                 </button>
                 <button
                   type="submit"
                   disabled={creating || newName.trim().length === 0}
                   className="flex-1 rounded-lg bg-brand-cta py-1.5 text-xs font-bold text-brand-cta-fg disabled:opacity-50 hover:brightness-90 transition-[filter]"
                 >
-                  {creating ? '…' : 'Create'}
+                  {creating ? '…' : t('create')}
                 </button>
               </div>
             </form>

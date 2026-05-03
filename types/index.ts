@@ -1,7 +1,14 @@
 // Frontend types (camelCase). Do NOT use Supabase Row types here.
 // Translation between snake_case DB and these types happens in /lib/db/.
 
-import type { PlantType } from '@/components/PlantIcon'
+export const PLANT_TYPES = [
+  'monstera', 'cactus', 'succulent', 'herb', 'vine',
+  'palm', 'banana', 'vegetable', 'olive', 'fern',
+  'strelitzia', 'orchid', 'aloe', 'bamboo', 'lavender',
+  'spider', 'flower', 'other',
+] as const
+
+export type PlantType = (typeof PLANT_TYPES)[number]
 
 export type Plant = {
   id: string

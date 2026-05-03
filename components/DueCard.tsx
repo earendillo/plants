@@ -61,7 +61,7 @@ export async function DueCard({ plant, action, daysUntil }: Props) {
 
         {/* Status chip */}
         <Badge variant={isOverdue ? 'overdue' : 'due-today'} className="flex-shrink-0">
-          {isOverdue ? `−${overdueDays}d` : 'Today'}
+          {isOverdue ? `−${overdueDays}d` : t('today')}
         </Badge>
       </div>
 

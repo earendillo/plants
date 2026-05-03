@@ -1,6 +1,7 @@
 import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
-import { PlantIcon, PLANT_TINTS, type PlantType } from '@/components/PlantIcon'
+import type { PlantType } from '@/types'
+import { PlantIcon, PLANT_TINTS } from '@/components/PlantIcon'
 
 export const metadata = { title: 'Design System — PlantCare' }
 

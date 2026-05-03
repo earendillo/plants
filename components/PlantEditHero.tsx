@@ -1,7 +1,8 @@
 'use client'
 
 import { useTranslations } from 'next-intl'
-import { type PlantType, PLANT_TINTS, PlantIcon } from '@/components/PlantIcon'
+import type { PlantType } from '@/types'
+import { PLANT_TINTS, PlantIcon } from '@/components/PlantIcon'
 
 type Props = {
   plantType: PlantType

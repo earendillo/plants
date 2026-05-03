@@ -1,9 +1,8 @@
 'use client'
 
 import { useTranslations } from 'next-intl'
-import { type PlantType, PLANT_TINTS, PLANT_TYPE_LABELS, PlantIcon } from '@/components/PlantIcon'
-
-const PLANT_TYPES = Object.keys(PLANT_TYPE_LABELS) as PlantType[]
+import { type PlantType, PLANT_TYPES } from '@/types'
+import { PLANT_TINTS, PLANT_TYPE_LABELS, PlantIcon } from '@/components/PlantIcon'
 
 type Props = {
   value: PlantType

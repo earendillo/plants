@@ -41,7 +41,8 @@
     "feedDueToday": "🌿 Feed due today",
     "needsWatering": "Needs watering",
     "needsFeeding": "Needs feeding",
-    "interval": "Every {days, plural, one {# day} other {# days}}"
+    "interval": "Every {days, plural, one {# day} other {# days}}",
+    "today": "Today"
   },
   "actionButton": {
     "water": "Water",
@@ -119,6 +120,57 @@
     "byActor": "by {name}",
     "you": "You",
     "guest": "Guest"
+  },
+  "gardenHeader": {
+    "renameTitle": "Rename Garden",
+    "gardenNamePlaceholder": "Garden name",
+    "saving": "Saving…",
+    "save": "Save",
+    "deleteTitle": "Delete garden",
+    "deleteConfirm": "Are you sure you want to delete {name}? This cannot be undone.",
+    "cancel": "Cancel",
+    "deleting": "Deleting…",
+    "delete": "Delete",
+    "leaveTitle": "Leave garden",
+    "leaveConfirm": "Leave {name}? You will lose access unless re-invited.",
+    "leaving": "Leaving…",
+    "leave": "Leave",
+    "renameLabel": "Rename garden",
+    "deleteLabel": "Delete garden",
+    "removePlantsFirst": "Remove all plants before deleting",
+    "cannotDeleteLast": "Cannot delete the last garden",
+    "leaveLabel": "Leave garden",
+    "errorDuplicate": "A garden with that name already exists",
+    "errorRenameFailed": "Failed to rename garden",
+    "errorDeleteFailed": "Failed to delete garden",
+    "errorLeaveFailed": "Failed to leave garden"
+  },
+  "shareDialog": {
+    "title": "Share garden",
+    "description": "Share this link with someone. They can view plants and mark watering/feeding — but cannot edit or delete.",
+    "loading": "Loading…",
+    "copied": "Copied!",
+    "rotateLink": "Rotate link",
+    "revoke": "Revoke",
+    "createShareLink": "Create share link",
+    "guestAccess": "Guest access",
+    "guestDescription": "Anyone with this link can water plants without logging in.",
+    "revokeGuestLink": "Revoke guest link",
+    "expiresIn": "Expires in",
+    "day": "{count, plural, one {# day} other {# days}}",
+    "createGuestLink": "Create guest link"
+  },
+  "gardenPicker": {
+    "newGarden": "+ New garden",
+    "gardenNamePlaceholder": "Garden name",
+    "cancel": "Cancel",
+    "create": "Create",
+    "errorDuplicate": "A garden with that name already exists",
+    "errorCreateFailed": "Failed to create garden"
+  },
+  "guestPlantList": {
+    "empty": "No plants in this garden.",
+    "water": "Water"
   },
   "setPassword": {
     "title": "Set new password",
