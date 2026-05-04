@@ -45,7 +45,7 @@ export async function DELETE(request: NextRequest) {
 
   try {
     const admin = createAdminClient()
-    const { error } = await admin.auth.admin.deleteUser(user.id)
+    const { error } = await admin.rpc('delete_user_account', { p_user_id: user.id })
     if (error) throw error
     return new NextResponse(null, { status: 204 })
   } catch (err) {

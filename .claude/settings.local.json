@@ -83,7 +83,10 @@
       "Bash([ -f \"C:\\\\\\\\Users\\\\\\\\Mateusz\\\\\\\\Projects\\\\\\\\plantsapp\\\\\\\\.next\\\\\\\\dev\\\\\\\\logs\\\\\\\\next-development.log\" ])",
       "Bash(tail -100 \"C:\\\\\\\\Users\\\\\\\\Mateusz\\\\\\\\Projects\\\\\\\\plantsapp\\\\\\\\.next\\\\\\\\dev\\\\\\\\logs\\\\\\\\next-development.log\")",
       "Bash(ls C:\\\\\\\\Users\\\\\\\\Mateusz\\\\\\\\Projects\\\\\\\\plantsapp\\\\\\\\supabase\\\\\\\\migrations/)",
-      "Bash(wc -l components/*.tsx)"
+      "Bash(wc -l components/*.tsx)",
+      "Bash(grep -E \"\\\\.\\(ts|tsx\\)$\")",
+      "Bash(git worktree:*)",
+      "Bash(git branch:*)"
     ]
   }
 }

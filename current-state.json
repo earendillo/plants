@@ -18,7 +18,7 @@
       "plantType": "PlantType+PLANT_TYPES@/types/index.ts|z.enum(PLANT_TYPES) validation|PlantIcon|PlantTypeSelector",
       "ui": ["PlantCard", "DueCard", "PlantForm", "PlantFormFields", "PlantEditHero", "PlantTypeSelector", "PlantDetailTabs", "DeletePlantDialog", "PlantIcon", "GardenSelect"]
     },
-    "profile": "Fields(displayName,avatarUrl,timezone)|Table:profiles|ProfileForm",
+    "profile": "Fields(displayName,avatarUrl,timezone)|Table:profiles|ProfileForm|DeleteAccount(DangerZone+DeleteAccountDialog)",
     "guest": "GuestPlantList|GuestTokenValidator|Anonymous-share-links"
   },
   "types": {
@@ -39,7 +39,7 @@
     "plantIconPaths": "/lib/plant-icon-paths.tsx",
     "components": "/components/",
     "uiLib": "/components/ui/",
-    "api": "/app/api/{plants,gardens,profile,guest,share}/",
+    "api": "/app/api/{plants,gardens,profile,guest,share,user}/",
     "pages": "/app/(authenticated)/{today,plants,profile}/",
     "migrations": "/supabase/migrations/"
   },
@@ -50,7 +50,7 @@
     "actions": ["ActionButton", "ActivityTimeline"],
     "garden": ["ShareDialog", "MemberShareSection", "GuestShareSection", "RenameGardenDialog", "DeleteGardenDialog", "LeaveGardenDialog"],
     "guest": ["GuestPlantList", "GuestTokenValidator"],
-    "profile": ["ProfileForm", "LanguageSelector"],
+    "profile": ["ProfileForm", "LanguageSelector", "DeleteAccountDialog"],
     "skeletons": ["PlantsPageSkeleton", "TodayPageSkeleton"]
   }
 }
