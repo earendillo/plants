@@ -107,7 +107,20 @@
     "saving": "Saving…",
     "saveChanges": "Save Changes",
     "saveSuccess": "Changes saved.",
-    "errorSaveFailed": "Failed to save. Please try again."
+    "errorSaveFailed": "Failed to save. Please try again.",
+    "dangerZone": "Danger Zone",
+    "deleteAccountWarning": "Deleting your account is permanent. All your gardens, plants, activity history, and shared links will be removed. This cannot be undone.",
+    "deleteAccountButton": "Delete Account",
+    "deleteAccountTitle": "Delete your account?",
+    "deleteAccountConfirm": "This will permanently delete your account and all associated data. This action cannot be undone.",
+    "passwordLabel": "Confirm your password",
+    "passwordPlaceholder": "Enter your password",
+    "typeDeleteLabel": "Type DELETE to confirm",
+    "typeDeletePlaceholder": "DELETE",
+    "invalidPassword": "Incorrect password. Please try again.",
+    "deleteAccountError": "Failed to delete account. Please try again.",
+    "deletingAccount": "Deleting…",
+    "cancel": "Cancel"
   },
   "activityTimeline": {
     "title": "Recent Activity",

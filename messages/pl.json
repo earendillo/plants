@@ -107,7 +107,20 @@
     "saving": "Saving…",
     "saveChanges": "Save changes",
     "saveSuccess": "Changes saved.",
-    "errorSaveFailed": "Failed to save. Please try again."
+    "errorSaveFailed": "Failed to save. Please try again.",
+    "dangerZone": "Strefa niebezpieczna",
+    "deleteAccountWarning": "Usunięcie konta jest trwałe. Wszystkie Twoje ogrody, rośliny, historia aktywności i udostępnione linki zostaną usunięte. Tej operacji nie można cofnąć.",
+    "deleteAccountButton": "Usuń konto",
+    "deleteAccountTitle": "Usunąć konto?",
+    "deleteAccountConfirm": "Spowoduje to trwałe usunięcie Twojego konta i wszystkich powiązanych danych. Tej operacji nie można cofnąć.",
+    "passwordLabel": "Potwierdź hasło",
+    "passwordPlaceholder": "Wprowadź hasło",
+    "typeDeleteLabel": "Wpisz DELETE, aby potwierdzić",
+    "typeDeletePlaceholder": "DELETE",
+    "invalidPassword": "Nieprawidłowe hasło. Spróbuj ponownie.",
+    "deleteAccountError": "Nie udało się usunąć konta. Spróbuj ponownie.",
+    "deletingAccount": "Usuwanie…",
+    "cancel": "Anuluj"
   },
   "activityTimeline": {
     "title": "Ostatnia aktywność",

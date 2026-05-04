@@ -3,6 +3,7 @@ import { redirect } from 'next/navigation'
 import { getAuthenticatedUser } from '@/lib/auth'
 import { getProfile } from '@/lib/db/profiles'
 import { ProfileForm } from '@/components/ProfileForm'
+import { DeleteAccountDialog } from '@/components/DeleteAccountDialog'
 import { getTranslations } from 'next-intl/server'
 
 export default async function ProfilePage() {
@@ -13,6 +14,8 @@ export default async function ProfilePage() {
   if (!user) redirect('/login')
 
   const profile = await getProfile(user.id)
+  const providers: string[] = user.app_metadata?.providers ?? []
+  const hasPasswordProvider = providers.includes('email')
 
   return (
     <main className="flex-1 pb-28">
@@ -23,6 +26,15 @@ export default async function ProfilePage() {
       </div>
       <div className="px-5">
         <ProfileForm profile={profile} email={user.email ?? ''} />
+      </div>
+      <div className="px-5 mt-10">
+        <h2 className="text-xs font-medium text-brand-alert uppercase tracking-wide mb-3">
+          {t('dangerZone')}
+        </h2>
+        <div className="rounded-xl border border-brand-alert/20 bg-brand-alert/[0.04] p-4 space-y-3">
+          <p className="text-sm text-brand-fg-dim">{t('deleteAccountWarning')}</p>
+          <DeleteAccountDialog hasPasswordProvider={hasPasswordProvider} />
+        </div>
       </div>
     </main>
   )
