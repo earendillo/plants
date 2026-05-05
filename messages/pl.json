@@ -194,5 +194,10 @@
     "updateButton": "Update password",
     "errorMinLength": "Password must be at least 6 characters.",
     "errorMismatch": "Passwords do not match."
+  },
+  "shareAccept": {
+    "invalidTitle": "Nieprawidłowy lub wygasły link",
+    "invalidDescription": "Ten link udostępniania jest już nieważny. Poproś właściciela ogrodu o nowy.",
+    "goToGardens": "Przejdź do moich ogrodów"
   }
 }
