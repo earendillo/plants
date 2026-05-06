@@ -1,15 +1,4 @@
-// app/(authenticated)/plants/page.tsx
-import { redirect } from 'next/navigation'
-import { getPlants } from '@/lib/db/plants'
-import { getGardens, ensureDefaultGarden } from '@/lib/db/gardens'
-import { resolveActiveGarden } from '@/lib/gardens'
-import { PlantCard } from '@/components/PlantCard'
-import { GardenPicker } from '@/components/GardenPicker'
-import { GardenHeader } from '@/components/GardenHeader'
-import { GardenContentWrapper } from '@/components/GardenContentWrapper'
-import { PlantsPageSkeleton } from '@/components/PlantsPageSkeleton'
-import { getAuthenticatedUser } from '@/lib/auth'
-import { getTranslations } from 'next-intl/server'
+import { PlantsPageContent } from '@/components/PlantsPageContent'
 
 export default async function PlantsPage({
   searchParams,
@@ -17,59 +6,6 @@ export default async function PlantsPage({
   searchParams: Promise<{ garden?: string }>
 }) {
   const { garden: gardenParam } = await searchParams
-  const user = await getAuthenticatedUser()
-  if (!user) redirect('/login')
 
-  const [gardens, t] = await Promise.all([
-    getGardens(user.id),
-    getTranslations('plants'),
-  ])
-
-  if (gardens.length === 0) {
-    await ensureDefaultGarden(user.id)
-    redirect('/plants')
-  }
-
-  const resolvedId = resolveActiveGarden(gardens, gardenParam)
-  if (gardenParam !== resolvedId) {
-    redirect(`/plants?garden=${resolvedId}`)
-  }
-
-  const plants = await getPlants(user.id, resolvedId)
-  const today = new Date()
-  const activeGarden = gardens.find(g => g.id === resolvedId)!
-  const isOwner = activeGarden.role === 'owner'
-  const ownedGardens = gardens.filter(g => g.role === 'owner')
-
-  return (
-    <main className="flex-1 pb-28">
-      {/* Garden row */}
-      <div className="flex items-center justify-between gap-2 px-5 pb-3 pt-1">
-        <GardenPicker gardens={gardens} activeGardenId={resolvedId} basePath="/plants" />
-        <GardenHeader
-          garden={activeGarden}
-          plantCount={plants.length}
-          isLastGarden={ownedGardens.length === 1 && isOwner}
-          firstRemainingGardenId={gardens.find(g => g.id !== resolvedId)?.id ?? null}
-        />
-      </div>
-
-      <GardenContentWrapper skeleton={<PlantsPageSkeleton />}>
-      <div className="px-5">
-        <p className="mb-3 text-xs text-brand-fg-dim">
-          {t('count', { count: plants.length })}
-        </p>
-        {plants.length === 0 ? (
-          <p className="py-16 text-center text-brand-fg-dim">{t('empty')}</p>
-        ) : (
-          <div className="grid grid-cols-2 gap-3">
-            {plants.map(plant => (
-              <PlantCard key={plant.id} plant={plant} today={today} canEdit={isOwner} />
-            ))}
-          </div>
-        )}
-      </div>
-      </GardenContentWrapper>
-    </main>
-  )
+  return <PlantsPageContent gardenParam={gardenParam} />
 }

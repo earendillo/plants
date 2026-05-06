@@ -5,6 +5,7 @@ import { useTranslations } from 'next-intl'
 import { BottomTabBar } from '@/components/BottomTabBar'
 import { TopBar } from '@/components/TopBar'
 import { GardenNavigationProvider } from '@/components/GardenNavigationContext'
+import { QueryProvider } from '@/components/QueryProvider'
 
 export default function AuthenticatedLayout({ children }: { children: React.ReactNode }) {
   const pathname = usePathname()
@@ -19,6 +20,7 @@ export default function AuthenticatedLayout({ children }: { children: React.Reac
   else if (pathname === '/plants/new') title = tPlantNew('title')
 
   return (
+    <QueryProvider>
     <GardenNavigationProvider>
       <div className="flex min-h-screen flex-col bg-brand-bg">
         <TopBar />
@@ -38,5 +40,6 @@ export default function AuthenticatedLayout({ children }: { children: React.Reac
         <BottomTabBar />
       </div>
     </GardenNavigationProvider>
+    </QueryProvider>
   )
 }

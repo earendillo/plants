@@ -1,4 +1,6 @@
-import { getTranslations } from 'next-intl/server'
+'use client'
+
+import { useTranslations } from 'next-intl'
 import { Plant } from '@/types'
 import { ActionButton } from '@/components/ActionButton'
 import { Badge } from '@/components/ui/badge'
@@ -10,8 +12,8 @@ type Props = {
   daysUntil: number  // negative = overdue, 0 = due today
 }
 
-export async function DueCard({ plant, action, daysUntil }: Props) {
-  const t = await getTranslations('dueCard')
+export function DueCard({ plant, action, daysUntil }: Props) {
+  const t = useTranslations('dueCard')
   const isOverdue = daysUntil < 0
   const overdueDays = Math.abs(daysUntil)
 

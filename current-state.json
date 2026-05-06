@@ -1,8 +1,8 @@
 {
   "pj": "plant-watering-tracker",
-  "stack": "Next16(AppRouter)|TS(Strict)|Supabase(RLS+SSR)|TW4+shadcn|next-intl4",
+  "stack": "Next16(AppRouter)|TS(Strict)|Supabase(RLS+SSR)|TW4+shadcn|next-intl4|react-query5",
   "arch": {
-    "da": "Server-modules@/lib/db/",
+    "da": "Server-modules@/lib/db/|Client-cache@react-query(stale5m,gc10m)",
     "api": "RouteHandlers+Zod+handleApiError+uuidParam",
     "auth": "JWT-Cookies+Middleware+Guest-JWT(HS256)",
     "nav": "Top:Sticky+Sheet|Bottom:3-tab(Today,Plants,Add)",
@@ -35,6 +35,7 @@
     "utils": "/lib/utils.ts",
     "validation": "/lib/validation.ts",
     "apiError": "/lib/api-error.ts",
+    "hooks": "/hooks/queries.ts",
     "dueItems": "/lib/due-items.ts",
     "plantIconPaths": "/lib/plant-icon-paths.tsx",
     "components": "/components/",
@@ -45,7 +46,8 @@
   },
   "db": ["plants", "gardens", "garden_members", "garden_share_links", "profiles", "activity_logs"],
   "components": {
-    "layout": ["TopBar", "BottomTabBar", "GardenHeader", "GardenTabs", "GardenContentWrapper", "GardenPicker", "GardenNavigationContext"],
+    "layout": ["TopBar", "BottomTabBar", "GardenHeader", "GardenTabs", "GardenContentWrapper", "GardenPicker", "GardenNavigationContext", "QueryProvider"],
+    "pageContent": ["PlantsPageContent", "TodayPageContent"],
     "plants": ["PlantCard", "DueCard", "PlantForm", "PlantFormFields", "PlantEditHero", "PlantTypeSelector", "PlantDetailTabs", "PlantIcon", "DeletePlantDialog", "PlantsPageSkeleton", "GardenSelect"],
     "actions": ["ActionButton", "ActivityTimeline"],
     "garden": ["ShareDialog", "MemberShareSection", "GuestShareSection", "RenameGardenDialog", "DeleteGardenDialog", "LeaveGardenDialog"],

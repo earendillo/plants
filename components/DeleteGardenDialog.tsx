@@ -3,6 +3,7 @@
 import { useState } from 'react'
 import { useRouter } from 'next/navigation'
 import { useTranslations } from 'next-intl'
+import { useQueryClient } from '@tanstack/react-query'
 import { Trash2 } from 'lucide-react'
 import {
   Dialog,
@@ -31,6 +32,7 @@ export function DeleteGardenDialog({
 }: Props) {
   const t = useTranslations('gardenHeader')
   const router = useRouter()
+  const queryClient = useQueryClient()
   const [open, setOpen] = useState(false)
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState<string | null>(null)
@@ -64,10 +66,11 @@ export function DeleteGardenDialog({
       }
       setLoading(false)
       setOpen(false)
+      await queryClient.invalidateQueries({ queryKey: ['gardens'] })
+      await queryClient.invalidateQueries({ queryKey: ['plants'] })
       if (firstRemainingGardenId) {
         router.push(`/plants?garden=${firstRemainingGardenId}`)
       }
-      router.refresh()
     } catch {
       setError(t('errorDeleteFailed'))
       setLoading(false)

@@ -1,5 +1,7 @@
+'use client'
+
 import Link from 'next/link'
-import { getTranslations } from 'next-intl/server'
+import { useTranslations } from 'next-intl'
 import { Plant } from '@/types'
 import { daysUntilDue } from '@/lib/utils'
 import { Badge } from '@/components/ui/badge'
@@ -20,8 +22,8 @@ function getWorstStatus(waterDays: number, feedDays: number): Status {
   return 'ok'
 }
 
-export async function PlantCard({ plant, today, canEdit }: Props) {
-  const t = await getTranslations('plantCard')
+export function PlantCard({ plant, today, canEdit }: Props) {
+  const t = useTranslations('plantCard')
   const waterDays = daysUntilDue(plant.lastWateredAt, plant.wateringIntervalDays, today)
   const feedDays = daysUntilDue(plant.lastFedAt, plant.feedingIntervalDays, today)
   const status = getWorstStatus(waterDays, feedDays)

@@ -1,8 +1,8 @@
 'use client'
 
 import { useState } from 'react'
-import { useRouter } from 'next/navigation'
 import { useTranslations } from 'next-intl'
+import { useQueryClient } from '@tanstack/react-query'
 
 type Props = {
   plantId: string
@@ -11,7 +11,7 @@ type Props = {
 }
 
 export function ActionButton({ plantId, action, isOverdue }: Props) {
-  const router = useRouter()
+  const queryClient = useQueryClient()
   const [loading, setLoading] = useState(false)
   const t = useTranslations('actionButton')
 
@@ -20,8 +20,8 @@ export function ActionButton({ plantId, action, isOverdue }: Props) {
     try {
       const res = await fetch(`/api/plants/${plantId}/${action}`, { method: 'POST' })
       if (!res.ok) throw new Error(`Server error: ${res.status}`)
-      router.refresh()
-      // setLoading(false) intentionally omitted on success — RSC refresh unmounts this component
+      await queryClient.invalidateQueries({ queryKey: ['plants'] })
+      setLoading(false)
     } catch (err) {
       console.error('Action failed', err)
       setLoading(false)

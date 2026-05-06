@@ -3,6 +3,7 @@
 import { type ReactNode, useState } from 'react'
 import { useRouter } from 'next/navigation'
 import { useTranslations } from 'next-intl'
+import { useQueryClient } from '@tanstack/react-query'
 import { Garden, Plant } from '@/types'
 import type { PlantType } from '@/types'
 import { PlantFormFields } from '@/components/PlantFormFields'
@@ -19,6 +20,7 @@ type Props = {
 
 export function PlantForm({ plant, gardenId, gardens, activityContent }: Props) {
   const router = useRouter()
+  const queryClient = useQueryClient()
   const t = useTranslations('plantForm')
   const [plantType, setPlantType] = useState<PlantType>(plant?.type ?? 'other')
   const [name, setName] = useState(plant?.name ?? '')
@@ -61,9 +63,9 @@ export function PlantForm({ plant, gardenId, gardens, activityContent }: Props) 
         method: plant ? 'PUT' : 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(body),
       })
       if (!res.ok) throw new Error(`Server error: ${res.status}`)
+      await queryClient.invalidateQueries({ queryKey: ['plants'] })
       const targetGardenId = selectedGardenId || gardenId || plant?.gardenId
       router.push(targetGardenId ? `/plants?garden=${targetGardenId}` : '/plants')
-      router.refresh()
     } catch {
       setError(t('errorSaveFailed'))
       setLoading(false)
@@ -76,9 +78,9 @@ export function PlantForm({ plant, gardenId, gardens, activityContent }: Props) 
     try {
       const res = await fetch(`/api/plants/${plant.id}`, { method: 'DELETE' })
       if (!res.ok) throw new Error(`Server error: ${res.status}`)
+      await queryClient.invalidateQueries({ queryKey: ['plants'] })
       const targetGardenId = gardenId ?? plant?.gardenId
       router.push(targetGardenId ? `/plants?garden=${targetGardenId}` : '/plants')
-      router.refresh()
     } catch {
       setError(t('errorDeleteFailed'))
       setLoading(false)

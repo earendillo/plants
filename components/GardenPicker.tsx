@@ -3,6 +3,7 @@
 import { useState, useRef, useEffect } from 'react'
 import { useRouter, usePathname } from 'next/navigation'
 import { useTranslations } from 'next-intl'
+import { useQueryClient } from '@tanstack/react-query'
 import { Garden } from '@/types'
 import { useGardenNavigation } from './GardenNavigationContext'
 
@@ -21,6 +22,7 @@ export function GardenPicker({ gardens, activeGardenId, basePath }: Props) {
   const [createError, setCreateError] = useState<string | null>(null)
   const ref = useRef<HTMLDivElement>(null)
   const router = useRouter()
+  const queryClient = useQueryClient()
   const pathname = usePathname()
   const { navigateTo } = useGardenNavigation()
 
@@ -53,8 +55,8 @@ export function GardenPicker({ gardens, activeGardenId, basePath }: Props) {
       const garden = (await res.json()) as { id: string }
       setCreateOpen(false)
       setNewName('')
+      await queryClient.invalidateQueries({ queryKey: ['gardens'] })
       router.push(`${pathname}?garden=${garden.id}`)
-      router.refresh()
     } catch {
       setCreateError(t('errorCreateFailed'))
       setCreating(false)

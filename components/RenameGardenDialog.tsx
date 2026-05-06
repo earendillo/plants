@@ -1,8 +1,8 @@
 'use client'
 
 import { useState } from 'react'
-import { useRouter } from 'next/navigation'
 import { useTranslations } from 'next-intl'
+import { useQueryClient } from '@tanstack/react-query'
 import { Pencil } from 'lucide-react'
 import {
   Dialog,
@@ -22,7 +22,7 @@ type Props = {
 
 export function RenameGardenDialog({ gardenId, gardenName, disabled }: Props) {
   const t = useTranslations('gardenHeader')
-  const router = useRouter()
+  const queryClient = useQueryClient()
   const [open, setOpen] = useState(false)
   const [name, setName] = useState(gardenName)
   const [loading, setLoading] = useState(false)
@@ -55,7 +55,7 @@ export function RenameGardenDialog({ gardenId, gardenName, disabled }: Props) {
       if (!res.ok) throw new Error(`Server error: ${res.status}`)
       setLoading(false)
       setOpen(false)
-      router.refresh()
+      await queryClient.invalidateQueries({ queryKey: ['gardens'] })
     } catch {
       setError(t('errorRenameFailed'))
       setLoading(false)
