@@ -86,7 +86,9 @@
       "Bash(wc -l components/*.tsx)",
       "Bash(grep -E \"\\\\.\\(ts|tsx\\)$\")",
       "Bash(git worktree:*)",
-      "Bash(git branch:*)"
+      "Bash(git branch:*)",
+      "Bash(grep -l \"Dialog\\\\|drawer\\\\|Drawer\" /c/Users/Mateusz/Projects/plantsapp/components/*.tsx)",
+      "Bash(grep:*)"
     ]
   }
 }

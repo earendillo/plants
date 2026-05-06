@@ -31,7 +31,7 @@ function DialogOverlay({
     <DialogPrimitive.Backdrop
       data-slot="dialog-overlay"
       className={cn(
-        "fixed inset-0 isolate z-50 bg-black/60 duration-100 supports-backdrop-filter:backdrop-blur-sm data-open:animate-in data-open:fade-in-0 data-closed:animate-out data-closed:fade-out-0",
+        "fixed inset-0 isolate z-50 bg-black/60 max-sm:duration-200 sm:duration-100 supports-backdrop-filter:backdrop-blur-sm data-open:animate-in data-open:fade-in-0 data-closed:animate-out data-closed:fade-out-0",
         className
       )}
       {...props}
@@ -53,11 +53,24 @@ function DialogContent({
       <DialogPrimitive.Popup
         data-slot="dialog-content"
         className={cn(
-          "fixed top-1/2 left-1/2 z-50 grid w-full max-w-[calc(100%-2rem)] -translate-x-1/2 -translate-y-1/2 gap-4 rounded-xl bg-brand-surface p-4 text-sm text-brand-fg ring-1 ring-white/10 duration-100 outline-none sm:max-w-sm data-open:animate-in data-open:fade-in-0 data-open:zoom-in-95 data-closed:animate-out data-closed:fade-out-0 data-closed:zoom-out-95",
+          // Base
+          "fixed z-50 grid w-full gap-4 bg-brand-surface text-sm text-brand-fg ring-1 ring-white/10 outline-none",
+          // Mobile: bottom drawer
+          "bottom-0 left-0 right-0 max-h-[85dvh] overflow-y-auto rounded-t-2xl px-4 pt-2 pb-16 duration-200",
+          // Desktop: centered modal
+          "sm:bottom-auto sm:left-1/2 sm:right-auto sm:top-1/2 sm:-translate-x-1/2 sm:-translate-y-1/2 sm:max-w-sm sm:max-h-none sm:overflow-visible sm:rounded-xl sm:p-4 sm:duration-100",
+          // Animation (shared)
+          "data-open:animate-in data-open:fade-in-0 data-closed:animate-out",
+          // Animation (mobile: slide only, no fade on close)
+          "max-sm:data-open:slide-in-from-bottom max-sm:data-closed:slide-out-to-bottom",
+          // Animation (desktop: zoom + fade on close)
+          "sm:data-closed:fade-out-0 sm:data-open:zoom-in-95 sm:data-closed:zoom-out-95",
           className
         )}
         {...props}
       >
+        {/* Drawer handle — mobile only */}
+        <div className="mx-auto h-1 w-8 flex-shrink-0 rounded-full bg-white/20 sm:hidden" aria-hidden="true" />
         {children}
         {showCloseButton && (
           <DialogPrimitive.Close
@@ -102,7 +115,7 @@ function DialogFooter({
     <div
       data-slot="dialog-footer"
       className={cn(
-        "-mx-4 -mb-4 flex flex-col-reverse gap-2 rounded-b-xl border-t border-white/10 bg-brand-surface2 p-4 sm:flex-row sm:justify-end",
+        "-mx-4 -mb-4 flex flex-col-reverse gap-2 rounded-b-none border-t border-white/10 bg-brand-surface2 p-4 sm:flex-row sm:justify-end sm:rounded-b-xl",
         className
       )}
       {...props}

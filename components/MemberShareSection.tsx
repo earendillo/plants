@@ -57,7 +57,7 @@ export function MemberShareSection({
   }
 
   if (loading) {
-    return <p className="text-sm text-brand-fg-dim">{t('loading')}</p>
+    return <div className="h-[44px] w-full animate-pulse rounded-[14px] bg-white/6" />
   }
 
   if (shareUrl) {

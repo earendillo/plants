@@ -70,7 +70,12 @@ export function GuestShareSection({
         </p>
       </div>
 
-      {loading && <p className="text-sm text-brand-fg-dim">{t('loading')}</p>}
+      {loading && (
+        <div className="space-y-2">
+          <div className="h-8 w-28 animate-pulse rounded-md bg-white/6" />
+          <div className="h-[44px] w-full animate-pulse rounded-[14px] bg-white/6" />
+        </div>
+      )}
 
       {!loading && anonUrl && (
         <>
