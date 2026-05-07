@@ -185,7 +185,7 @@ export function PlantsPageContent({ gardenParam, plantParam }: Props) {
         </div>
       )}
 
-      {isOwner && manageOpen && (
+      {isOwner && (
         <ManageGroupsDrawer
           open={manageOpen}
           onClose={() => setManageOpen(false)}

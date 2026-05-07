@@ -4,6 +4,7 @@ import { useState } from 'react'
 import { useTranslations } from 'next-intl'
 import { TrashIcon, ArrowUpIcon, ArrowDownIcon } from 'lucide-react'
 import { PlantGroup } from '@/types'
+import { Dialog, DialogContent } from '@/components/ui/dialog'
 
 type Props = {
   open: boolean
@@ -19,8 +20,6 @@ export function ManageGroupsDrawer({ open, onClose, gardenId, groups, onGroupsCh
   const [newName, setNewName] = useState('')
   const [adding, setAdding] = useState(false)
   const [addError, setAddError] = useState<string | null>(null)
-
-  if (!open) return null
 
   async function handleDelete(groupId: string) {
     await fetch(`/api/gardens/${gardenId}/groups/${groupId}`, { method: 'DELETE' })
@@ -77,9 +76,8 @@ export function ManageGroupsDrawer({ open, onClose, gardenId, groups, onGroupsCh
   }
 
   return (
-    <>
-      <div className="fixed inset-0 z-50 bg-black/60" onClick={onClose} />
-      <div className="fixed bottom-0 left-0 right-0 z-50 rounded-t-[24px] bg-brand-surface p-4 pb-8">
+    <Dialog open={open} onOpenChange={(o) => { if (!o) onClose() }}>
+      <DialogContent showCloseButton={false} className="pb-8">
         <p className="mb-4 text-center text-sm font-medium text-brand-fg">{t('manageGroups')}</p>
 
         <div className="mb-4 space-y-2">
@@ -151,7 +149,7 @@ export function ManageGroupsDrawer({ open, onClose, gardenId, groups, onGroupsCh
           </button>
         </div>
         {addError && <p className="mt-2 text-xs text-red-400">{addError}</p>}
-      </div>
-    </>
+      </DialogContent>
+    </Dialog>
   )
 }

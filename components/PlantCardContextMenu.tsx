@@ -2,6 +2,7 @@
 
 import { useTranslations } from 'next-intl'
 import { Plant, PlantGroup } from '@/types'
+import { Dialog, DialogContent } from '@/components/ui/dialog'
 
 type Props = {
   plant: Plant
@@ -14,17 +15,14 @@ type Props = {
 export function PlantCardContextMenu({ plant, groups, open, onClose, onMove }: Props) {
   const t = useTranslations('plantGroups')
 
-  if (!open) return null
-
   function handleMove(groupId: string | null) {
     onMove(groupId)
     onClose()
   }
 
   return (
-    <>
-      <div className="context-menu-overlay fixed inset-0 z-50 bg-black/60" onClick={onClose} />
-      <div className="context-menu-sheet fixed bottom-0 left-0 right-0 z-50 rounded-t-[24px] bg-brand-surface p-4 pb-8">
+    <Dialog open={open} onOpenChange={(o) => { if (!o) onClose() }}>
+      <DialogContent showCloseButton={false} className="pb-8">
         <p className="mb-3 text-center text-sm font-medium text-brand-fg">{plant.name}</p>
         <div className="space-y-2">
           {plant.groupId !== null && (
@@ -51,7 +49,7 @@ export function PlantCardContextMenu({ plant, groups, open, onClose, onMove }: P
             {t('cancel')}
           </button>
         </div>
-      </div>
-    </>
+      </DialogContent>
+    </Dialog>
   )
 }

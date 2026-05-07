@@ -3,7 +3,8 @@
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
 import { useTranslations } from 'next-intl'
-import { Leaf, Menu, User, LogOut } from 'lucide-react'
+import { Menu, User, LogOut } from 'lucide-react'
+import { LeafMoLogo } from '@/components/LeafMoLogo'
 
 import { supabase } from '@/lib/supabase/client'
 import { Sheet, SheetContent, SheetClose, SheetTrigger } from '@/components/ui/sheet'
@@ -20,13 +21,8 @@ export function TopBar() {
 
   return (
     <header className="sticky top-0 z-40 flex items-center justify-between border-b border-white/[0.07] bg-brand-bg/90 px-4 py-3 backdrop-blur-sm">
-      <Link
-        href="/today"
-        className="flex items-center gap-2 text-brand-fg font-heading text-lg tracking-tight"
-        style={{ letterSpacing: '-0.02em' }}
-      >
-        <Leaf size={20} className="text-brand-cta" />
-        LeafMo
+      <Link href="/today" className="text-brand-cta">
+        <LeafMoLogo width={80} />
       </Link>
 
       <Sheet>
