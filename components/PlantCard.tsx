@@ -33,6 +33,7 @@ export function PlantCard({ plant, today, canEdit, groups, onMove, onSelect }: P
   const [pressing, setPressing] = useState(false)
   const timerRef = useRef<ReturnType<typeof setTimeout> | null>(null)
   const longPressedRef = useRef(false)
+  const startPosRef = useRef<{ x: number; y: number } | null>(null)
 
   const waterDays = daysUntilDue(plant.lastWateredAt, plant.wateringIntervalDays, today)
   const feedDays = daysUntilDue(plant.lastFedAt, plant.feedingIntervalDays, today)
@@ -45,13 +46,26 @@ export function PlantCard({ plant, today, canEdit, groups, onMove, onSelect }: P
 
   const showMenu = groups !== undefined && groups.length > 0
 
-  function handlePointerDown() {
+  function suppressBodySelect() {
+    document.body.style.userSelect = 'none'
+    ;(document.body.style as React.CSSProperties).WebkitUserSelect = 'none'
+  }
+
+  function restoreBodySelect() {
+    document.body.style.userSelect = ''
+    ;(document.body.style as React.CSSProperties).WebkitUserSelect = ''
+  }
+
+  function handlePointerDown(e: React.PointerEvent) {
     if (!showMenu) return
     longPressedRef.current = false
     setPressing(true)
+    startPosRef.current = { x: e.clientX, y: e.clientY }
+    suppressBodySelect()
     timerRef.current = setTimeout(() => {
       longPressedRef.current = true
       setPressing(false)
+      restoreBodySelect()
       setMenuOpen(true)
     }, 600)
   }
@@ -61,12 +75,25 @@ export function PlantCard({ plant, today, canEdit, groups, onMove, onSelect }: P
       clearTimeout(timerRef.current)
       timerRef.current = null
     }
+    restoreBodySelect()
     setPressing(false)
+  }
+
+  function handlePointerMove(e: React.PointerEvent) {
+    if (!startPosRef.current || timerRef.current === null) return
+    const dx = e.clientX - startPosRef.current.x
+    const dy = e.clientY - startPosRef.current.y
+    if (Math.abs(dx) > 10 || Math.abs(dy) > 10) cancelTimer()
   }
 
   function handlePointerUp() { cancelTimer() }
   const handlePointerLeave = cancelTimer
-  const handlePointerCancel = cancelTimer
+  // iOS Safari fires pointercancel during long-press detection — don't cancel the timer,
+  // only clear the visual pressing state so the card doesn't stay "pressed"
+  function handlePointerCancel() {
+    restoreBodySelect()
+    setPressing(false)
+  }
 
   function handleClick(e: React.MouseEvent) {
     if (longPressedRef.current) {
@@ -77,11 +104,18 @@ export function PlantCard({ plant, today, canEdit, groups, onMove, onSelect }: P
 
   const longPressHandlers = {
     onPointerDown: handlePointerDown,
+    onPointerMove: handlePointerMove,
     onPointerUp: handlePointerUp,
     onPointerLeave: handlePointerLeave,
     onPointerCancel: handlePointerCancel,
     onClick: handleClick,
+    onContextMenu: (e: React.MouseEvent) => { if (showMenu) e.preventDefault() },
   } as const
+
+  // Suppresses iOS Safari's native link callout which fires pointercancel before our timer
+  const iosSuppressStyle = showMenu
+    ? ({ WebkitTouchCallout: 'none', WebkitUserSelect: 'none', userSelect: 'none' } as React.CSSProperties)
+    : undefined
 
   const card = (
     <div
@@ -149,7 +183,7 @@ export function PlantCard({ plant, today, canEdit, groups, onMove, onSelect }: P
 
   if (!canEdit) {
     return (
-      <div {...longPressHandlers}>
+      <div {...longPressHandlers} style={iosSuppressStyle}>
         {card}
         {menu}
       </div>
@@ -161,10 +195,13 @@ export function PlantCard({ plant, today, canEdit, groups, onMove, onSelect }: P
       <>
         <button
           className="block w-full text-left"
+          style={iosSuppressStyle}
           onPointerDown={handlePointerDown}
+          onPointerMove={handlePointerMove}
           onPointerUp={handlePointerUp}
           onPointerLeave={handlePointerLeave}
           onPointerCancel={handlePointerCancel}
+          onContextMenu={(e) => { if (showMenu) e.preventDefault() }}
           onClick={(e) => { handleClick(e); if (!longPressedRef.current) onSelect() }}
         >
           {card}
@@ -176,7 +213,7 @@ export function PlantCard({ plant, today, canEdit, groups, onMove, onSelect }: P
 
   return (
     <>
-      <Link href={`/plants/${plant.id}`} className="block" {...longPressHandlers}>
+      <Link href={`/plants/${plant.id}`} className="block" style={iosSuppressStyle} {...longPressHandlers}>
         {card}
       </Link>
       {menu}

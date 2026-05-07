@@ -165,6 +165,13 @@
 }
 
 
+.context-menu-overlay {
+  animation: fadeIn 150ms ease both;
+}
+.context-menu-sheet {
+  animation: slideUp 220ms cubic-bezier(0.32, 0.72, 0, 1) both;
+}
+
 .grain-overlay {
   position: absolute;
   inset: 0;

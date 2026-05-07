@@ -23,8 +23,8 @@ export function PlantCardContextMenu({ plant, groups, open, onClose, onMove }: P
 
   return (
     <>
-      <div className="fixed inset-0 z-50 animate-[fadeIn_150ms_ease] bg-black/60" onClick={onClose} />
-      <div className="fixed bottom-0 left-0 right-0 z-50 animate-[slideUp_220ms_cubic-bezier(0.32,0.72,0,1)] rounded-t-[24px] bg-brand-surface p-4 pb-8">
+      <div className="context-menu-overlay fixed inset-0 z-50 bg-black/60" onClick={onClose} />
+      <div className="context-menu-sheet fixed bottom-0 left-0 right-0 z-50 rounded-t-[24px] bg-brand-surface p-4 pb-8">
         <p className="mb-3 text-center text-sm font-medium text-brand-fg">{plant.name}</p>
         <div className="space-y-2">
           {plant.groupId !== null && (
