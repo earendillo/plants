@@ -43,15 +43,18 @@ function DialogContent({
   className,
   children,
   showCloseButton = true,
+  initialFocus = false,
   ...props
 }: DialogPrimitive.Popup.Props & {
   showCloseButton?: boolean
+  initialFocus?: DialogPrimitive.Popup.Props['initialFocus']
 }) {
   return (
     <DialogPortal>
       <DialogOverlay />
       <DialogPrimitive.Popup
         data-slot="dialog-content"
+        initialFocus={initialFocus}
         className={cn(
           // Base
           "fixed z-50 grid w-full gap-4 bg-brand-surface text-sm text-brand-fg ring-1 ring-white/10 outline-none",

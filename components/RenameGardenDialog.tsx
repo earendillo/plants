@@ -82,7 +82,6 @@ export function RenameGardenDialog({ gardenId, gardenName, disabled }: Props) {
             onChange={e => setName(e.target.value)}
             placeholder={t('gardenNamePlaceholder')}
             className="border-white/10 bg-brand-bg text-brand-fg placeholder:text-brand-fg-dim"
-            autoFocus
           />
           <Button
             type="submit"
