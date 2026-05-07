@@ -14,9 +14,10 @@ type Props = {
   onToggle: (id: string) => void
   groups?: PlantGroup[]
   onMove?: (plantId: string, groupId: string | null) => void
+  onSelect?: (plantId: string) => void
 }
 
-export function PlantGroupSection({ id, name, plants, today, canEdit, collapsed, onToggle, groups, onMove }: Props) {
+export function PlantGroupSection({ id, name, plants, today, canEdit, collapsed, onToggle, groups, onMove, onSelect }: Props) {
   return (
     <div
       className="mb-4 rounded-[24px] border p-3"
@@ -40,7 +41,7 @@ export function PlantGroupSection({ id, name, plants, today, canEdit, collapsed,
       {!collapsed && (
         <div className="grid grid-cols-2 gap-[10px]">
           {plants.map(plant => (
-            <PlantCard key={plant.id} plant={plant} today={today} canEdit={canEdit} groups={groups} onMove={onMove} />
+            <PlantCard key={plant.id} plant={plant} today={today} canEdit={canEdit} groups={groups} onMove={onMove} onSelect={onSelect ? () => onSelect(plant.id) : undefined} />
           ))}
         </div>
       )}

@@ -17,7 +17,7 @@ const plusJakartaSans = Plus_Jakarta_Sans({
 })
 
 export const metadata: Metadata = {
-  title: 'PlantCare',
+  title: 'LeafMo',
   description: 'Track your plant watering and feeding schedule',
 }
 

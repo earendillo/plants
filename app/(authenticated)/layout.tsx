@@ -4,6 +4,8 @@ import { usePathname } from 'next/navigation'
 import { useTranslations } from 'next-intl'
 import { BottomTabBar } from '@/components/BottomTabBar'
 import { TopBar } from '@/components/TopBar'
+import { DesktopSidebar } from '@/components/DesktopSidebar'
+import { DesktopTopBar } from '@/components/DesktopTopBar'
 import { GardenNavigationProvider } from '@/components/GardenNavigationContext'
 import { QueryProvider } from '@/components/QueryProvider'
 
@@ -21,25 +23,50 @@ export default function AuthenticatedLayout({ children }: { children: React.Reac
 
   return (
     <QueryProvider>
-    <GardenNavigationProvider>
-      <div className="flex min-h-screen flex-col bg-brand-bg">
-        <TopBar />
-        {!isEditPage && (
-          <header className="px-5 pb-2 pt-4">
-            <h1
-              className="font-heading text-[28px] leading-none text-brand-fg"
-              style={{ fontWeight: 400, letterSpacing: '-0.025em' }}
-            >
-              {title}
-            </h1>
-          </header>
-        )}
-        <main className="flex flex-1 flex-col">
-          {children}
-        </main>
-        <BottomTabBar />
-      </div>
-    </GardenNavigationProvider>
+      <GardenNavigationProvider>
+        <div className="flex bg-brand-bg">
+          {/* Desktop sidebar — visible on lg+ only */}
+          <div className="hidden lg:contents">
+            <DesktopSidebar />
+          </div>
+
+          {/* Main content column */}
+          <div className="flex min-h-screen flex-1 flex-col lg:h-screen lg:overflow-hidden">
+
+            {/* Mobile TopBar */}
+            <div className="lg:hidden">
+              <TopBar />
+            </div>
+
+            {/* Desktop TopBar */}
+            <div className="hidden lg:block">
+              <DesktopTopBar />
+            </div>
+
+            {/* Mobile page title */}
+            {!isEditPage && (
+              <header className="px-5 pb-2 pt-4 lg:hidden">
+                <h1
+                  className="font-heading text-[28px] leading-none text-brand-fg"
+                  style={{ fontWeight: 400, letterSpacing: '-0.025em' }}
+                >
+                  {title}
+                </h1>
+              </header>
+            )}
+
+            {/* Content */}
+            <main className="flex flex-1 flex-col lg:overflow-y-auto">
+              {children}
+            </main>
+
+            {/* Mobile BottomTabBar */}
+            <div className="lg:hidden">
+              <BottomTabBar />
+            </div>
+          </div>
+        </div>
+      </GardenNavigationProvider>
     </QueryProvider>
   )
 }

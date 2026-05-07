@@ -11,9 +11,10 @@ type Props = {
   gardens: Garden[]
   activeGardenId: string
   basePath: string
+  fullWidth?: boolean
 }
 
-export function GardenPicker({ gardens, activeGardenId, basePath }: Props) {
+export function GardenPicker({ gardens, activeGardenId, basePath, fullWidth }: Props) {
   const t = useTranslations('gardenPicker')
   const [open, setOpen] = useState(false)
   const [createOpen, setCreateOpen] = useState(false)
@@ -64,10 +65,10 @@ export function GardenPicker({ gardens, activeGardenId, basePath }: Props) {
   }
 
   return (
-    <div ref={ref} className="relative">
+    <div ref={ref} className={fullWidth ? 'relative w-full' : 'relative'}>
       <button
         onClick={() => setOpen(o => !o)}
-        className="flex h-11 items-center gap-1.5 rounded-xl border border-white/10 bg-white/[0.06] px-3.5 text-xs font-medium tracking-[0.01em] text-brand-fg-sub transition-colors hover:bg-white/[0.09]"
+        className={`flex h-11 items-center gap-1.5 rounded-xl border border-white/10 bg-white/[0.06] px-3.5 text-xs font-medium tracking-[0.01em] text-brand-fg-sub transition-colors hover:bg-white/[0.09]${fullWidth ? ' w-full' : ''}`}
       >
         <span className="size-1.5 flex-shrink-0 rounded-full bg-brand-cta" />
         <span>{activeGarden?.name ?? '—'}</span>

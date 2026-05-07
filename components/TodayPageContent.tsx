@@ -64,7 +64,7 @@ export function TodayPageContent({ gardenParam, locale }: Props) {
 
   return (
     <main className="flex-1 pb-28">
-      <div className="flex items-center justify-between gap-2 px-5 pb-3 pt-1">
+      <div className="flex items-center justify-between gap-2 px-5 pb-3 pt-1 lg:hidden">
         <GardenPicker gardens={gardens} activeGardenId={resolvedId} basePath="/today" />
         <GardenHeader
           garden={activeGarden}

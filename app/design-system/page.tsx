@@ -3,7 +3,7 @@ import { Button } from '@/components/ui/button'
 import type { PlantType } from '@/types'
 import { PlantIcon, PLANT_TINTS } from '@/components/PlantIcon'
 
-export const metadata = { title: 'Design System — PlantCare' }
+export const metadata = { title: 'Design System — LeafMo' }
 
 export default function DesignSystemPage() {
   return (
@@ -15,7 +15,7 @@ export default function DesignSystemPage() {
             Design System
           </h1>
           <p className="mt-2 text-[13px] text-brand-fg-sub">
-            PlantCare visual primitives — buttons, typography, spacing, and more.
+            LeafMo visual primitives — buttons, typography, spacing, and more.
           </p>
         </div>
 

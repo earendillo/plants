@@ -15,6 +15,7 @@ type Props = {
   canEdit: boolean
   groups?: PlantGroup[]
   onMove?: (plantId: string, groupId: string | null) => void
+  onSelect?: () => void
 }
 
 type Status = 'overdue' | 'due-today' | 'ok'
@@ -26,7 +27,7 @@ function getWorstStatus(waterDays: number, feedDays: number): Status {
   return 'ok'
 }
 
-export function PlantCard({ plant, today, canEdit, groups, onMove }: Props) {
+export function PlantCard({ plant, today, canEdit, groups, onMove, onSelect }: Props) {
   const t = useTranslations('plantCard')
   const [menuOpen, setMenuOpen] = useState(false)
   const [pressing, setPressing] = useState(false)
@@ -152,6 +153,24 @@ export function PlantCard({ plant, today, canEdit, groups, onMove }: Props) {
         {card}
         {menu}
       </div>
+    )
+  }
+
+  if (onSelect) {
+    return (
+      <>
+        <button
+          className="block w-full text-left"
+          onPointerDown={handlePointerDown}
+          onPointerUp={handlePointerUp}
+          onPointerLeave={handlePointerLeave}
+          onPointerCancel={handlePointerCancel}
+          onClick={(e) => { handleClick(e); if (!longPressedRef.current) onSelect() }}
+        >
+          {card}
+        </button>
+        {menu}
+      </>
     )
   }
 

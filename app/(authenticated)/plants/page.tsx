@@ -3,9 +3,9 @@ import { PlantsPageContent } from '@/components/PlantsPageContent'
 export default async function PlantsPage({
   searchParams,
 }: {
-  searchParams: Promise<{ garden?: string }>
+  searchParams: Promise<{ garden?: string; plant?: string }>
 }) {
-  const { garden: gardenParam } = await searchParams
+  const { garden: gardenParam, plant: plantParam } = await searchParams
 
-  return <PlantsPageContent gardenParam={gardenParam} />
+  return <PlantsPageContent gardenParam={gardenParam} plantParam={plantParam} />
 }

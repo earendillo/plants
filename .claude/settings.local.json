@@ -91,7 +91,10 @@
       "Bash(grep:*)",
       "Bash(tar tf:*)",
       "Bash(npx supabase:*)",
-      "Bash(SUPABASE_PROJECT_ID=lxetprzcnccalzwmmhef npx supabase gen types typescript --project-id lxetprzcnccalzwmmhef --schema public)"
+      "Bash(SUPABASE_PROJECT_ID=lxetprzcnccalzwmmhef npx supabase gen types typescript --project-id lxetprzcnccalzwmmhef --schema public)",
+      "Bash(gunzip -c \"C:\\\\Users\\\\Mateusz\\\\.claude\\\\projects\\\\C--Users-Mateusz-Projects-plantsapp\\\\00ddfc86-41ee-464d-bcc3-e00928dde313\\\\tool-results\\\\webfetch-1778148619830-j82rjg.bin\")",
+      "Bash(tar -xf \"C:\\\\Users\\\\Mateusz\\\\.claude\\\\projects\\\\C--Users-Mateusz-Projects-plantsapp\\\\00ddfc86-41ee-464d-bcc3-e00928dde313\\\\tool-results\\\\webfetch-1778148619830-j82rjg.bin\" -C /tmp/design-bundle)",
+      "Bash(tar -xf /tmp/design.html -C /tmp/design-bundle)"
     ]
   }
 }

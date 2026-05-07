@@ -5,7 +5,7 @@
     "da": "Server-modules@/lib/db/|Client-cache@react-query(stale5m,gc10m)",
     "api": "RouteHandlers+Zod+handleApiError+uuidParam",
     "auth": "JWT-Cookies+Middleware+Guest-JWT(HS256)",
-    "nav": "Top:Sticky+Sheet|Bottom:3-tab(Today,Plants,Add)",
+    "nav": "Mobile:Top(Sticky+Sheet)+Bottom(3-tab:Today,Plants,Add)|Desktop:LeftSidebar(220px)+TopBar(54px)+RightDetailPanel(340px,fixed)",
     "i18n": "next-intl4|en+pl|messages/{en,pl}.json|namespaces:nav,today,plants,plantNew,plantEdit,plantCard,dueCard,actionButton,plantForm,plantFormFields,gardenHeader,shareDialog,gardenPicker,guestPlantList,login,forgotPassword,profile,activityTimeline,setPassword"
   },
   "impl": {
@@ -46,9 +46,9 @@
   },
   "db": ["plants", "gardens", "garden_members", "garden_share_links", "profiles", "activity_logs"],
   "components": {
-    "layout": ["TopBar", "BottomTabBar", "GardenHeader", "GardenTabs", "GardenContentWrapper", "GardenPicker", "GardenNavigationContext", "QueryProvider"],
+    "layout": ["TopBar", "BottomTabBar", "DesktopSidebar", "DesktopTopBar", "GardenHeader", "GardenTabs", "GardenContentWrapper", "GardenPicker", "GardenNavigationContext", "QueryProvider"],
     "pageContent": ["PlantsPageContent", "TodayPageContent"],
-    "plants": ["PlantCard", "DueCard", "PlantForm", "PlantFormFields", "PlantEditHero", "PlantTypeSelector", "PlantDetailTabs", "PlantIcon", "DeletePlantDialog", "PlantsPageSkeleton", "GardenSelect"],
+    "plants": ["PlantCard", "DueCard", "PlantForm", "PlantFormFields", "PlantEditHero", "PlantTypeSelector", "PlantDetailTabs", "PlantDetailPanel", "PlantIcon", "DeletePlantDialog", "PlantsPageSkeleton", "GardenSelect"],
     "actions": ["ActionButton", "ActivityTimeline"],
     "garden": ["ShareDialog", "MemberShareSection", "GuestShareSection", "RenameGardenDialog", "DeleteGardenDialog", "LeaveGardenDialog"],
     "guest": ["GuestPlantList", "GuestTokenValidator"],

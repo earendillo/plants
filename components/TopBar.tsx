@@ -26,7 +26,7 @@ export function TopBar() {
         style={{ letterSpacing: '-0.02em' }}
       >
         <Leaf size={20} className="text-brand-cta" />
-        PlantTracker
+        LeafMo
       </Link>
 
       <Sheet>

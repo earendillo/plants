@@ -91,7 +91,7 @@
     "errorSaveFailed": "Nie udało się zapisać grupy"
   },
   "login": {
-    "appName": "PlantCare",
+    "appName": "LeafMo",
     "subtitle": "Sign in to manage your plants",
     "emailLabel": "Email",
     "emailPlaceholder": "you@example.com",
