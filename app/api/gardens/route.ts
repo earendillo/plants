@@ -1,7 +1,7 @@
 // app/api/gardens/route.ts
 import { NextRequest, NextResponse } from 'next/server'
 import { z } from 'zod'
-import { getGardens, createGarden } from '@/lib/db/gardens'
+import { getGardens, createGarden, ensureDefaultGarden } from '@/lib/db/gardens'
 import { getAuthenticatedUser } from '@/lib/auth'
 
 const createSchema = z.object({
@@ -11,7 +11,13 @@ const createSchema = z.object({
 export async function GET() {
   const user = await getAuthenticatedUser()
   if (!user) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
-  const gardens = await getGardens(user.id)
+  let gardens = await getGardens(user.id)
+  if (gardens.length === 0) {
+    // Email/password sign-ups bypass the OAuth callback that normally calls
+    // ensureDefaultGarden. Create the default garden lazily on first load.
+    await ensureDefaultGarden(user.id)
+    gardens = await getGardens(user.id)
+  }
   return NextResponse.json(gardens)
 }
 
