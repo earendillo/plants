@@ -139,19 +139,21 @@ export function PlantForm({ plant, gardenId, gardens, activityContent }: Props) 
     <div className="flex h-full flex-col">
       <PlantEditHero plantType={plantType} onBack={handleBack} />
 
-      <div className="flex-1 overflow-y-auto px-5 pt-5 pb-28">
-        <h1 className="mb-5 text-[28px] font-normal leading-none tracking-tight">
-          {name || t('unnamedPlant')}
-        </h1>
+      <div className="flex-1 overflow-x-hidden overflow-y-auto px-5 pt-5 pb-28">
+        <div className="mx-auto w-full max-w-lg">
+          <h1 className="mb-5 text-[28px] font-normal leading-none tracking-tight">
+            {name || t('unnamedPlant')}
+          </h1>
 
-        {plant && activityContent ? (
-          <PlantDetailTabs
-            detailsContent={formContent}
-            activityContent={activityContent}
-          />
-        ) : (
-          formContent
-        )}
+          {plant && activityContent ? (
+            <PlantDetailTabs
+              detailsContent={formContent}
+              activityContent={activityContent}
+            />
+          ) : (
+            formContent
+          )}
+        </div>
       </div>
     </div>
   )

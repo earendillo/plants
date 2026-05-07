@@ -31,7 +31,7 @@ export default function AuthenticatedLayout({ children }: { children: React.Reac
           </div>
 
           {/* Main content column */}
-          <div className="flex min-h-screen flex-1 flex-col lg:h-screen lg:overflow-hidden">
+          <div className="flex min-h-screen flex-1 flex-col min-w-0 overflow-x-hidden lg:h-screen lg:overflow-hidden">
 
             {/* Mobile TopBar */}
             <div className="lg:hidden">
