@@ -88,7 +88,10 @@
       "Bash(git worktree:*)",
       "Bash(git branch:*)",
       "Bash(grep -l \"Dialog\\\\|drawer\\\\|Drawer\" /c/Users/Mateusz/Projects/plantsapp/components/*.tsx)",
-      "Bash(grep:*)"
+      "Bash(grep:*)",
+      "Bash(tar tf:*)",
+      "Bash(npx supabase:*)",
+      "Bash(SUPABASE_PROJECT_ID=lxetprzcnccalzwmmhef npx supabase gen types typescript --project-id lxetprzcnccalzwmmhef --schema public)"
     ]
   }
 }

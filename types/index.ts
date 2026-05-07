@@ -14,6 +14,7 @@ export type Plant = {
   id: string
   userId: string
   gardenId: string
+  groupId: string | null
   name: string
   type: PlantType
   wateringIntervalDays: number
@@ -25,6 +26,16 @@ export type Plant = {
 
 export type PlantInsert = Omit<Plant, 'id' | 'createdAt'>
 export type PlantUpdate = Partial<Omit<Plant, 'id' | 'createdAt'>>
+
+export type PlantGroup = {
+  id: string
+  gardenId: string
+  name: string
+  position: number
+  createdAt: string
+}
+
+export type PlantGroupInsert = Omit<PlantGroup, 'id' | 'createdAt'>
 
 export type Garden = {
   id: string

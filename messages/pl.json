@@ -69,7 +69,26 @@
     "namePlaceholder": "np. Monstera",
     "waterDaysLabel": "Podlewanie co",
     "feedDaysLabel": "Nawożenie co",
-    "gardenLabel": "Garden"
+    "gardenLabel": "Garden",
+    "groupLabel": "Grupa"
+  },
+  "plantGroups": {
+    "ungrouped": "Bez grupy",
+    "manageGroups": "Zarządzaj grupami",
+    "addGroup": "Dodaj grupę",
+    "groupNamePlaceholder": "Nazwa grupy",
+    "deleteConfirm": "Usunąć grupę? Rośliny staną się niezgrupowane.",
+    "noGroup": "Brak grupy",
+    "moveToGroup": "Przenieś do grupy",
+    "removeFromGroup": "Usuń z grupy",
+    "cancel": "Anuluj",
+    "save": "Zapisz",
+    "saving": "Zapisywanie…",
+    "rename": "Zmień nazwę",
+    "delete": "Usuń",
+    "add": "Dodaj",
+    "errorDuplicate": "Grupa o tej nazwie już istnieje",
+    "errorSaveFailed": "Nie udało się zapisać grupy"
   },
   "login": {
     "appName": "PlantCare",

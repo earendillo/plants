@@ -38,17 +38,17 @@ export type Database = {
         }
         Relationships: [
           {
-            foreignKeyName: "activity_logs_plant_id_fkey"
-            columns: ["plant_id"]
-            isOneToOne: false
-            referencedRelation: "plants"
-            referencedColumns: ["id"]
-          },
-          {
             foreignKeyName: "activity_logs_performed_by_user_id_fkey"
             columns: ["performed_by_user_id"]
             isOneToOne: false
             referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "activity_logs_plant_id_fkey"
+            columns: ["plant_id"]
+            isOneToOne: false
+            referencedRelation: "plants"
             referencedColumns: ["id"]
           },
         ]
@@ -153,11 +153,44 @@ export type Database = {
         }
         Relationships: []
       }
+      plant_groups: {
+        Row: {
+          created_at: string
+          garden_id: string
+          id: string
+          name: string
+          position: number
+        }
+        Insert: {
+          created_at?: string
+          garden_id: string
+          id?: string
+          name: string
+          position?: number
+        }
+        Update: {
+          created_at?: string
+          garden_id?: string
+          id?: string
+          name?: string
+          position?: number
+        }
+        Relationships: [
+          {
+            foreignKeyName: "plant_groups_garden_id_fkey"
+            columns: ["garden_id"]
+            isOneToOne: false
+            referencedRelation: "gardens"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       plants: {
         Row: {
           created_at: string | null
           feeding_interval_days: number
           garden_id: string
+          group_id: string | null
           id: string
           last_fed_at: string | null
           last_watered_at: string | null
@@ -170,6 +203,7 @@ export type Database = {
           created_at?: string | null
           feeding_interval_days: number
           garden_id: string
+          group_id?: string | null
           id?: string
           last_fed_at?: string | null
           last_watered_at?: string | null
@@ -182,6 +216,7 @@ export type Database = {
           created_at?: string | null
           feeding_interval_days?: number
           garden_id?: string
+          group_id?: string | null
           id?: string
           last_fed_at?: string | null
           last_watered_at?: string | null
@@ -196,6 +231,13 @@ export type Database = {
             columns: ["garden_id"]
             isOneToOne: false
             referencedRelation: "gardens"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "plants_group_id_fkey"
+            columns: ["group_id"]
+            isOneToOne: false
+            referencedRelation: "plant_groups"
             referencedColumns: ["id"]
           },
         ]
@@ -230,6 +272,7 @@ export type Database = {
     }
     Functions: {
       accept_garden_share_link: { Args: { p_token: string }; Returns: string }
+      delete_user_account: { Args: { p_user_id: string }; Returns: undefined }
       feed_plant: { Args: { p_plant_id: string }; Returns: undefined }
       feed_plant_guest: {
         Args: { p_plant_id: string; p_token: string }

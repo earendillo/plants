@@ -16,6 +16,7 @@ const updateSchema = z.object({
   lastWateredAt: z.string().nullable().optional(),
   lastFedAt: z.string().nullable().optional(),
   gardenId: z.string().min(1).optional(),
+  groupId: z.string().uuid().nullable().optional(),
 })
 
 export async function GET(

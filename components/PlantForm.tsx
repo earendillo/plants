@@ -4,6 +4,7 @@ import { type ReactNode, useState } from 'react'
 import { useRouter } from 'next/navigation'
 import { useTranslations } from 'next-intl'
 import { useQueryClient } from '@tanstack/react-query'
+import { usePlantGroups } from '@/hooks/queries'
 import { Garden, Plant } from '@/types'
 import type { PlantType } from '@/types'
 import { PlantFormFields } from '@/components/PlantFormFields'
@@ -27,9 +28,16 @@ export function PlantForm({ plant, gardenId, gardens, activityContent }: Props) 
   const [waterDays, setWaterDays] = useState(String(plant?.wateringIntervalDays ?? 7))
   const [feedDays, setFeedDays] = useState(String(plant?.feedingIntervalDays ?? 30))
   const [selectedGardenId, setSelectedGardenId] = useState(plant?.gardenId ?? gardenId ?? '')
+  const [selectedGroupId, setSelectedGroupId] = useState<string | null>(plant?.groupId ?? null)
+  const { data: groups } = usePlantGroups(selectedGardenId || gardenId || null)
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState<string | null>(null)
   const [deleteOpen, setDeleteOpen] = useState(false)
+
+  function handleGardenChange(id: string) {
+    setSelectedGardenId(id)
+    setSelectedGroupId(null)
+  }
 
   function handleBack() {
     if (plant) {
@@ -55,8 +63,8 @@ export function PlantForm({ plant, gardenId, gardens, activityContent }: Props) 
 
     const shared = { type: plantType, name, wateringIntervalDays: waterInt, feedingIntervalDays: feedInt }
     const body = plant
-      ? { ...shared, lastWateredAt: plant.lastWateredAt, lastFedAt: plant.lastFedAt, gardenId: selectedGardenId }
-      : { ...shared, gardenId: selectedGardenId || gardenId!, lastWateredAt: null, lastFedAt: null }
+      ? { ...shared, lastWateredAt: plant.lastWateredAt, lastFedAt: plant.lastFedAt, gardenId: selectedGardenId, groupId: selectedGroupId }
+      : { ...shared, gardenId: selectedGardenId || gardenId!, lastWateredAt: null, lastFedAt: null, groupId: selectedGroupId }
 
     try {
       const res = await fetch(plant ? `/api/plants/${plant.id}` : '/api/plants', {
@@ -99,7 +107,8 @@ export function PlantForm({ plant, gardenId, gardens, activityContent }: Props) 
         plantType={plantType} name={name} waterDays={waterDays} feedDays={feedDays}
         onPlantTypeChange={setPlantType} onNameChange={setName}
         onWaterDaysChange={setWaterDays} onFeedDaysChange={setFeedDays}
-        gardens={gardens} selectedGardenId={selectedGardenId} onGardenChange={setSelectedGardenId}
+        gardens={gardens} selectedGardenId={selectedGardenId} onGardenChange={handleGardenChange}
+        groups={groups ?? []} selectedGroupId={selectedGroupId} onGroupChange={setSelectedGroupId}
       />
 
       <button

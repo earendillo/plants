@@ -15,6 +15,7 @@ const createSchema = z.object({
   feedingIntervalDays: z.number().int().min(1).max(365),
   lastWateredAt: z.string().nullable(),
   lastFedAt: z.string().nullable(),
+  groupId: z.string().uuid().nullable().optional(),
 })
 
 export async function GET(request: NextRequest) {
@@ -47,6 +48,7 @@ export async function POST(request: NextRequest) {
     const plant = await createPlant({
       ...result.data,
       userId: user.id,
+      groupId: result.data.groupId ?? null,
     })
     return NextResponse.json(plant, { status: 201 })
   } catch (err) {

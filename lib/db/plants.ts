@@ -7,6 +7,7 @@ export type DbPlant = {
   id: string
   user_id: string
   garden_id: string
+  group_id: string | null
   name: string
   plant_type: string
   watering_interval_days: number
@@ -21,6 +22,7 @@ export function toPlant(row: DbPlant): Plant {
     id: row.id,
     userId: row.user_id,
     gardenId: row.garden_id,
+    groupId: row.group_id,
     name: row.name,
     type: row.plant_type as PlantType,
     wateringIntervalDays: row.watering_interval_days,
@@ -39,6 +41,7 @@ type DbPlantUpdate = {
   last_watered_at?: string | null
   last_fed_at?: string | null
   garden_id?: string
+  group_id?: string | null
 }
 
 function toDbUpdate(data: Partial<Plant>): DbPlantUpdate {
@@ -50,6 +53,7 @@ function toDbUpdate(data: Partial<Plant>): DbPlantUpdate {
   if (data.lastWateredAt !== undefined) update.last_watered_at = data.lastWateredAt
   if (data.lastFedAt !== undefined) update.last_fed_at = data.lastFedAt
   if (data.gardenId !== undefined) update.garden_id = data.gardenId
+  if (data.groupId !== undefined) update.group_id = data.groupId
   return update
 }
 
@@ -88,6 +92,7 @@ export async function createPlant(
     .insert({
       user_id: data.userId,
       garden_id: data.gardenId,
+      group_id: data.groupId ?? null,
       name: data.name,
       plant_type: data.type,
       watering_interval_days: data.wateringIntervalDays,

@@ -1,7 +1,7 @@
 'use client'
 
 import { useTranslations } from 'next-intl'
-import { Garden } from '@/types'
+import { Garden, PlantGroup } from '@/types'
 import type { PlantType } from '@/types'
 import { PlantTypeSelector } from '@/components/PlantTypeSelector'
 import { GardenSelect } from '@/components/GardenSelect'
@@ -18,6 +18,9 @@ type Props = {
   gardens?: Garden[]
   selectedGardenId?: string
   onGardenChange?: (id: string) => void
+  groups?: PlantGroup[]
+  selectedGroupId?: string | null
+  onGroupChange?: (id: string | null) => void
 }
 
 const labelClass =
@@ -40,8 +43,12 @@ export function PlantFormFields({
   gardens,
   selectedGardenId,
   onGardenChange,
+  groups,
+  selectedGroupId,
+  onGroupChange,
 }: Props) {
   const t = useTranslations('plantFormFields')
+  const tGroups = useTranslations('plantGroups')
 
   return (
     <>
@@ -112,6 +119,21 @@ export function PlantFormFields({
           onGardenChange={onGardenChange}
           label={t('gardenLabel')}
         />
+      )}
+
+      {groups && groups.length > 0 && onGroupChange && (
+        <div>
+          <label htmlFor="group" className={labelClass}>{t('groupLabel')}</label>
+          <select
+            id="group"
+            value={selectedGroupId ?? ''}
+            onChange={e => onGroupChange(e.target.value || null)}
+            className={inputClass}
+          >
+            <option value="">{tGroups('noGroup')}</option>
+            {groups.map(g => <option key={g.id} value={g.id}>{g.name}</option>)}
+          </select>
+        </div>
       )}
     </>
   )
