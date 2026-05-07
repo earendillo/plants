@@ -53,7 +53,7 @@ export function PlantCard({ plant, today, canEdit, groups, onMove, onSelect }: P
 
   function restoreBodySelect() {
     document.body.style.userSelect = ''
-    ;(document.body.style as React.CSSProperties).WebkitUserSelect = ''
+    ;(document.body.style as React.CSSProperties).WebkitUserSelect = undefined
   }
 
   function handlePointerDown(e: React.PointerEvent) {
