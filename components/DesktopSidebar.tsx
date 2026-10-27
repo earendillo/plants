@@ -5,11 +5,7 @@ import { usePathname, useSearchParams } from 'next/navigation'
 import { Leaf } from 'lucide-react'
 import { useGardens } from '@/hooks/queries'
 import { resolveActiveGarden } from '@/lib/gardens'
-import { GardenPicker } from '@/components/GardenPicker'
-import { RenameGardenDialog } from '@/components/RenameGardenDialog'
-import { ShareDialog } from '@/components/ShareDialog'
-import { DeleteGardenDialog } from '@/components/DeleteGardenDialog'
-import { LeaveGardenDialog } from '@/components/LeaveGardenDialog'
+import { SidebarGardenSection } from '@/components/SidebarGardenSection'
 import { useGardenNavigation } from '@/components/GardenNavigationContext'
 
 function TodayIcon({ active }: { active: boolean }) {
@@ -63,9 +59,6 @@ export function DesktopSidebar() {
   const resolvedId = gardens && gardens.length > 0
     ? resolveActiveGarden(gardens, gardenParam)
     : null
-  const activeGarden = gardens?.find(g => g.id === resolvedId)
-  const isOwner = activeGarden?.role === 'owner'
-  const ownedGardens = gardens?.filter(g => g.role === 'owner') ?? []
   const basePath = pathname.startsWith('/plants') ? '/plants' : '/today'
 
   return (
@@ -81,46 +74,12 @@ export function DesktopSidebar() {
       </div>
 
       <div className="flex flex-1 flex-col overflow-hidden px-2.5">
-        {/* Garden section */}
-        <div className="mb-4 border-b border-white/[0.07] pb-3.5">
-          <p className="mb-1.5 pl-0.5 text-[10px] font-bold uppercase tracking-[0.08em] text-brand-fg-dim">
-            Garden
-          </p>
-          {gardens && resolvedId && (
-            <>
-              <GardenPicker
-                gardens={gardens}
-                activeGardenId={resolvedId}
-                basePath={basePath}
-                fullWidth
-              />
-              {isOwner && activeGarden && (
-                <div className="mt-2 flex gap-1">
-                  <RenameGardenDialog gardenId={activeGarden.id} gardenName={activeGarden.name} disabled={isPending} />
-                  <ShareDialog gardenId={activeGarden.id} disabled={isPending} />
-                  <DeleteGardenDialog
-                    gardenId={activeGarden.id}
-                    gardenName={activeGarden.name}
-                    plantCount={0}
-                    isLastGarden={ownedGardens.length === 1}
-                    firstRemainingGardenId={gardens.find(g => g.id !== resolvedId)?.id ?? null}
-                    disabled={isPending}
-                  />
-                </div>
-              )}
-              {!isOwner && activeGarden && (
-                <div className="mt-2">
-                  <LeaveGardenDialog
-                    gardenId={activeGarden.id}
-                    gardenName={activeGarden.name}
-                    firstRemainingGardenId={gardens.find(g => g.id !== resolvedId)?.id ?? null}
-                    disabled={isPending}
-                  />
-                </div>
-              )}
-            </>
-          )}
-        </div>
+        <SidebarGardenSection
+          gardens={gardens}
+          resolvedId={resolvedId}
+          basePath={basePath}
+          isPending={isPending}
+        />
 
         {/* Nav */}
         <nav className="flex flex-col gap-0.5">
