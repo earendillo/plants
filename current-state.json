@@ -1,5 +1,5 @@
 {
-  "pj": "plant-watering-tracker",
+  "pj": "leafmo",
   "stack": "Next16(AppRouter)|TS(Strict)|Supabase(RLS+SSR)|TW4+shadcn|next-intl4|react-query5",
   "arch": {
     "da": "Server-modules@/lib/db/|Client-cache@react-query(stale5m,gc10m)",
@@ -10,28 +10,29 @@
   },
   "impl": {
     "auth": ["Email/Pass", "GoogleOAuth", "PassReset", "Auth-guarded-middleware"],
-    "gardens": "Multi-tenant|Roles(owner,limited_editor)|Invite-links|Guest-JWT(is_valid_guest_token)",
+    "gardens": "Multi-tenant|Roles(owner,limited_editor)|Invite-links|Guest-JWT(is_valid_guest_token)|LazyDefaultGarden(ensureDefaultGarden@auth/callback,GET /api/gardens,/plants/new when user has none)",
     "plants": {
       "logic": "Interval-scheduling|RPCs(water_plant,feed_plant)|GuestRPC(water_plant_guest only)|collectDueItems@/lib/due-items.ts",
       "crud": "Create(/plants/new)|Edit(/plants/[id])|Delete(DeletePlantDialog)|List(/plants)",
       "logs": "Auto-logging@activity_logs(performed_by_user_id→profiles join)|GET /api/plants/[id]/history|UI:ActivityTimeline(shows actor name or Guest)",
       "plantType": "PlantType+PLANT_TYPES@/types/index.ts|z.enum(PLANT_TYPES) validation|PlantIcon|PlantTypeSelector",
-      "ui": ["PlantCard", "DueCard", "PlantForm", "PlantFormFields", "PlantEditHero", "PlantTypeSelector", "PlantDetailTabs", "DeletePlantDialog", "PlantIcon", "GardenSelect"]
+      "ui": ["PlantCard", "DueCard", "PlantForm", "PlantFormFields", "PlantEditHero", "PlantTypeSelector", "PlantDetailTabs", "DeletePlantDialog", "PlantIcon", "GardenSelect", "PlantGroupSection", "PlantCardContextMenu", "ManageGroupsDrawer"],
+      "groups": "Optional per-garden groups|Table:plant_groups(ON DELETE SET NULL on plants.group_id)|API:/api/gardens/[id]/groups[/groupId]|UI:ManageGroupsDrawer,PlantGroupSection,PlantCardContextMenu(long-press/right-click assign)"
     },
     "profile": "Fields(displayName,avatarUrl,timezone)|Table:profiles|ProfileForm|DeleteAccount(DangerZone+DeleteAccountDialog)",
     "guest": "GuestPlantList|GuestTokenValidator|Anonymous-share-links"
   },
   "types": {
-    "source": "/types/supabase.ts",
+    "db": "/types/supabase.ts (generated, snake_case, strictly matches DB columns)",
+    "frontend": "/types/index.ts (manual, camelCase: Plant,PlantInsert,PlantUpdate,PlantGroup,PlantGroupInsert,Garden,ActivityLog,Profile,GardenMember,GardenRole,ActivityType,PlantType,PLANT_TYPES)",
+    "mapping": "snake_case↔camelCase EXCLUSIVELY in /lib/db/",
     "status": "synchronized_with_db",
-    "generated_at": "2026-05-02",
-    "convention": "snake_case (strictly match DB columns)",
-    "helpers": "/types/index.ts (Plant,Garden,ActivityLog,Profile,GardenMember,GardenRole,ActivityType,PlantType,PLANT_TYPES)"
+    "generated_at": "2026-05-06"
   },
   "paths": {
     "types": "/types/index.ts",
     "supabaseTypes": "/types/supabase.ts",
-    "db": "/lib/db/{plants,gardens,profiles,anonymous-links}.ts",
+    "db": "/lib/db/{plants,plant-groups,gardens,profiles,anonymous-links,guest}.ts",
     "utils": "/lib/utils.ts",
     "validation": "/lib/validation.ts",
     "apiError": "/lib/api-error.ts",
@@ -41,18 +42,34 @@
     "components": "/components/",
     "uiLib": "/components/ui/",
     "api": "/app/api/{plants,gardens,profile,guest,share,user}/",
-    "pages": "/app/(authenticated)/{today,plants,profile}/",
-    "migrations": "/supabase/migrations/"
+    "pages": "/app/(authenticated)/{today,plants,plants/new,plants/[id],profile}/",
+    "migrations": "/supabase/migrations/",
+    "gardenResolve": "/lib/gardens.ts (resolveActiveGarden)",
+    "guestJwt": "/lib/guest-jwt.ts",
+    "supabaseClients": "/lib/supabase/{client,server,admin,guest}.ts",
+    "publicPages": "/app/{login,forgot-password,auth/set-password,guest/[token],share/[token],design-system}/",
+    "docs": "/docs/superpowers/{specs,plans}/",
+    "emailTemplates": "/email-templates/"
   },
-  "db": ["plants", "gardens", "garden_members", "garden_share_links", "profiles", "activity_logs"],
+  "db": ["plants", "plant_groups", "gardens", "garden_members", "garden_share_links", "profiles", "activity_logs"],
   "components": {
-    "layout": ["TopBar", "BottomTabBar", "DesktopSidebar", "DesktopTopBar", "GardenHeader", "GardenTabs", "GardenContentWrapper", "GardenPicker", "GardenNavigationContext", "QueryProvider"],
+    "layout": ["TopBar", "BottomTabBar", "DesktopSidebar", "DesktopTopBar", "GardenHeader", "GardenTabs", "GardenContentWrapper", "GardenPicker", "GardenNavigationContext", "QueryProvider", "CreateGardenButton", "GardenRowSkeleton", "LeafMoLogo"],
     "pageContent": ["PlantsPageContent", "TodayPageContent"],
-    "plants": ["PlantCard", "DueCard", "PlantForm", "PlantFormFields", "PlantEditHero", "PlantTypeSelector", "PlantDetailTabs", "PlantDetailPanel", "PlantIcon", "DeletePlantDialog", "PlantsPageSkeleton", "GardenSelect"],
+    "plants": ["PlantCard", "DueCard", "PlantForm", "PlantFormFields", "PlantEditHero", "PlantTypeSelector", "PlantDetailTabs", "PlantDetailPanel", "PlantIcon", "DeletePlantDialog", "PlantsPageSkeleton", "GardenSelect", "PlantGroupSection", "PlantCardContextMenu", "ManageGroupsDrawer"],
     "actions": ["ActionButton", "ActivityTimeline"],
     "garden": ["ShareDialog", "MemberShareSection", "GuestShareSection", "RenameGardenDialog", "DeleteGardenDialog", "LeaveGardenDialog"],
     "guest": ["GuestPlantList", "GuestTokenValidator"],
     "profile": ["ProfileForm", "LanguageSelector", "DeleteAccountDialog"],
-    "skeletons": ["PlantsPageSkeleton", "TodayPageSkeleton"]
+    "skeletons": ["PlantsPageSkeleton", "TodayPageSkeleton", "GardenRowSkeleton"]
+  },
+  "product": {
+    "name": "LeafMo",
+    "domain": "leafmo.app",
+    "repo": "earendillo/plants",
+    "packageName": "plantsapp"
+  },
+  "pending": {
+    "specs": ["docs/superpowers/specs/2026-05-07-shared-garden-indicator-design.md (approved, not implemented)"],
+    "oversizedFiles": "see GitHub milestone 'Phase 5 — 150-line file splits'"
   }
 }

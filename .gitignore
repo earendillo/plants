@@ -42,6 +42,10 @@ yarn-error.log*
 *.tsbuildinfo
 next-env.d.ts
 
-*-design.md
+code-review.md
+.worktrees/
 
-code-review.md.worktrees
+# local tooling state
+.superpowers/
+supabase/.temp/
+.claude/settings.local.json

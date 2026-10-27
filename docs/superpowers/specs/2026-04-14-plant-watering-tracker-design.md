@@ -1,5 +1,7 @@
 # Plant Watering Tracker — MVP Design Spec
 
+> **Superseded — historical document.** Describes the original mock-DB MVP (branded "PlantCare"). The app is now LeafMo, backed by Supabase. See `current-state.json` and `AGENTS.md` for the current architecture.
+
 **Date:** 2026-04-14  
 **Status:** Approved
 

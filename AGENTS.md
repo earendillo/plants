@@ -1,4 +1,4 @@
-# Agent Rules: Plant Watering Tracker
+# Agent Rules: LeafMo (plant watering tracker)
 
 ## Sources of Truth
 1. **State:** Always read `current-state.json` for progress/arch map.
@@ -25,3 +25,5 @@ Whenever you create a migration, modify a table, add an RPC, or change RLS polic
 3. **Update Frontend Types:** If the schema change introduces new columns or modifies existing ones, update the corresponding `camelCase` models in `types/index.ts`.
 4. **Fix Mappers:** Update the mapping functions inside `/lib/db/` to correctly translate the new `snake_case` DB fields to the updated `camelCase` Frontend types.
 5. **Verify:** Run `npx tsc --noEmit` to guarantee the translation layer is intact and no UI components are broken.
+
+**Migrations are schema changes only.** Diagnostic or one-off SQL queries go in `supabase/snippets/`, never in `supabase/migrations/`. Never delete or rename an already-applied migration.
