@@ -1,3 +1,7 @@
+-- NO-OP: diagnostic SELECT queries only, no schema changes.
+-- Kept because it is already recorded in the remote migration history.
+-- New diagnostics belong in supabase/snippets/, not in migrations/.
+
 -- Diagnostic: find what is blocking auth.admin.deleteUser()
 -- Run this in the Supabase SQL editor and share the output.
 
