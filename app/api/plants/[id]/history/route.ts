@@ -2,7 +2,8 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { z } from 'zod'
 import { getAuthenticatedUser } from '@/lib/auth'
-import { getPlant, getActivityLogs } from '@/lib/db/plants'
+import { getPlant } from '@/lib/db/plants'
+import { getActivityLogs } from '@/lib/db/activity-logs'
 
 const limitSchema = z.coerce.number().int().min(1).max(50).default(10)
 

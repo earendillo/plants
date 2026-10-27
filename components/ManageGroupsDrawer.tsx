@@ -2,9 +2,9 @@
 
 import { useState } from 'react'
 import { useTranslations } from 'next-intl'
-import { TrashIcon, ArrowUpIcon, ArrowDownIcon } from 'lucide-react'
 import { PlantGroup } from '@/types'
 import { Dialog, DialogContent } from '@/components/ui/dialog'
+import { GroupRow } from '@/components/GroupRow'
 
 type Props = {
   open: boolean
@@ -82,52 +82,18 @@ export function ManageGroupsDrawer({ open, onClose, gardenId, groups, onGroupsCh
 
         <div className="mb-4 space-y-2">
           {groups.map((group, i) => (
-            <div key={group.id} className="flex items-center gap-2 rounded-[14px] bg-brand-surface2 px-4 py-3">
-              {confirmDeleteId === group.id ? (
-                <>
-                  <p className="flex-1 text-xs text-brand-fg-dim">{t('deleteConfirm')}</p>
-                  <button
-                    onClick={() => setConfirmDeleteId(null)}
-                    className="text-xs text-brand-fg-dim"
-                  >
-                    {t('cancel')}
-                  </button>
-                  <button
-                    onClick={() => handleDelete(group.id)}
-                    className="text-xs font-medium text-red-400"
-                  >
-                    {t('delete')}
-                  </button>
-                </>
-              ) : (
-                <>
-                  <span className="flex-1 text-sm text-brand-fg">{group.name}</span>
-                  <button
-                    onClick={() => handleReorder(i, 'up')}
-                    disabled={i === 0}
-                    className="text-brand-fg-dim disabled:opacity-30"
-                    aria-label="Move up"
-                  >
-                    <ArrowUpIcon size={16} />
-                  </button>
-                  <button
-                    onClick={() => handleReorder(i, 'down')}
-                    disabled={i === groups.length - 1}
-                    className="text-brand-fg-dim disabled:opacity-30"
-                    aria-label="Move down"
-                  >
-                    <ArrowDownIcon size={16} />
-                  </button>
-                  <button
-                    onClick={() => setConfirmDeleteId(group.id)}
-                    className="text-brand-fg-dim"
-                    aria-label="Delete"
-                  >
-                    <TrashIcon size={16} />
-                  </button>
-                </>
-              )}
-            </div>
+            <GroupRow
+              key={group.id}
+              group={group}
+              isFirst={i === 0}
+              isLast={i === groups.length - 1}
+              confirmingDelete={confirmDeleteId === group.id}
+              onRequestDelete={() => setConfirmDeleteId(group.id)}
+              onCancelDelete={() => setConfirmDeleteId(null)}
+              onDelete={() => handleDelete(group.id)}
+              onMoveUp={() => handleReorder(i, 'up')}
+              onMoveDown={() => handleReorder(i, 'down')}
+            />
           ))}
         </div>
 
