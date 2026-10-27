@@ -1,5 +1,7 @@
 # Plant Watering Tracker Implementation Plan
 
+> **Superseded — historical document.** Describes the original mock-DB MVP (branded "PlantCare"). The app is now LeafMo, backed by Supabase. See `current-state.json` and `AGENTS.md` for the current architecture.
+
 > **For agentic workers:** REQUIRED SUB-SKILL: Use superpowers:subagent-driven-development (recommended) or superpowers:executing-plans to implement this plan task-by-task. Steps use checkbox (`- [ ]`) syntax for tracking.
 
 **Goal:** Build a mobile-first plant care MVP with 5 screens (Login, Today, All Plants, Add Plant, Edit Plant) backed by an in-memory mock store and Next.js Route Handlers.
