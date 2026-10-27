@@ -1,12 +1,12 @@
 // app/api/gardens/[id]/share-link/route.ts
 import { NextRequest, NextResponse } from 'next/server'
 import { getAuthenticatedUser } from '@/lib/auth'
+import { isGardenOwner } from '@/lib/db/gardens'
 import {
   getActiveShareLinkToken,
   createOrRotateShareLink,
   revokeShareLink,
-  isGardenOwner,
-} from '@/lib/db/gardens'
+} from '@/lib/db/share-links'
 
 function buildShareUrl(request: NextRequest, token: string): string {
   const origin = request.headers.get('origin') ?? request.nextUrl.origin
