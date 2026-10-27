@@ -18,7 +18,7 @@
 ## Backlog
 Tracked as GitHub issues/milestones in `earendillo/plants`. Notable open items:
 - [ ] Shared garden indicator & Add tab guard — `docs/superpowers/specs/2026-05-07-shared-garden-indicator-design.md`
-- [ ] Split files over 150 lines (milestone "Phase 5 — 150-line file splits")
+- [x] Split files over 150 lines (milestone "Phase 5 — 150-line file splits")
 
 ## Finalizing Features
 - After every significant change (new features, architectural changes, DB adjustments) make sure `current-state.json` is updated and represents real current state of the app
