@@ -9,33 +9,14 @@
     "i18n": "next-intl4|en+pl|messages/{en,pl}.json|namespaces:nav,today,plants,plantNew,plantEdit,plantCard,dueCard,actionButton,plantForm,plantFormFields,gardenHeader,shareDialog,gardenPicker,guestPlantList,login,forgotPassword,profile,activityTimeline,setPassword"
   },
   "impl": {
-    "auth": [
-      "Email/Pass",
-      "GoogleOAuth",
-      "PassReset",
-      "Auth-guarded-middleware"
-    ],
-    "gardens": "Multi-tenant|Roles(owner,limited_editor)|Invite-links|Guest-JWT(is_valid_guest_token)|LazyDefaultGarden(GET /api/gardens→ensureDefaultGarden when user has none)",
+    "auth": ["Email/Pass", "GoogleOAuth", "PassReset", "Auth-guarded-middleware"],
+    "gardens": "Multi-tenant|Roles(owner,limited_editor)|Invite-links|Guest-JWT(is_valid_guest_token)|LazyDefaultGarden(ensureDefaultGarden@auth/callback,GET /api/gardens,/plants/new when user has none)",
     "plants": {
       "logic": "Interval-scheduling|RPCs(water_plant,feed_plant)|GuestRPC(water_plant_guest only)|collectDueItems@/lib/due-items.ts",
       "crud": "Create(/plants/new)|Edit(/plants/[id])|Delete(DeletePlantDialog)|List(/plants)",
       "logs": "Auto-logging@activity_logs(performed_by_user_id→profiles join)|GET /api/plants/[id]/history|UI:ActivityTimeline(shows actor name or Guest)",
       "plantType": "PlantType+PLANT_TYPES@/types/index.ts|z.enum(PLANT_TYPES) validation|PlantIcon|PlantTypeSelector",
-      "ui": [
-        "PlantCard",
-        "DueCard",
-        "PlantForm",
-        "PlantFormFields",
-        "PlantEditHero",
-        "PlantTypeSelector",
-        "PlantDetailTabs",
-        "DeletePlantDialog",
-        "PlantIcon",
-        "GardenSelect",
-        "PlantGroupSection",
-        "PlantCardContextMenu",
-        "ManageGroupsDrawer"
-      ],
+      "ui": ["PlantCard", "DueCard", "PlantForm", "PlantFormFields", "PlantEditHero", "PlantTypeSelector", "PlantDetailTabs", "DeletePlantDialog", "PlantIcon", "GardenSelect", "PlantGroupSection", "PlantCardContextMenu", "ManageGroupsDrawer"],
       "groups": "Optional per-garden groups|Table:plant_groups(ON DELETE SET NULL on plants.group_id)|API:/api/gardens/[id]/groups[/groupId]|UI:ManageGroupsDrawer,PlantGroupSection,PlantCardContextMenu(long-press/right-click assign)"
     },
     "profile": "Fields(displayName,avatarUrl,timezone)|Table:profiles|ProfileForm|DeleteAccount(DangerZone+DeleteAccountDialog)",
@@ -70,78 +51,16 @@
     "docs": "/docs/superpowers/{specs,plans}/",
     "emailTemplates": "/email-templates/"
   },
-  "db": [
-    "plants",
-    "plant_groups",
-    "gardens",
-    "garden_members",
-    "garden_share_links",
-    "profiles",
-    "activity_logs"
-  ],
+  "db": ["plants", "plant_groups", "gardens", "garden_members", "garden_share_links", "profiles", "activity_logs"],
   "components": {
-    "layout": [
-      "TopBar",
-      "BottomTabBar",
-      "DesktopSidebar",
-      "DesktopTopBar",
-      "GardenHeader",
-      "GardenTabs",
-      "GardenContentWrapper",
-      "GardenPicker",
-      "GardenNavigationContext",
-      "QueryProvider",
-      "CreateGardenButton",
-      "GardenRowSkeleton",
-      "LeafMoLogo"
-    ],
-    "pageContent": [
-      "PlantsPageContent",
-      "TodayPageContent"
-    ],
-    "plants": [
-      "PlantCard",
-      "DueCard",
-      "PlantForm",
-      "PlantFormFields",
-      "PlantEditHero",
-      "PlantTypeSelector",
-      "PlantDetailTabs",
-      "PlantDetailPanel",
-      "PlantIcon",
-      "DeletePlantDialog",
-      "PlantsPageSkeleton",
-      "GardenSelect",
-      "PlantGroupSection",
-      "PlantCardContextMenu",
-      "ManageGroupsDrawer"
-    ],
-    "actions": [
-      "ActionButton",
-      "ActivityTimeline"
-    ],
-    "garden": [
-      "ShareDialog",
-      "MemberShareSection",
-      "GuestShareSection",
-      "RenameGardenDialog",
-      "DeleteGardenDialog",
-      "LeaveGardenDialog"
-    ],
-    "guest": [
-      "GuestPlantList",
-      "GuestTokenValidator"
-    ],
-    "profile": [
-      "ProfileForm",
-      "LanguageSelector",
-      "DeleteAccountDialog"
-    ],
-    "skeletons": [
-      "PlantsPageSkeleton",
-      "TodayPageSkeleton",
-      "GardenRowSkeleton"
-    ]
+    "layout": ["TopBar", "BottomTabBar", "DesktopSidebar", "DesktopTopBar", "GardenHeader", "GardenTabs", "GardenContentWrapper", "GardenPicker", "GardenNavigationContext", "QueryProvider", "CreateGardenButton", "GardenRowSkeleton", "LeafMoLogo"],
+    "pageContent": ["PlantsPageContent", "TodayPageContent"],
+    "plants": ["PlantCard", "DueCard", "PlantForm", "PlantFormFields", "PlantEditHero", "PlantTypeSelector", "PlantDetailTabs", "PlantDetailPanel", "PlantIcon", "DeletePlantDialog", "PlantsPageSkeleton", "GardenSelect", "PlantGroupSection", "PlantCardContextMenu", "ManageGroupsDrawer"],
+    "actions": ["ActionButton", "ActivityTimeline"],
+    "garden": ["ShareDialog", "MemberShareSection", "GuestShareSection", "RenameGardenDialog", "DeleteGardenDialog", "LeaveGardenDialog"],
+    "guest": ["GuestPlantList", "GuestTokenValidator"],
+    "profile": ["ProfileForm", "LanguageSelector", "DeleteAccountDialog"],
+    "skeletons": ["PlantsPageSkeleton", "TodayPageSkeleton", "GardenRowSkeleton"]
   },
   "product": {
     "name": "LeafMo",
@@ -150,9 +69,7 @@
     "packageName": "plantsapp"
   },
   "pending": {
-    "specs": [
-      "docs/superpowers/specs/2026-05-07-shared-garden-indicator-design.md (approved, not implemented)"
-    ],
+    "specs": ["docs/superpowers/specs/2026-05-07-shared-garden-indicator-design.md (approved, not implemented)"],
     "oversizedFiles": "see GitHub milestone 'Phase 5 — 150-line file splits'"
   }
 }
