@@ -7,12 +7,10 @@ import { useQueryClient } from '@tanstack/react-query'
 import { useGardens, usePlants, usePlantGroups } from '@/hooks/queries'
 import { useIsDesktop } from '@/hooks/useIsDesktop'
 import { resolveActiveGarden } from '@/lib/gardens'
-import { PlantCard } from '@/components/PlantCard'
-import { GardenPicker } from '@/components/GardenPicker'
-import { GardenHeader } from '@/components/GardenHeader'
+import { PlantsPageToolbar } from '@/components/PlantsPageToolbar'
 import { PlantsPageSkeleton } from '@/components/PlantsPageSkeleton'
 import { GardenRowSkeleton } from '@/components/GardenRowSkeleton'
-import { PlantGroupSection } from '@/components/PlantGroupSection'
+import { PlantGrid } from '@/components/PlantGrid'
 import { ManageGroupsDrawer } from '@/components/ManageGroupsDrawer'
 import { PlantDetailPanel } from '@/components/PlantDetailPanel'
 
@@ -72,7 +70,6 @@ export function PlantsPageContent({ gardenParam, plantParam }: Props) {
 
   const activeGarden = gardens.find(g => g.id === resolvedId)!
   const isOwner = activeGarden.role === 'owner'
-  const ownedGardens = gardens.filter(g => g.role === 'owner')
   const plantList = plants ?? []
   const groupList = groups ?? []
   const today = new Date()
@@ -91,33 +88,14 @@ export function PlantsPageContent({ gardenParam, plantParam }: Props) {
     ? (plantId: string) => handlePlantSelect(plantId)
     : undefined
 
-  const gridClass = `grid gap-3 ${panelOpen ? 'grid-cols-2' : 'grid-cols-2 lg:grid-cols-3'}`
-
   return (
     <main className={`flex-1 pb-28 lg:pb-4 transition-[margin] duration-200 ${panelOpen ? 'lg:mr-[340px]' : ''}`}>
-      {/* Garden row — mobile only */}
-      <div className="flex items-center justify-between gap-2 px-5 pb-3 pt-1 lg:hidden">
-        <GardenPicker gardens={gardens} activeGardenId={resolvedId} basePath="/plants" />
-        <GardenHeader
-          garden={activeGarden}
-          plantCount={plantList.length}
-          isLastGarden={ownedGardens.length === 1 && isOwner}
-          firstRemainingGardenId={gardens.find(g => g.id !== resolvedId)?.id ?? null}
-          onManageGroups={isOwner ? () => setManageOpen(true) : undefined}
-        />
-      </div>
-
-      {/* Desktop manage groups button */}
-      {isOwner && (
-        <div className="hidden items-center justify-end px-7 pb-2 pt-1 lg:flex">
-          <button
-            onClick={() => setManageOpen(true)}
-            className="text-[11px] font-medium text-brand-fg-dim hover:text-brand-fg-sub transition-colors"
-          >
-            Manage groups
-          </button>
-        </div>
-      )}
+      <PlantsPageToolbar
+        gardens={gardens}
+        activeGarden={activeGarden}
+        plantCount={plantList.length}
+        onManageGroups={() => setManageOpen(true)}
+      />
 
       {plantsPending ? (
         <PlantsPageSkeleton />
@@ -128,59 +106,18 @@ export function PlantsPageContent({ gardenParam, plantParam }: Props) {
           </p>
           {plantList.length === 0 ? (
             <p className="py-16 text-center text-brand-fg-dim">{t('empty')}</p>
-          ) : groupList.length === 0 ? (
-            <div className={gridClass}>
-              {plantList.map(plant => (
-                <PlantCard
-                  key={plant.id}
-                  plant={plant}
-                  today={today}
-                  canEdit={isOwner}
-                  onSelect={plantCardOnSelect ? () => plantCardOnSelect(plant.id) : undefined}
-                />
-              ))}
-            </div>
           ) : (
-            <>
-              {groupList.map(group => {
-                const plantsInGroup = plantList.filter(p => p.groupId === group.id)
-                return (
-                  <PlantGroupSection
-                    key={group.id}
-                    id={group.id}
-                    name={group.name}
-                    plants={plantsInGroup}
-                    today={today}
-                    canEdit={isOwner}
-                    collapsed={collapsed.has(group.id)}
-                    onToggle={toggleGroup}
-                    groups={isOwner ? groupList : undefined}
-                    onMove={isOwner ? handleMove : undefined}
-                    onSelect={plantCardOnSelect}
-                  />
-                )
-              })}
-              {(() => {
-                const ungrouped = plantList.filter(
-                  p => p.groupId === null || !groupList.some(g => g.id === p.groupId)
-                )
-                return ungrouped.length > 0 ? (
-                  <div className={gridClass}>
-                    {ungrouped.map(plant => (
-                      <PlantCard
-                        key={plant.id}
-                        plant={plant}
-                        today={today}
-                        canEdit={isOwner}
-                        groups={isOwner ? groupList : undefined}
-                        onMove={isOwner ? handleMove : undefined}
-                        onSelect={plantCardOnSelect ? () => plantCardOnSelect(plant.id) : undefined}
-                      />
-                    ))}
-                  </div>
-                ) : null
-              })()}
-            </>
+            <PlantGrid
+              plants={plantList}
+              groups={groupList}
+              today={today}
+              isOwner={isOwner}
+              panelOpen={panelOpen}
+              collapsed={collapsed}
+              onToggleGroup={toggleGroup}
+              onMove={handleMove}
+              onSelect={plantCardOnSelect}
+            />
           )}
         </div>
       )}
