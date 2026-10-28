@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from 'react'
 import { useQueryClient } from '@tanstack/react-query'
+import { useTranslations } from 'next-intl'
 import { Plant, PlantType } from '@/types'
 import { PlantDetailHeader } from '@/components/PlantDetailHeader'
 import { PlantDetailForm } from '@/components/PlantDetailForm'
@@ -16,6 +17,8 @@ type Props = {
 
 export function PlantDetailPanel({ plant, onClose }: Props) {
   const queryClient = useQueryClient()
+  const t = useTranslations('plantEdit')
+  const tTimeline = useTranslations('activityTimeline')
   const [tab, setTab] = useState<'details' | 'activity'>('details')
   const [name, setName] = useState(plant.name)
   const [type, setType] = useState<PlantType>(plant.type)
@@ -87,16 +90,16 @@ export function PlantDetailPanel({ plant, onClose }: Props) {
 
       {/* Tabs */}
       <div className="flex shrink-0 gap-1 px-3.5 pt-2.5">
-        {(['details', 'activity'] as const).map(t => (
+        {(['details', 'activity'] as const).map(key => (
           <button
-            key={t}
-            onClick={() => setTab(t)}
+            key={key}
+            onClick={() => setTab(key)}
             className={[
               'flex-1 rounded-[9px] py-2 text-xs capitalize transition-colors',
-              tab === t ? 'bg-white/[0.08] font-semibold text-brand-fg' : 'font-normal text-brand-fg-dim hover:text-brand-fg-sub',
+              tab === key ? 'bg-white/[0.08] font-semibold text-brand-fg' : 'font-normal text-brand-fg-dim hover:text-brand-fg-sub',
             ].join(' ')}
           >
-            {t}
+            {key === 'details' ? t('tabDetails') : t('tabActivity')}
           </button>
         ))}
       </div>
@@ -119,7 +122,7 @@ export function PlantDetailPanel({ plant, onClose }: Props) {
           />
         ) : (
           <>
-            <p className="mb-3.5 text-[11px] font-bold uppercase tracking-[0.07em] text-brand-fg-dim">Recent activity</p>
+            <p className="mb-3.5 text-[11px] font-bold uppercase tracking-[0.07em] text-brand-fg-dim">{tTimeline('title')}</p>
             {currentUserId && <ActivityTimeline plantId={plant.id} currentUserId={currentUserId} />}
           </>
         )}

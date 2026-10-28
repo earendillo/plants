@@ -2,6 +2,7 @@
 'use client'
 
 import { FolderIcon } from 'lucide-react'
+import { useTranslations } from 'next-intl'
 import { Garden } from '@/types'
 import { useGardenNavigation } from './GardenNavigationContext'
 import { RenameGardenDialog } from '@/components/RenameGardenDialog'
@@ -25,6 +26,7 @@ export function GardenHeader({
   firstRemainingGardenId,
   onManageGroups,
 }: Props) {
+  const t = useTranslations('plantGroups')
   const { isPending } = useGardenNavigation()
   const isOwner = garden.role === 'owner'
 
@@ -35,7 +37,7 @@ export function GardenHeader({
           {onManageGroups && (
             <Button variant="ghost" size="icon-sm" onClick={onManageGroups} disabled={isPending}>
               <FolderIcon />
-              <span className="sr-only">Manage groups</span>
+              <span className="sr-only">{t('manageGroups')}</span>
             </Button>
           )}
           <RenameGardenDialog

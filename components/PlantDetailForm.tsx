@@ -1,5 +1,6 @@
 'use client'
 
+import { useTranslations } from 'next-intl'
 import { PlantType } from '@/types'
 import { PlantTypeSelector } from '@/components/PlantTypeSelector'
 
@@ -24,25 +25,28 @@ export function PlantDetailForm({
   name, type, waterDays, feedDays, saving,
   onNameChange, onTypeChange, onWaterDaysChange, onFeedDaysChange, onSave, onDelete,
 }: Props) {
+  const t = useTranslations('plantForm')
+  const tf = useTranslations('plantFormFields')
+
   return (
     <>
       <p className="mb-4 font-heading text-2xl leading-none text-brand-fg" style={{ fontWeight: 400, letterSpacing: '-0.025em' }}>
-        {name || 'Unnamed plant'}
+        {name || t('unnamedPlant')}
       </p>
       <div className="mb-3">
-        <label className={LABEL_CLS}>Name</label>
-        <input className={INPUT_CLS} value={name} onChange={e => onNameChange(e.target.value)} placeholder="Plant name" />
+        <label className={LABEL_CLS}>{tf('nameLabel')}</label>
+        <input className={INPUT_CLS} value={name} onChange={e => onNameChange(e.target.value)} placeholder={tf('namePlaceholder')} />
       </div>
       <div className="mb-3.5 grid grid-cols-2 gap-2.5">
         <div>
-          <label className={LABEL_CLS}>Water every</label>
+          <label className={LABEL_CLS}>{tf('waterDaysLabel')}</label>
           <div className="relative">
             <input type="number" className={`${INPUT_CLS} pr-7`} value={waterDays} onChange={e => onWaterDaysChange(e.target.value)} min="1" />
             <span className="absolute right-3 top-1/2 -translate-y-1/2 text-[11px] text-brand-fg-dim">d</span>
           </div>
         </div>
         <div>
-          <label className={LABEL_CLS}>Feed every</label>
+          <label className={LABEL_CLS}>{tf('feedDaysLabel')}</label>
           <div className="relative">
             <input type="number" className={`${INPUT_CLS} pr-7`} value={feedDays} onChange={e => onFeedDaysChange(e.target.value)} min="1" />
             <span className="absolute right-3 top-1/2 -translate-y-1/2 text-[11px] text-brand-fg-dim">d</span>
@@ -57,13 +61,13 @@ export function PlantDetailForm({
         disabled={saving}
         className="mb-2 w-full rounded-[13px] bg-brand-cta py-3 text-sm font-bold text-brand-cta-fg shadow-[0_4px_18px_rgba(207,238,158,0.18)] transition-[filter] hover:brightness-90 disabled:opacity-60"
       >
-        {saving ? '…' : 'Save changes'}
+        {saving ? t('saving') : t('saveChanges')}
       </button>
       <button
         onClick={onDelete}
         className="w-full rounded-[13px] border border-brand-alert/35 bg-brand-alert/[0.09] py-3 text-sm font-semibold text-[#f07070]"
       >
-        Delete plant
+        {t('deletePlant')}
       </button>
     </>
   )

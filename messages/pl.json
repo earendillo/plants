@@ -5,7 +5,9 @@
     "add": "Add",
     "profile": "Profile",
     "signOut": "Sign Out",
-    "settings": "Settings"
+    "settings": "Settings",
+    "garden": "Ogród",
+    "addPlant": "Dodaj roślinę"
   },
   "today": {
     "title": "Today's care",

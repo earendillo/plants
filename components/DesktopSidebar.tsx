@@ -3,6 +3,7 @@
 import Link from 'next/link'
 import { usePathname, useSearchParams } from 'next/navigation'
 import { Leaf } from 'lucide-react'
+import { useTranslations } from 'next-intl'
 import { useGardens } from '@/hooks/queries'
 import { resolveActiveGarden } from '@/lib/gardens'
 import { SidebarGardenSection } from '@/components/SidebarGardenSection'
@@ -44,12 +45,13 @@ function AddIcon({ active }: { active: boolean }) {
 }
 
 const NAV_ITEMS = [
-  { href: '/today', label: 'Today', Icon: TodayIcon },
-  { href: '/plants', label: 'Plants', Icon: PlantsIcon },
-  { href: '/plants/new', label: 'Add Plant', Icon: AddIcon },
+  { href: '/today', labelKey: 'today', Icon: TodayIcon },
+  { href: '/plants', labelKey: 'plants', Icon: PlantsIcon },
+  { href: '/plants/new', labelKey: 'addPlant', Icon: AddIcon },
 ] as const
 
 export function DesktopSidebar() {
+  const t = useTranslations('nav')
   const pathname = usePathname()
   const searchParams = useSearchParams()
   const { isPending } = useGardenNavigation()
@@ -83,7 +85,7 @@ export function DesktopSidebar() {
 
         {/* Nav */}
         <nav className="flex flex-col gap-0.5">
-          {NAV_ITEMS.map(({ href, label, Icon }) => {
+          {NAV_ITEMS.map(({ href, labelKey, Icon }) => {
             const isActive = href === '/plants'
               ? (pathname === '/plants' || (pathname.startsWith('/plants/') && pathname !== '/plants/new'))
               : pathname === href
@@ -101,7 +103,7 @@ export function DesktopSidebar() {
                 ].join(' ')}
               >
                 <Icon active={isActive} />
-                {label}
+                {t(labelKey)}
               </Link>
             )
           })}
