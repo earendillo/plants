@@ -21,7 +21,6 @@ Next.js 16 (App Router) · TypeScript (strict) · Supabase (Postgres + RLS, Auth
    | `NEXT_PUBLIC_SUPABASE_URL`, `NEXT_PUBLIC_SUPABASE_ANON_KEY` | Supabase client |
    | `SUPABASE_SERVICE_ROLE_KEY` | Server-only admin operations (account deletion) |
    | `SUPABASE_JWT_SECRET` | Signing guest access tokens |
-   | `SUPABASE_PROJECT_ID` | Only for `npm run update-types` |
 3. Link the Supabase CLI: `npx supabase login` and `npx supabase link --project-ref <project-ref>`
 4. `npm run dev` → http://localhost:3000
 
@@ -31,7 +30,7 @@ Next.js 16 (App Router) · TypeScript (strict) · Supabase (Postgres + RLS, Auth
 | `npm run dev` | Dev server |
 | `npm run build` / `npm start` | Production build / serve |
 | `npm run lint` | ESLint |
-| `npm run update-types` | Regenerate `types/supabase.ts` from the linked project |
+| `npm run update-types` | Regenerate `types/supabase.ts` from the project linked via `supabase link` |
 
 ## Project layout
 - `app/` — routes (`(authenticated)/` pages, `api/` route handlers, auth/guest/share pages)
