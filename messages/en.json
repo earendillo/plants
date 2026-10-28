@@ -5,7 +5,9 @@
     "add": "Add",
     "profile": "Profile",
     "signOut": "Sign out",
-    "settings": "Settings"
+    "settings": "Settings",
+    "garden": "Garden",
+    "addPlant": "Add Plant"
   },
   "today": {
     "title": "Today's care",

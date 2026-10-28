@@ -1,5 +1,6 @@
 'use client'
 
+import { useTranslations } from 'next-intl'
 import { Garden } from '@/types'
 import { GardenPicker } from '@/components/GardenPicker'
 import { RenameGardenDialog } from '@/components/RenameGardenDialog'
@@ -15,6 +16,7 @@ type Props = {
 }
 
 export function SidebarGardenSection({ gardens, resolvedId, basePath, isPending }: Props) {
+  const t = useTranslations('nav')
   const activeGarden = gardens?.find(g => g.id === resolvedId)
   const isOwner = activeGarden?.role === 'owner'
   const ownedGardens = gardens?.filter(g => g.role === 'owner') ?? []
@@ -22,7 +24,7 @@ export function SidebarGardenSection({ gardens, resolvedId, basePath, isPending 
   return (
     <div className="mb-4 border-b border-white/[0.07] pb-3.5">
       <p className="mb-1.5 pl-0.5 text-[10px] font-bold uppercase tracking-[0.08em] text-brand-fg-dim">
-        Garden
+        {t('garden')}
       </p>
       {gardens && resolvedId && (
         <>

@@ -1,5 +1,6 @@
 'use client'
 
+import { useTranslations } from 'next-intl'
 import { Garden } from '@/types'
 import { GardenPicker } from '@/components/GardenPicker'
 import { GardenHeader } from '@/components/GardenHeader'
@@ -12,6 +13,7 @@ type Props = {
 }
 
 export function PlantsPageToolbar({ gardens, activeGarden, plantCount, onManageGroups }: Props) {
+  const t = useTranslations('plantGroups')
   const isOwner = activeGarden.role === 'owner'
   const ownedGardens = gardens.filter(g => g.role === 'owner')
 
@@ -36,7 +38,7 @@ export function PlantsPageToolbar({ gardens, activeGarden, plantCount, onManageG
             onClick={onManageGroups}
             className="text-[11px] font-medium text-brand-fg-dim hover:text-brand-fg-sub transition-colors"
           >
-            Manage groups
+            {t('manageGroups')}
           </button>
         </div>
       )}
