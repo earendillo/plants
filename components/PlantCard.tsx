@@ -65,7 +65,11 @@ export function PlantCard({ plant, today, canEdit, groups, onMove, onSelect }: P
           className="block w-full text-left"
           style={iosSuppressStyle}
           {...handlers}
-          onClick={(e) => { handlers.onClick(e); if (!longPressedRef.current) onSelect() }}
+          onClick={(e) => {
+            const wasLongPress = longPressedRef.current
+            handlers.onClick(e)
+            if (!wasLongPress) onSelect()
+          }}
         >
           {card}
         </button>
