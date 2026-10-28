@@ -53,7 +53,7 @@
   },
   "db": ["plants", "plant_groups", "gardens", "garden_members", "garden_share_links", "profiles", "activity_logs"],
   "components": {
-    "layout": ["TopBar", "BottomTabBar", "DesktopSidebar", "DesktopTopBar", "GardenHeader", "GardenTabs", "GardenContentWrapper", "GardenPicker", "GardenNavigationContext", "QueryProvider", "CreateGardenButton", "GardenRowSkeleton", "LeafMoLogo", "SidebarGardenSection"],
+    "layout": ["TopBar", "BottomTabBar", "DesktopSidebar", "DesktopTopBar", "GardenHeader", "GardenContentWrapper", "GardenPicker", "GardenNavigationContext", "QueryProvider", "GardenRowSkeleton", "LeafMoLogo", "SidebarGardenSection"],
     "pageContent": ["PlantsPageContent", "TodayPageContent", "PlantGrid", "PlantsPageToolbar"],
     "plants": ["PlantCard", "DueCard", "PlantForm", "PlantFormFields", "PlantEditHero", "PlantTypeSelector", "PlantDetailTabs", "PlantDetailPanel", "PlantIcon", "DeletePlantDialog", "PlantsPageSkeleton", "GardenSelect", "PlantGroupSection", "PlantCardContextMenu", "ManageGroupsDrawer", "PlantCardBody", "PlantDetailHeader", "PlantDetailForm", "PlantFormActions", "GroupRow"],
     "actions": ["ActionButton", "ActivityTimeline"],
